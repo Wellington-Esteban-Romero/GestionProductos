@@ -16,7 +16,7 @@
 <body>
 <c:import url="views/navbar.jsp" />
 <div class="container mt-4">
-    <h1>Listado de productos!</h1>
+    <h1 class="text-center">¡Listado de productos!</h1>
     <% if (username.isPresent()) {%>
     <div>Hola <%=username.get()%>, Bienvenido</div>
     <%}%>

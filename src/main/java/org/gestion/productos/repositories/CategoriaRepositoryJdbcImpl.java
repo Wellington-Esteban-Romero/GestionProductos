@@ -8,6 +8,7 @@ import java.util.List;
 
 public class CategoriaRepositoryJdbcImpl implements CrudRepository<Categoria> {
     private Connection conn;
+
     public CategoriaRepositoryJdbcImpl(Connection conn) {
         this.conn = conn;
     }
@@ -16,7 +17,7 @@ public class CategoriaRepositoryJdbcImpl implements CrudRepository<Categoria> {
     public List<Categoria> listar() throws SQLException {
         List<Categoria> categorias = new ArrayList<>();
         try (Statement ps = conn.createStatement();
-        ResultSet rs = ps.executeQuery("SELECT * FROM categoria")) {
+        ResultSet rs = ps.executeQuery("SELECT * FROM categorias")) {
             while (rs.next()) {
                 Categoria categoria = getCategoria(rs);
                 categorias.add(categoria);
@@ -28,7 +29,7 @@ public class CategoriaRepositoryJdbcImpl implements CrudRepository<Categoria> {
     @Override
     public Categoria porId(Long id) throws SQLException {
         Categoria categoria = null;
-        try (PreparedStatement ps = conn.prepareStatement("SELECT * FROM categoria WHERE id = ?")) {
+        try (PreparedStatement ps = conn.prepareStatement("SELECT * FROM categorias WHERE id = ?")) {
             ps.setLong(1, id);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {

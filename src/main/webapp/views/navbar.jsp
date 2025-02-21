@@ -27,7 +27,7 @@
             Categorias
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdownCategoria">
-            <a class="dropdown-item" href="productos">Ver Categorias</a>
+            <a class="dropdown-item" href="<%=request.getContextPath()%>/categorias">Ver Categorias</a>
             <a class="dropdown-item" href="agregarProducto.jsp">Agregar Categorias</a>
           </div>
         </li>

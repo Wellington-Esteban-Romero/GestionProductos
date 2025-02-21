@@ -10,7 +10,7 @@
 <body>
 <c:import url="views/navbar.jsp" />
 <div class="container mt-4">
-    <h1>Iniciar sesión</h1>
+    <h1 class="text-center">Iniciar sesión</h1>
     <form action="<%=request.getContextPath()%>/login" method="post">
         <div class="row mb-3">
             <label for="username" class="col-form-label col-sm-2">Username</label>
@@ -26,7 +26,7 @@
         </div>
         <div class="row mb-3">
             <div>
-                <input type="submit" class="btn btn-primary" value="Enviar">
+                <input type="submit" class="btn btn-primary" value="Iniciar Sesión">
             </div>
         </div>
     </form>

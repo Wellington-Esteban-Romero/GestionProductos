@@ -38,17 +38,52 @@ public class ProductoRepositoryJdbcImpl implements CrudRepository<Producto> {
 
     @Override
     public Producto porId(Long id) throws SQLException {
-        return null;
+        Producto producto = new Producto();
+        try (PreparedStatement stmt = conn.prepareStatement("SELECT p.*, c.nombre as categoria FROM productos as p " +
+                " INNER JOIN categorias as c ON (p.categoria_id = c.id) WHERE p.id = ?")
+        ) {
+            stmt.setLong(1, id);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    producto = getProducto(rs);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return producto;
     }
 
     @Override
     public void guardar(Producto obj) throws SQLException {
+        String sql;
+        if (obj.getId() != null && (obj.getId() > 0)) {
+            sql = "UPDATE productos SET nombre = ?, precio = ?, categoria_id = ? WHERE id = ?";
+        } else {
+            sql = "INSERT INTO productos (nombre, precio, fecha_registro, categoria_id) VALUES (?, ?, ?, ?)";
+        }
 
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, obj.getNombre());
+            stmt.setDouble(2, obj.getPrecio());
+            stmt.setLong(3, obj.getCategoria().getId());
+            if (obj.getId() != null && (obj.getId() > 0)) {
+                stmt.setLong(4, obj.getId());
+            } else {
+                stmt.setDate(4, Date.valueOf(obj.getFechaRegistro()));
+            }
+            stmt.executeUpdate();
+        }
     }
 
     @Override
     public void eliminar(Long id) throws SQLException {
-
+        String sql = "DELETE FROM productos WHERE id = ?";
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setLong(1, id);
+            stmt.executeUpdate();
+        }
     }
 
     public int obtenerTotalProductos() throws SQLException {
