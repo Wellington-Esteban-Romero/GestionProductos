@@ -25,6 +25,7 @@
             <th>Nombre</th>
             <th>Categoria</th>
             <th>Precio</th>
+            <th>Fecha registro</th>
         </tr>
         <%
             List<Producto> ultimosProductos = (List<Producto>) request.getAttribute("ultimosProductos");
@@ -34,8 +35,9 @@
         <tr>
             <td><%= p.getId() %></td>
             <td><%= p.getNombre() %></td>
-            <td><%= p.getTipo() %></td>
+            <td><%= p.getCategoria().getNombre() %></td>
             <td>$<%= p.getPrecio() %></td>
+            <td><%= p.getFechaRegistro() %></td>
         </tr>
         <%
             }

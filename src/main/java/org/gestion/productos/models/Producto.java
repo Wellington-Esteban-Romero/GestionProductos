@@ -1,10 +1,14 @@
 package org.gestion.productos.models;
 
+
+import java.time.LocalDate;
+
 public class Producto {
     private Long id;
     private String nombre;
-    private String tipo;
+    private Categoria categoria;
     private int precio;
+    private LocalDate fechaRegistro;
 
     public Producto() {
     }
@@ -12,7 +16,9 @@ public class Producto {
     public Producto(Long id, String nombre, String tipo, int precio) {
         this.id = id;
         this.nombre = nombre;
-        this.tipo = tipo;
+        Categoria categoria = new Categoria();
+        categoria.setNombre(tipo);
+        this.categoria = categoria;
         this.precio = precio;
     }
 
@@ -32,12 +38,12 @@ public class Producto {
         this.nombre = nombre;
     }
 
-    public String getTipo() {
-        return tipo;
+    public Categoria getCategoria() {
+        return categoria;
     }
 
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
     }
 
     public int getPrecio() {
@@ -47,4 +53,13 @@ public class Producto {
     public void setPrecio(int precio) {
         this.precio = precio;
     }
+
+    public LocalDate getFechaRegistro() {
+        return fechaRegistro;
+    }
+
+    public void setFechaRegistro(LocalDate fechaRegistro) {
+        this.fechaRegistro = fechaRegistro;
+    }
 }
+

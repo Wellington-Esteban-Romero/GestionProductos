@@ -3,7 +3,10 @@ package org.gestion.productos.services;
 
 
 import org.gestion.productos.exceptions.ServiceJdbcException;
+import org.gestion.productos.models.Categoria;
 import org.gestion.productos.models.Producto;
+import org.gestion.productos.repositories.CategoriaRepositoryJdbcImpl;
+import org.gestion.productos.repositories.CrudRepository;
 import org.gestion.productos.repositories.ProductoRepositoryJdbcImpl;
 
 import java.sql.Connection;
@@ -12,16 +15,18 @@ import java.util.List;
 import java.util.Optional;
 
 public class ProductoServiceJdbcImpl implements ProductoService {
-    private final ProductoRepositoryJdbcImpl repositoryJdbc;
+    private final CrudRepository<Producto> repositoryJdbcProducto;
+    private final CrudRepository<Categoria> repositoryJdbcCategoria;
 
     public ProductoServiceJdbcImpl(Connection conn) {
-        this.repositoryJdbc = new ProductoRepositoryJdbcImpl(conn);
+        this.repositoryJdbcProducto = new ProductoRepositoryJdbcImpl(conn);
+        this.repositoryJdbcCategoria = new CategoriaRepositoryJdbcImpl(conn);
     }
 
     @Override
     public List<Producto> getProductos() {
         try {
-            return repositoryJdbc.listar();
+            return repositoryJdbcProducto.listar();
         } catch (SQLException e) {
             throw new ServiceJdbcException(e.getMessage(), e.getCause());
         }
@@ -30,16 +35,36 @@ public class ProductoServiceJdbcImpl implements ProductoService {
     @Override
     public Optional<Producto> proId(Long id) {
         try {
-            return Optional.ofNullable(repositoryJdbc.porId(id));
+            return Optional.ofNullable(repositoryJdbcProducto.porId(id));
         } catch (SQLException e) {
             throw new ServiceJdbcException(e.getMessage(), e.getCause());
         }
     }
 
     @Override
+    public void guardar(Producto producto) {
+
+    }
+
+    @Override
+    public void eliminar(Long id) {
+
+    }
+
+    @Override
+    public List<Categoria> listarCategorias() {
+        return List.of();
+    }
+
+    @Override
+    public Optional<Categoria> porIdCategoria(Long id) {
+        return Optional.empty();
+    }
+
+    @Override
     public int obtenerTotalProductos() {
         try {
-            return repositoryJdbc.obtenerTotalProductos();
+            return ((ProductoRepositoryJdbcImpl)repositoryJdbcProducto).obtenerTotalProductos();
         } catch (SQLException e) {
             throw new ServiceJdbcException(e.getMessage(), e.getCause());
         }
@@ -48,7 +73,7 @@ public class ProductoServiceJdbcImpl implements ProductoService {
     @Override
     public List<Producto> obtenerUltimosProductos() {
         try {
-            return repositoryJdbc.obtenerUltimosProductos();
+            return ((ProductoRepositoryJdbcImpl)repositoryJdbcProducto).obtenerUltimosProductos();
         } catch (SQLException e) {
             throw new ServiceJdbcException(e.getMessage(), e.getCause());
         }

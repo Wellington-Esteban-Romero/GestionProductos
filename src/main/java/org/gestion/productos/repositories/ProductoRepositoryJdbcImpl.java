@@ -1,6 +1,7 @@
 package org.gestion.productos.repositories;
 
 import org.gestion.productos.exceptions.ServiceJdbcException;
+import org.gestion.productos.models.Categoria;
 import org.gestion.productos.models.Producto;
 
 import java.sql.*;
@@ -46,7 +47,7 @@ public class ProductoRepositoryJdbcImpl implements CrudRepository<Producto> {
     }
 
     @Override
-    public void eliminar(Producto obj) throws SQLException {
+    public void eliminar(Long id) throws SQLException {
 
     }
 
@@ -84,7 +85,11 @@ public class ProductoRepositoryJdbcImpl implements CrudRepository<Producto> {
         p.setId(rs.getLong("id"));
         p.setNombre(rs.getString("nombre"));
         p.setPrecio(rs.getInt("precio"));
-        p.setTipo(rs.getString("categoria"));
+        p.setFechaRegistro(rs.getDate("fecha_registro").toLocalDate());
+        Categoria c = new Categoria();
+        c.setId(rs.getLong("categoria_id"));
+        c.setNombre(rs.getString("categoria"));
+        p.setCategoria(c);
         return p;
     }
 }
