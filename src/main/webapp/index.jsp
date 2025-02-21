@@ -1,14 +1,13 @@
-<%@ page import="org.gestion.productos.models.Producto" %>
-<%@ page import="java.util.List" %>
 <%@ page contentType="text/html" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page import="org.gestion.productos.models.Producto" %>
+<%@ page import="java.util.List" %>
 
 <html>
 <head>
     <meta charset="UTF-8">
     <title>Inicio - Gestión de Productos</title>
-    <link href="<%=request.getContextPath()%>/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <c:import url="views/links.jsp" />
 </head>
 <body>
 <c:import url="views/navbar.jsp" />

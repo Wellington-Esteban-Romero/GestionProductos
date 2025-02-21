@@ -36,7 +36,7 @@
             Cuenta
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdownCuenta">
-            <a class="dropdown-item" href="login">Iniciar Sesión</a>
+            <a class="dropdown-item" href="<%=request.getContextPath()%>/login">Iniciar Sesión</a>
           </div>
         </li>
       </ul>
