@@ -11,14 +11,15 @@
 <head>
     <meta charset="UTF-8">
     <title>Listado de productos</title>
-    <c:import url="views/links.jsp" />
+    <c:import url="views/links.jsp"/>
 </head>
 <body>
-<c:import url="views/navbar.jsp" />
+<c:import url="views/navbar.jsp"/>
 <div class="container mt-4">
     <h1 class="text-center">¡Listado de productos!</h1>
     <% if (username.isPresent()) {%>
     <div>Hola <%=username.get()%>, Bienvenido</div>
+    <p><a href="<%=request.getContextPath()%>/productos/form">Crear [+]</a></p>
     <%}%>
     <table class="table table-striped">
         <tr>
@@ -33,10 +34,14 @@
         </tr>
         <% for (Producto producto : productos) {%>
         <tr>
-            <td><%=producto.getId()%></td>
-            <td><%=producto.getNombre()%></td>
-            <td><%=producto.getCategoria().getNombre()%></td>
-            <td><%=producto.getFechaRegistro()%></td>
+            <td><%=producto.getId()%>
+            </td>
+            <td><%=producto.getNombre()%>
+            </td>
+            <td><%=producto.getCategoria().getNombre()%>
+            </td>
+            <td><%=producto.getFechaRegistro()%>
+            </td>
             <% if (username.isPresent()) {%>
             <td><%=producto.getPrecio()%>
             </td>
