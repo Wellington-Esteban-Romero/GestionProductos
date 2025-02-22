@@ -1,14 +1,14 @@
 package org.gestion.productos.repositories;
 
-import org.gestion.productos.exceptions.ServiceJdbcException;
 import org.gestion.productos.models.Categoria;
 import org.gestion.productos.models.Producto;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-public class ProductoRepositoryJdbcImpl implements CrudRepository<Producto> {
+public class ProductoRepositoryJdbcImpl implements ProductoRepositoryJdbc {
 
     private final Connection conn;
 
@@ -26,10 +26,8 @@ public class ProductoRepositoryJdbcImpl implements CrudRepository<Producto> {
 
             while (rs.next()) {
                 Producto p = getProducto(rs);
-
                 productos.add(p);
             }
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -113,6 +111,17 @@ public class ProductoRepositoryJdbcImpl implements CrudRepository<Producto> {
             e.printStackTrace();
         }
         return lista;
+    }
+
+    @Override
+    public Optional<Producto> buscarProducto(String nombre) throws SQLException {
+        return listar().stream()
+                .filter(p -> {
+                    if (nombre == null || nombre.isBlank()) {
+                        return false;
+                    }
+                    return p.getNombre().contains(nombre);
+                }).findAny();
     }
 
     private static Producto getProducto(ResultSet rs) throws SQLException {

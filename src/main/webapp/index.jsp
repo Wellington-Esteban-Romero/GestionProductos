@@ -1,7 +1,13 @@
 <%@ page contentType="text/html" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <jsp:include page="layout/header.jsp" />
-    <h1 class="text-center">Bienvenido a la Gestión de Productos</h1>
+    <h3 class="text-center">${title}</h3>
+    <c:if test="${not empty sessionScope.username}">
+        <div class="alert alert-info">Hola <c:out value="${username}"/>, Has iniciado sesión correctamente</div>
+        <div class="mt-3 mb-2">
+        </div>
+
+    </c:if>
     <!-- Sección de estadísticas -->
     <h2 class="mt-4">Estadísticas 📊</h2>
     <p><strong>Total de productos registrados:</strong> ${totalProductos}

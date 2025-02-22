@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CategoriaRepositoryJdbcImpl implements CrudRepository<Categoria> {
-    private Connection conn;
+    private final Connection conn;
 
     public CategoriaRepositoryJdbcImpl(Connection conn) {
         this.conn = conn;

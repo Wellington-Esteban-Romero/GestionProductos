@@ -7,6 +7,7 @@ import org.gestion.productos.models.Categoria;
 import org.gestion.productos.models.Producto;
 import org.gestion.productos.repositories.CategoriaRepositoryJdbcImpl;
 import org.gestion.productos.repositories.CrudRepository;
+import org.gestion.productos.repositories.ProductoRepositoryJdbc;
 import org.gestion.productos.repositories.ProductoRepositoryJdbcImpl;
 
 import java.sql.Connection;
@@ -17,10 +18,12 @@ import java.util.Optional;
 public class ProductoServiceJdbcImpl implements ProductoService {
     private final CrudRepository<Producto> repositoryJdbcProducto;
     private final CrudRepository<Categoria> repositoryJdbcCategoria;
+    private final ProductoRepositoryJdbc productoRepositoryJdbc;
 
     public ProductoServiceJdbcImpl(Connection conn) {
         this.repositoryJdbcProducto = new ProductoRepositoryJdbcImpl(conn);
         this.repositoryJdbcCategoria = new CategoriaRepositoryJdbcImpl(conn);
+        this.productoRepositoryJdbc = new ProductoRepositoryJdbcImpl(conn);
     }
 
     @Override
@@ -90,6 +93,15 @@ public class ProductoServiceJdbcImpl implements ProductoService {
     public List<Producto> obtenerUltimosProductos() {
         try {
             return ((ProductoRepositoryJdbcImpl)repositoryJdbcProducto).obtenerUltimosProductos();
+        } catch (SQLException e) {
+            throw new ServiceJdbcException(e.getMessage(), e.getCause());
+        }
+    }
+
+    @Override
+    public Optional<Producto> buscarProductoPorNombre(String nombre) {
+        try {
+            return productoRepositoryJdbc.buscarProducto(nombre);
         } catch (SQLException e) {
             throw new ServiceJdbcException(e.getMessage(), e.getCause());
         }
