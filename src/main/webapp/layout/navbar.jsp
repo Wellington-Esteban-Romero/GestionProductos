@@ -31,10 +31,20 @@
                         Categorias
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownCategoria">
-                        <a class="dropdown-item" href="${pageContext.request.contextPath}/categorias">Ver Categorias</a>
-                        <a class="dropdown-item" href="agregarProducto.jsp">Agregar Categorias</a>
+                        <a class="dropdown-item" href="${pageContext.request.contextPath}/categorias">Ver Categorías</a>
+                        <a class="dropdown-item" href="agregarCategoria.jsp">Agregar Categorías</a>
                     </div>
                 </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownUsuario" role="button"
+                   data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Usuarios
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownUsuario">
+                  <a class="dropdown-item" href="${pageContext.request.contextPath}/usuario">Ver Usuarios</a>
+                  <a class="dropdown-item" href="agregarUsuario.jsp">Agregar Usuario</a>
+                </div>
+              </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownCarro" role="button"
                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

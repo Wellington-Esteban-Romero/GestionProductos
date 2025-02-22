@@ -11,7 +11,7 @@
     <c:forEach items="${categorias}" var="categoria">
         <tr>
             <td>${categoria.id}</td>
-            <td>${categoria.nombre}></td>
+            <td>${categoria.nombre}</td>
             <td>${categoria.descripcion}</td>
         </tr>
     </c:forEach>
