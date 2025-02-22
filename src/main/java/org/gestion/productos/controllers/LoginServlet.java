@@ -40,6 +40,7 @@ public class LoginServlet extends HttpServlet {
                 out.println("</html>");
             }
         } else {
+            req.setAttribute("title", req.getAttribute("title") + " - Iniciar Sesión");
             getServletContext().getRequestDispatcher("/login.jsp").forward(req, resp);
         }
     }

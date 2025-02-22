@@ -28,6 +28,7 @@ public class AppStartupListener implements ServletContextListener, ServletReques
     public void requestInitialized(ServletRequestEvent sre) {
         servletContext.log("Iniciando request");
         sre.getServletRequest().setAttribute("mensaje", "Guardar el mensaje en la request");
+        sre.getServletRequest().setAttribute("title", "Gestión Productos");
     }
 
     @Override

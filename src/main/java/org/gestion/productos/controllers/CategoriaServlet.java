@@ -25,6 +25,7 @@ public class CategoriaServlet extends HttpServlet {
         List<Categoria> categorias = productoService.listarCategorias();
 
         req.setAttribute("categorias", categorias);
+        req.setAttribute("title", req.getAttribute("title") + " - Lista categorías");
 
         getServletContext().getRequestDispatcher("/listar_categorias.jsp").forward(req, resp);
     }

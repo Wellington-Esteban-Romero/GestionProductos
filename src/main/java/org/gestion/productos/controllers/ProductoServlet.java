@@ -27,6 +27,7 @@ public class ProductoServlet extends HttpServlet {
         List<Producto> productos = productoService.getProductos();
         Optional<String> username = loginService.getUsername(req);
 
+        req.setAttribute("title", req.getAttribute("title") + " - Listado de productos");
         req.setAttribute("productos", productos);
         req.setAttribute("username", username);
 

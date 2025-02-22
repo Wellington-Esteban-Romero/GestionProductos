@@ -1,17 +1,8 @@
 <%@ page contentType="text/html" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Formulario login</title>
-    <c:import url="views/links.jsp"/>
-</head>
-<body>
-<c:import url="views/navbar.jsp" />
-<div class="container mt-4">
-    <h1 class="text-center">Iniciar sesión</h1>
-    <form action="<%=request.getContextPath()%>/login" method="post">
+<jsp:include page="layout/header.jsp" />
+<h3 class="text-center">${title}</h3>
+    <form action="${pageContext.request.contextPath}/login" method="post">
         <div class="row mb-3">
             <label for="username" class="col-form-label col-sm-2">Username</label>
             <div class="col-sm-4">
@@ -30,7 +21,4 @@
             </div>
         </div>
     </form>
-</div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+<jsp:include page="layout/footer.jsp" />
