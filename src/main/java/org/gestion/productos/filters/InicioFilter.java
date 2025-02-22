@@ -19,10 +19,8 @@ public class InicioFilter implements Filter {
         if (httpRequest.getRequestURI().equals(httpRequest.getContextPath() + "/")) {
             RequestDispatcher dispatcher = request.getRequestDispatcher("/inicio.jsp");
             dispatcher.forward(request, response);
-            return; // Asegúrate de no continuar con la cadena de filtros
+            return;
         }
-
-        // Continúa con la cadena de filtros
         chain.doFilter(request, response);
     }
 }

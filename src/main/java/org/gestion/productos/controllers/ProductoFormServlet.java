@@ -35,7 +35,7 @@ public class ProductoFormServlet extends HttpServlet {
         Producto producto = new Producto();
         producto.setCategoria(new Categoria());
         if (id > 0) {
-            Optional<Producto> productoOptional = productoService.proId(id);
+            Optional<Producto> productoOptional = productoService.porId(id);
             if (productoOptional.isPresent()) {
                 producto = productoOptional.get();
             }
