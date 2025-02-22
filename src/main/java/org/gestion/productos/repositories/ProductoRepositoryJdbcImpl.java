@@ -61,7 +61,7 @@ public class ProductoRepositoryJdbcImpl implements CrudRepository<Producto> {
         if (obj.getId() != null && (obj.getId() > 0)) {
             sql = "UPDATE productos SET nombre = ?, precio = ?, categoria_id = ? WHERE id = ?";
         } else {
-            sql = "INSERT INTO productos (nombre, precio, fecha_registro, categoria_id) VALUES (?, ?, ?, ?)";
+            sql = "INSERT INTO productos (nombre, precio, categoria_id, fecha_registro) VALUES (?, ?, ?, ?)";
         }
 
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {

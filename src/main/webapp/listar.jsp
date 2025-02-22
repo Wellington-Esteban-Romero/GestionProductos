@@ -17,38 +17,49 @@
 <c:import url="views/navbar.jsp"/>
 <div class="container mt-4">
     <h1 class="text-center">¡Listado de productos!</h1>
-    <% if (username.isPresent()) {%>
-    <div>Hola <%=username.get()%>, Bienvenido</div>
-    <p><a href="<%=request.getContextPath()%>/productos/form">Crear [+]</a></p>
-    <%}%>
+    <c:if test="${username.isPresent()}">
+        <div>Hola <c:out value="${username.get()}"/>, Bienvenido</div>
+        <div class="mt-3">
+            <a class="btn btn-primary" href="<c:out value="${pageContext.request.contextPath}"/>/productos/form">Crear [+]</a>
+        </div>
+
+    </c:if>
     <table class="table table-striped">
         <tr>
             <th>id</th>
             <th>Nombre</th>
             <th>Tipo</th>
             <th>Fecha registro</th>
-            <% if (username.isPresent()) {%>
-            <th>Precio</th>
-            <th>Agregar</th>
-            <%}%>
+            <c:if test="${username.present}">
+                <th>Precio</th>
+                <th>Agregar</th>
+                <th>Editar</th>
+                <th>Eliminar</th>
+            </c:if>
         </tr>
-        <% for (Producto producto : productos) {%>
-        <tr>
-            <td><%=producto.getId()%>
-            </td>
-            <td><%=producto.getNombre()%>
-            </td>
-            <td><%=producto.getCategoria().getNombre()%>
-            </td>
-            <td><%=producto.getFechaRegistro()%>
-            </td>
-            <% if (username.isPresent()) {%>
-            <td><%=producto.getPrecio()%>
-            </td>
-            <td><a href="<%=request.getContextPath()%>/carro/agregar?id=<%=producto.getId()%>">Agregar al carro</a></td>
-            <%}%>
-        </tr>
-        <%}%>
+        <c:forEach items="${productos}" var="producto">
+            <tr>
+                <td><c:out value="${producto.id}"/>
+                </td>
+                <td><c:out value="${producto.nombre}"/>
+                </td>
+                <td><c:out value="${producto.categoria.nombre}"/>
+                </td>
+                <td><c:out value="${producto.fechaRegistro}"/>
+                </td>
+                <c:if test="${username.present}">
+                    <td>$<c:out value="${producto.precio}"/>
+                    </td>
+                    <td>
+                        <a href="<c:out value="${pageContext.request.contextPath}"/>/carro/agregar?id=<c:out value="${producto.id}"/>">Agregar
+                            al
+                            carro</a></td>
+                    <td><a href="<c:out value="${pageContext.request.contextPath}"/>/productos/form?id=<c:out value="${producto.id}"/>">Editar</a></td>
+                    <td><a onclick="return confirm('¿Esta seguro que quiere eliminar?');"
+                           href="<c:out value="${pageContext.request.contextPath}"/>/productos/eliminar?id=<c:out value="${producto.id}"/>">Eliminar</a></td>
+                </c:if>
+            </tr>
+        </c:forEach>
     </table>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
