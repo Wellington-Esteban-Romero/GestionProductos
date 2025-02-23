@@ -30,7 +30,7 @@
                         <td>${p.id}</td>
                         <td>${p.nombre}</td>
                         <td>${p.categoria.nombre}</td>
-                        <td><c:out value="$"/>${p.precio}</td>
+                        <td>${p.precio}<c:out value="€"/></td>
                         <td>${p.fechaRegistro}</td>
                     </tr>
                 </c:forEach>

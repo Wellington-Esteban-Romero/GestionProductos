@@ -24,7 +24,8 @@ public class ProductoDetalle extends HttpServlet {
         Optional<Producto> producto = productoService.porId(id);
         if (producto.isPresent()) {
             req.setAttribute("producto", producto.get());
-            req.setAttribute("title", req.getParameter("title") + " Detalle Producto");
+            req.setAttribute("title", req.getAttribute("title") + " - Detalle Producto");
+            getServletContext().getRequestDispatcher("/detalle.jsp").forward(req, resp);
         } else {
             resp.sendError(HttpServletResponse.SC_NOT_FOUND, "No se encontró el producto con el id " + id);
         }

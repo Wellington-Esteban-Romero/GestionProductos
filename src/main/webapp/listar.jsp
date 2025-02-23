@@ -68,7 +68,7 @@
                     <td><c:out value="${producto.fechaRegistro}"/>
                     </td>
                     <c:if test="${username.present}">
-                        <td>$<c:out value="${producto.precio}"/>
+                        <td><c:out value="${producto.precio}"/><c:out value="€"/>
                         </td>
                         <td>
                             <a class="btn btn-sm btn-primary"
