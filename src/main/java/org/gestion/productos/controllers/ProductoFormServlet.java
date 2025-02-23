@@ -52,23 +52,23 @@ public class ProductoFormServlet extends HttpServlet {
         ProductoService productoService = new ProductoServiceJdbcImpl(conn);
         String nombre = req.getParameter("nombre");
 
-        Long id;
+        long id;
         try {
-            id = Long.valueOf(req.getParameter("id"));
+            id = Long.parseLong(req.getParameter("id"));
         } catch (NumberFormatException e) {
             id = 0L;
         }
 
-        Integer precio;
+        int precio;
         try {
-            precio = Integer.valueOf(req.getParameter("precio"));
+            precio = Integer.parseInt(req.getParameter("precio"));
         } catch (NumberFormatException e) {
             precio = 0;
         }
         String fechaRegistro = req.getParameter("fecha_registro");
-        Long categoria_id;
+        long categoria_id;
         try {
-            categoria_id = Long.valueOf(req.getParameter("categoria"));
+            categoria_id = Long.parseLong(req.getParameter("categoria"));
         } catch (NumberFormatException e) {
             categoria_id = 0L;
         }
@@ -97,6 +97,8 @@ public class ProductoFormServlet extends HttpServlet {
             resp.sendRedirect(req.getContextPath() + "/productos");
         } else {
             req.setAttribute("errores", errores);
+            //req.setAttribute("producto", req.getAttribute("inputGroupFile04"));
+            getServletContext().log(req.getAttribute("inputGroupFile04")+"sasasaweq ");
             req.setAttribute("producto", producto);
             req.setAttribute("categorias", productoService.listarCategorias());
             req.setAttribute("title", req.getAttribute("title") + " - Formulario productos");
@@ -115,7 +117,7 @@ public class ProductoFormServlet extends HttpServlet {
         if(producto.getPrecio() == 0){
             errores.put("precio", "El precio es obligatorio!");
         }
-        if (producto.getCategoria().getId() == 0L) {
+        if (producto.getCategoria().getId().equals(0L)) {
             errores.put("categoria", "La categoría es obligatoria!");
         }
         return errores;

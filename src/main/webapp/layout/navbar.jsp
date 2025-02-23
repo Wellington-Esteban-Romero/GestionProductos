@@ -22,7 +22,9 @@
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownProductos">
                         <a class="dropdown-item" href="${pageContext.request.contextPath}/productos">Ver Productos</a>
-                        <a class="dropdown-item" href="agregarProducto.jsp">Agregar Productos</a>
+                        <a class="dropdown-item"
+                           href="<c:out value="${pageContext.request.contextPath}"/>/productos/form">Agregar
+                            Productos</a>
                     </div>
                 </li>
                 <li class="nav-item dropdown">
@@ -35,16 +37,16 @@
                         <a class="dropdown-item" href="agregarCategoria.jsp">Agregar Categorías</a>
                     </div>
                 </li>
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownUsuario" role="button"
-                   data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Usuarios
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdownUsuario">
-                  <a class="dropdown-item" href="${pageContext.request.contextPath}/usuario">Ver Usuarios</a>
-                  <a class="dropdown-item" href="agregarUsuario.jsp">Agregar Usuario</a>
-                </div>
-              </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownUsuario" role="button"
+                       data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Usuarios
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownUsuario">
+                        <a class="dropdown-item" href="${pageContext.request.contextPath}/usuario">Ver Usuarios</a>
+                        <a class="dropdown-item" href="agregarUsuario.jsp">Agregar Usuario</a>
+                    </div>
+                </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownCarro" role="button"
                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -62,7 +64,7 @@
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownCuenta">
                         <a class="dropdown-item"
                            href="${pageContext.request.contextPath}/${not empty sessionScope.username? "logout" : "login"}">
-                          ${not empty sessionScope.username? "Cerrar Sesión" : "Iniciar Sesión"}</a>
+                            ${not empty sessionScope.username? "Cerrar Sesión" : "Iniciar Sesión"}</a>
                     </div>
                 </li>
             </ul>

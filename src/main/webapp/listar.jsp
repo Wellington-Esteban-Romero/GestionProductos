@@ -5,10 +5,6 @@
 <c:if test="${username.isPresent()}">
     <div class="alert alert-info">Hola <c:out value="${username.get()}"/>, Bienvenido!</div>
     <div class="mt-3 mb-2">
-        <a class="btn btn-primary" href="<c:out value="${pageContext.request.contextPath}"/>/productos/form">Crear
-            [+]</a>
-    </div>
-    <div class="mt-3 mb-2">
         <form class="mb-3" action="${pageContext.request.contextPath}/productos/buscar" method="post">
             <div class="row">
                 <div class="form-group col-md-3 col-sm-6">
