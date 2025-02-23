@@ -4,8 +4,9 @@ import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletResponse;
 import org.gestion.productos.exceptions.ServiceJdbcException;
-import org.gestion.productos.utils.ConexionBD;
+import org.gestion.productos.utils.ConnectionLocator;
 
+import javax.naming.NamingException;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -16,7 +17,7 @@ public class ConexionFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws
             IOException, ServletException {
 
-        try (Connection conn = ConexionBD.getConnection()) {
+        try (Connection conn = ConnectionLocator.getConnection()) {
 
             if (conn.getAutoCommit()) {
                 conn.setAutoCommit(false);
@@ -32,7 +33,7 @@ public class ConexionFilter implements Filter {
                 e.printStackTrace();
             }
 
-        } catch (SQLException e) {
+        } catch (SQLException | NamingException e) {
             e.printStackTrace();
         }
     }

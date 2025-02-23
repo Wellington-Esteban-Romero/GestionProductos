@@ -6,7 +6,7 @@ import org.gestion.productos.models.Producto;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class ProductoRepositoryJdbcImpl implements ProductoRepositoryJdbc {
 
@@ -114,14 +114,44 @@ public class ProductoRepositoryJdbcImpl implements ProductoRepositoryJdbc {
     }
 
     @Override
-    public Optional<Producto> buscarProducto(String nombre) throws SQLException {
-        return listar().stream()
-                .filter(p -> {
-                    if (nombre == null || nombre.isBlank()) {
-                        return false;
-                    }
-                    return p.getNombre().contains(nombre);
-                }).findAny();
+    public List<Producto> buscarProductos(String nombre, Long precioMin, Long precioMax) throws SQLException {
+        List<Producto> lista = new ArrayList<>();
+        List<Object> params = new ArrayList<>();
+
+        String sql = "SELECT p.*, c.nombre as categoria FROM productos as p INNER JOIN categorias as c ON (p.categoria_id = c.id) WHERE 1=1";
+
+        if (nombre != null && !nombre.isEmpty()) {
+            sql += " AND p.nombre LIKE ?";
+            params.add("%" + nombre + "%");
+        }
+        if (precioMin != null) {
+            sql += " AND p.precio >= ?";
+            params.add(precioMin);
+        }
+        if (precioMax != null) {
+            sql += " AND p.precio <= ?";
+            params.add(precioMax);
+        }
+
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            //AtomicInteger index = new AtomicInteger(1);
+            for (int i = 0; i < params.size(); i++) {
+                Object param = params.get(i);
+                if (param instanceof String) {
+                    stmt.setString(i + 1, (String) param);
+                } else if (param instanceof Long) {
+                    stmt.setLong(i + 1, (Long) param);
+                }
+            }
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    lista.add(getProducto(rs));
+                }
+            }
+        }  catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return lista;
     }
 
     private static Producto getProducto(ResultSet rs) throws SQLException {

@@ -15,5 +15,5 @@ public interface ProductoService {
     Optional<Categoria> porIdCategoria(Long id);
     int obtenerTotalProductos();
     List<Producto> obtenerUltimosProductos();
-    Optional<Producto> buscarProductoPorNombre(String nombre);
+    List<Producto> buscarProductos(String nombre, Long precioMin, Long precioMax);
 }

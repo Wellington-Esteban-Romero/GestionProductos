@@ -49,7 +49,7 @@
         </div>
         <div class="row mt-3">
             <input type="submit" class="btn btn-primary"
-                   value="${(producto.id == null &&  producto.id <= 0)? "Crear" : "Editar"}">
+                   value="${(producto.id == null)? "Crear" : "Editar"}">
         </div>
         <input type="hidden" name="id" value="${producto.id}">
     </form>

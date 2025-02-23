@@ -99,9 +99,9 @@ public class ProductoServiceJdbcImpl implements ProductoService {
     }
 
     @Override
-    public Optional<Producto> buscarProductoPorNombre(String nombre) {
+    public List<Producto> buscarProductos(String nombre, Long precioMin, Long precioMax) {
         try {
-            return productoRepositoryJdbc.buscarProducto(nombre);
+            return productoRepositoryJdbc.buscarProductos(nombre, precioMin, precioMax);
         } catch (SQLException e) {
             throw new ServiceJdbcException(e.getMessage(), e.getCause());
         }
