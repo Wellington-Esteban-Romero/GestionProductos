@@ -1,7 +1,6 @@
 package org.gestion.productos.models;
 
-import jakarta.enterprise.context.SessionScoped;
-import jakarta.inject.Named;
+import org.gestion.productos.configs.Carrito;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -9,8 +8,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-@SessionScoped
-@Named
+@Carrito
 public class Carro implements Serializable {
     private final List<ItemCarro> items;
 

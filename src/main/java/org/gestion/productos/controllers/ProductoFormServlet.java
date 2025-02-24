@@ -1,5 +1,6 @@
 package org.gestion.productos.controllers;
 
+import jakarta.inject.Inject;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -8,10 +9,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.gestion.productos.models.Categoria;
 import org.gestion.productos.models.Producto;
 import org.gestion.productos.services.ProductoService;
-import org.gestion.productos.services.ProductoServiceJdbcImpl;
 
 import java.io.IOException;
-import java.sql.Connection;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -22,11 +21,13 @@ import java.util.Optional;
 @WebServlet("/productos/form")
 public class ProductoFormServlet extends HttpServlet {
 
+    @Inject
+    private ProductoService productoService;
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Connection conn = (Connection) req.getAttribute("conn");
-        ProductoService productoService = new ProductoServiceJdbcImpl(conn);
-        Long id;
+
+        long id;
         try {
             id = Long.parseLong(req.getParameter("id"));
         } catch (NumberFormatException e) {
@@ -48,8 +49,7 @@ public class ProductoFormServlet extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Connection conn = (Connection) req.getAttribute("conn");
-        ProductoService productoService = new ProductoServiceJdbcImpl(conn);
+
         String nombre = req.getParameter("nombre");
 
         long id;
@@ -98,7 +98,7 @@ public class ProductoFormServlet extends HttpServlet {
         } else {
             req.setAttribute("errores", errores);
             //req.setAttribute("producto", req.getAttribute("inputGroupFile04"));
-            getServletContext().log(req.getAttribute("inputGroupFile04")+"sasasaweq ");
+            getServletContext().log(req.getAttribute("inputGroupFile04") + "sasasaweq ");
             req.setAttribute("producto", producto);
             req.setAttribute("categorias", productoService.listarCategorias());
             req.setAttribute("title", req.getAttribute("title") + " - Formulario productos");
@@ -114,7 +114,7 @@ public class ProductoFormServlet extends HttpServlet {
         if (producto.getFechaRegistro() == null) {
             errores.put("fecha_registro", "La fecha del registro es obligatorio!");
         }
-        if(producto.getPrecio() == 0){
+        if (producto.getPrecio() == 0) {
             errores.put("precio", "El precio es obligatorio!");
         }
         if (producto.getCategoria().getId().equals(0L)) {

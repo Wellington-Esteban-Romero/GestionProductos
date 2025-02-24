@@ -1,20 +1,21 @@
 package org.gestion.productos.repositories;
 
+import jakarta.inject.Inject;
+import org.gestion.productos.configs.MysqlConn;
+import org.gestion.productos.configs.Repositorio;
 import org.gestion.productos.models.Categoria;
 import org.gestion.productos.models.Producto;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
+@Repositorio
 public class ProductoRepositoryJdbcImpl implements ProductoRepositoryJdbc {
 
-    private final Connection conn;
-
-    public ProductoRepositoryJdbcImpl(Connection conn) {
-        this.conn = conn;
-    }
+    @Inject
+    @MysqlConn
+    private Connection conn;
 
     @Override
     public List<Producto> listar() throws SQLException {
@@ -134,7 +135,6 @@ public class ProductoRepositoryJdbcImpl implements ProductoRepositoryJdbc {
         }
 
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            //AtomicInteger index = new AtomicInteger(1);
             for (int i = 0; i < params.size(); i++) {
                 Object param = params.get(i);
                 if (param instanceof String) {

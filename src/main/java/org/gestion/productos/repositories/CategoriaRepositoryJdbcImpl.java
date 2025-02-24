@@ -1,17 +1,20 @@
 package org.gestion.productos.repositories;
 
+import jakarta.inject.Inject;
+import org.gestion.productos.configs.MysqlConn;
+import org.gestion.productos.configs.Repositorio;
 import org.gestion.productos.models.Categoria;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Repositorio
 public class CategoriaRepositoryJdbcImpl implements CrudRepository<Categoria> {
-    private final Connection conn;
 
-    public CategoriaRepositoryJdbcImpl(Connection conn) {
-        this.conn = conn;
-    }
+    @Inject
+    @MysqlConn
+    private Connection conn;
 
     @Override
     public List<Categoria> listar() throws SQLException {

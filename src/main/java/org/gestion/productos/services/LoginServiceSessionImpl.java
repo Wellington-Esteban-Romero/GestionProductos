@@ -2,9 +2,11 @@ package org.gestion.productos.services;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import org.gestion.productos.configs.Repositorio;
 
 import java.util.Optional;
 
+@Repositorio
 public class LoginServiceSessionImpl implements LoginService {
 
     @Override

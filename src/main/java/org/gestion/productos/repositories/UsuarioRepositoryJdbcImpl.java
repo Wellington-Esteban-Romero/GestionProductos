@@ -1,5 +1,8 @@
 package org.gestion.productos.repositories;
 
+import jakarta.inject.Inject;
+import org.gestion.productos.configs.MysqlConn;
+import org.gestion.productos.configs.Repositorio;
 import org.gestion.productos.models.Usuario;
 
 import java.sql.Connection;
@@ -8,13 +11,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+@Repositorio
 public class UsuarioRepositoryJdbcImpl implements UsuarioRepositoryJdbc {
 
-    private final Connection conn;
-
-    public UsuarioRepositoryJdbcImpl(Connection conn) {
-        this.conn = conn;
-    }
+    @Inject
+    @MysqlConn
+    private Connection conn;
 
     @Override
     public Usuario porUsername(String username) throws SQLException {

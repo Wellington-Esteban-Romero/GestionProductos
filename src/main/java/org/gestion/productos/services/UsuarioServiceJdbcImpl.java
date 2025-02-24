@@ -1,20 +1,20 @@
 package org.gestion.productos.services;
 
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import org.gestion.productos.configs.Repositorio;
 import org.gestion.productos.exceptions.ServiceJdbcException;
 import org.gestion.productos.models.Usuario;
 import org.gestion.productos.repositories.UsuarioRepositoryJdbc;
-import org.gestion.productos.repositories.UsuarioRepositoryJdbcImpl;
 
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Optional;
 
+@Repositorio
 public class UsuarioServiceJdbcImpl implements UsuarioService {
-    private final UsuarioRepositoryJdbc usuarioRepositoryJdbc;
 
-    public UsuarioServiceJdbcImpl(Connection conn) {
-        usuarioRepositoryJdbc = new UsuarioRepositoryJdbcImpl(conn);
-    }
+    @Inject
+    private UsuarioRepositoryJdbc usuarioRepositoryJdbc;
 
     @Override
     public Optional<Usuario> iniciarSesion(String username, String password) {
