@@ -3,7 +3,7 @@
 <jsp:include page="layout/header.jsp"/>
 <h3 class="text-center">${title}</h3>
 <c:choose>
-    <c:when test="${carro == null || sessionScope.carro.items.isEmpty()}">
+    <c:when test="${carro.items.isEmpty()}">
         <div class="alert alert-warning">No hay productos en el carro compra</div>
     </c:when>
     <c:otherwise>

@@ -1,11 +1,11 @@
 package org.gestion.productos.controllers;
 
+import jakarta.inject.Inject;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import org.gestion.productos.models.Carro;
 import org.gestion.productos.models.ItemCarro;
 import org.gestion.productos.models.Producto;
@@ -19,6 +19,9 @@ import java.util.Optional;
 @WebServlet("/carro/agregar")
 public class AgregarCarroServlet extends HttpServlet {
 
+    @Inject
+    private Carro carro;
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Connection conn = (Connection) req.getAttribute("conn");
@@ -28,9 +31,6 @@ public class AgregarCarroServlet extends HttpServlet {
 
         if (producto.isPresent()) {
             ItemCarro itemCarro = new ItemCarro(1, producto.get());
-            Carro carro;
-            HttpSession session = req.getSession();
-            carro = (Carro) session.getAttribute("carro");
             carro.addItem(itemCarro);
         }
         resp.sendRedirect(req.getContextPath() + "/carro/ver");

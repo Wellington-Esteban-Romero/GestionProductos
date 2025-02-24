@@ -39,9 +39,6 @@ public class AppStartupListener implements ServletContextListener, ServletReques
     @Override
     public void sessionCreated(HttpSessionEvent se) {
         servletContext.log("Iniciando sesión");
-        Carro carro = new Carro();
-        HttpSession session = se.getSession();
-        session.setAttribute("carro", carro);
     }
 
     @Override

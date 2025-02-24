@@ -1,11 +1,17 @@
 package org.gestion.productos.models;
 
+import jakarta.enterprise.context.SessionScoped;
+import jakarta.inject.Named;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-public class Carro {
+@SessionScoped
+@Named
+public class Carro implements Serializable {
     private final List<ItemCarro> items;
 
     public Carro() {
@@ -20,7 +26,7 @@ public class Carro {
         if (!items.contains(item)) {
             items.add(item);
         } else {
-            Optional<ItemCarro>  optionalItemCarro = items.stream()
+            Optional<ItemCarro> optionalItemCarro = items.stream()
                     .filter(itemCarro -> itemCarro.equals(item))
                     .findAny();
             if (optionalItemCarro.isPresent()) {
@@ -36,8 +42,8 @@ public class Carro {
                 .sum();
     }
 
-    public void actualizarItem (ItemCarro item, Integer cantidad) {
-        Optional<ItemCarro>  optionalItemCarro = items.stream()
+    public void actualizarItem(ItemCarro item, Integer cantidad) {
+        Optional<ItemCarro> optionalItemCarro = items.stream()
                 .filter(itemCarro -> itemCarro.equals(item))
                 .findAny();
         if (optionalItemCarro.isPresent()) {
