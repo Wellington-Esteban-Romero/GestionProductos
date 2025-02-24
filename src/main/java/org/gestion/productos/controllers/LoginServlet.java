@@ -10,6 +10,8 @@ import org.gestion.productos.services.UsuarioService;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 @WebServlet({"/login", "/login.html"})
@@ -53,15 +55,39 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String username = req.getParameter("username");
         String password = req.getParameter("password");
-        Optional<Usuario> usuario = usuarioService.iniciarSesion(username, password);
+        req.setAttribute("title", req.getAttribute("title") + " - Iniciar Sesión");
 
-        if (usuario.isPresent()) {
-            HttpSession httpSession = req.getSession();
-            httpSession.setAttribute("username", username);
-
-            resp.sendRedirect(req.getContextPath() + "/");
+        Map<String, String> errores = validar(username, password);
+        if (!errores.isEmpty()) {
+            req.setAttribute("errores", errores);
+            req.setAttribute("username", username);
+            getServletContext().getRequestDispatcher("/login.jsp").forward(req, resp);
         } else {
-            resp.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid username or password");
+            Optional<Usuario> usuario = usuarioService.iniciarSesion(username, password);
+
+            if (usuario.isPresent()) {
+                HttpSession httpSession = req.getSession();
+                httpSession.setAttribute("username", username);
+
+                resp.sendRedirect(req.getContextPath() + "/");
+            } else {
+                resp.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid username or password");
+            }
         }
+    }
+
+    private Map<String, String> validar(String username, String password) {
+        Map<String, String> errores = new HashMap<>();
+
+        if (username.isEmpty()) {
+            errores.put("nombre", "El nombre es obligatorio!");
+        } else if (!username.matches("^[a-zA-Z0-9_]{3,12}$")) {
+            errores.put("nombre", "El nombre debe ser alfanumérico y deber contener entre 3 y 12 caracteres!");
+        }
+
+        if (password.isEmpty()) {
+            errores.put("password", "El password es obligatorio!");
+        }
+        return errores;
     }
 }

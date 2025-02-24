@@ -11,4 +11,4 @@
 </head>
 <body>
 <jsp:include page="navbar.jsp" />
-<div class="container mt-4">
+<div class="container mt-3 vh-100">
