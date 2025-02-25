@@ -1,5 +1,6 @@
 package org.gestion.productos.services;
 
+import org.gestion.productos.dto.ProductoFiltroDTO;
 import org.gestion.productos.models.Categoria;
 import org.gestion.productos.models.Producto;
 
@@ -15,5 +16,5 @@ public interface ProductoService {
     Optional<Categoria> porIdCategoria(Long id);
     int obtenerTotalProductos();
     List<Producto> obtenerUltimosProductos();
-    List<Producto> buscarProductos(String nombre, Long precioMin, Long precioMax);
+    List<Producto> buscarProductos(ProductoFiltroDTO filtro);
 }

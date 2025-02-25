@@ -13,6 +13,11 @@
                            placeholder="Nombre del producto">
                 </div>
                 <div class="form-group col-md-3 col-sm-6">
+                    <label for="tipo" class="col-form-label">Buscar categoría</label>
+                    <input type="text" class="form-control" name="tipo" id="tipo"
+                           placeholder="Nombre categoría">
+                </div>
+                <div class="form-group col-md-3 col-sm-6">
                     <label for="precioMin" class="col-form-label">Precio Mínimo (€)</label>
                     <input type="number" class="form-control" id="precioMin" name="precioMin"
                            placeholder="Precio Mínimo (€)" min="0">
@@ -21,6 +26,14 @@
                     <label for="precioMax" class="col-form-label">Precio Máximo (€)</label>
                     <input type="number" class="form-control" id="precioMax" name="precioMax"
                            placeholder="Precio Máximo (€)" min="0">
+                </div>
+                <div class="form-group col-md-3 col-sm-6">
+                    <label for="fecha_inicio" class="col-form-label">Fecha inicio</label>
+                    <input type="date" class="form-control" name="fecha_inicio" id="fecha_inicio">
+                </div>
+                <div class="form-group col-md-3 col-sm-6">
+                    <label for="fecha_fin" class="col-form-label">Fecha Fin</label>
+                    <input type="date" class="form-control" name="fecha_fin" id="fecha_fin">
                 </div>
             </div>
             <div class="col-sm-2 mt-3">
@@ -40,7 +53,7 @@
             <tr>
                 <th>id</th>
                 <th>Nombre</th>
-                <th>Tipo</th>
+                <th>Categoría</th>
                 <th>Fecha registro</th>
                 <c:if test="${username.present}">
                     <th>Precio</th>

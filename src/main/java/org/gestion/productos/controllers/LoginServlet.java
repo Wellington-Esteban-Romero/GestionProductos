@@ -59,9 +59,7 @@ public class LoginServlet extends HttpServlet {
 
         Map<String, String> errores = validar(username, password);
         if (!errores.isEmpty()) {
-            req.setAttribute("errores", errores);
-            req.setAttribute("username", username);
-            getServletContext().getRequestDispatcher("/login.jsp").forward(req, resp);
+            reenviarFormularioConErrores(req, resp, errores, username);
         } else {
             Optional<Usuario> usuario = usuarioService.iniciarSesion(username, password);
 
@@ -71,7 +69,8 @@ public class LoginServlet extends HttpServlet {
 
                 resp.sendRedirect(req.getContextPath() + "/");
             } else {
-                resp.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid username or password");
+                errores.put("invalidoCredenciales", "Usuario o Contraseña incorrectos");
+                reenviarFormularioConErrores(req, resp, errores, username);
             }
         }
     }
@@ -80,14 +79,20 @@ public class LoginServlet extends HttpServlet {
         Map<String, String> errores = new HashMap<>();
 
         if (username.isEmpty()) {
-            errores.put("nombre", "El nombre es obligatorio!");
+            errores.put("usuario", "El usuario es obligatorio!");
         } else if (!username.matches("^[a-zA-Z0-9_]{3,12}$")) {
-            errores.put("nombre", "El nombre debe ser alfanumérico y deber contener entre 3 y 12 caracteres!");
+            errores.put("usuario", "El usuario debe ser alfanumérico y deber contener entre 3 y 12 caracteres!");
         }
 
         if (password.isEmpty()) {
-            errores.put("password", "El password es obligatorio!");
+            errores.put("contrasenia", "La contraseña es obligatorio!");
         }
         return errores;
+    }
+
+    private void reenviarFormularioConErrores(HttpServletRequest req, HttpServletResponse resp, Map<String, String> errores, String username) throws ServletException, IOException {
+        req.setAttribute("errores", errores);
+        req.setAttribute("username", username);
+        getServletContext().getRequestDispatcher("/login.jsp").forward(req, resp);
     }
 }

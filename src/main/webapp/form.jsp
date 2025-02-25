@@ -64,6 +64,11 @@
                 </div>
 
                 <div class="mb-3">
+                    <label for="fecha_registro" class="form-label">Descripción</label>
+                    <textarea class="form-control" rows="4" maxlength="255" name="descripcion" id="descripcion"></textarea>
+                </div>
+
+                <div class="mb-3">
                     <input type="file" class="form-control" name="inputGroupFile04" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04"
                            aria-label="Upload" onchange="previewImage(event)">
                 </div>

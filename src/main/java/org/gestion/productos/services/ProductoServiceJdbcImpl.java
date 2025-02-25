@@ -2,6 +2,7 @@ package org.gestion.productos.services;
 
 import jakarta.inject.Inject;
 import org.gestion.productos.configs.Services;
+import org.gestion.productos.dto.ProductoFiltroDTO;
 import org.gestion.productos.exceptions.ServiceJdbcException;
 import org.gestion.productos.models.Categoria;
 import org.gestion.productos.models.Producto;
@@ -98,9 +99,9 @@ public class ProductoServiceJdbcImpl implements ProductoService {
     }
 
     @Override
-    public List<Producto> buscarProductos(String nombre, Long precioMin, Long precioMax) {
+    public List<Producto> buscarProductos(ProductoFiltroDTO filtro) {
         try {
-            return productoRepositoryJdbc.buscarProductos(nombre, precioMin, precioMax);
+            return productoRepositoryJdbc.buscarProductos(filtro);
         } catch (SQLException e) {
             throw new ServiceJdbcException(e.getMessage(), e.getCause());
         }

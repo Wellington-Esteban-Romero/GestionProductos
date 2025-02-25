@@ -5,10 +5,12 @@ import jakarta.annotation.PreDestroy;
 import jakarta.inject.Inject;
 import org.gestion.productos.configs.MysqlConn;
 import org.gestion.productos.configs.Repositorio;
+import org.gestion.productos.dto.ProductoFiltroDTO;
 import org.gestion.productos.models.Categoria;
 import org.gestion.productos.models.Producto;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -24,12 +26,12 @@ public class ProductoRepositoryJdbcImpl implements ProductoRepositoryJdbc {
     private Logger log;
 
     @PostConstruct
-    public void inicializar () {
+    public void inicializar() {
         log.info("Inicializando " + this.getClass().getName());
     }
 
     @PreDestroy
-    public void destruir () {
+    public void destruir() {
         log.info("Destruyendo " + this.getClass().getName());
     }
 
@@ -131,24 +133,41 @@ public class ProductoRepositoryJdbcImpl implements ProductoRepositoryJdbc {
     }
 
     @Override
-    public List<Producto> buscarProductos(String nombre, Long precioMin, Long precioMax) throws SQLException {
+    public List<Producto> buscarProductos(ProductoFiltroDTO filtro) throws SQLException {
         List<Producto> lista = new ArrayList<>();
         List<Object> params = new ArrayList<>();
 
         String sql = "SELECT p.*, c.nombre as categoria FROM productos as p INNER JOIN categorias as c ON (p.categoria_id = c.id) WHERE 1=1";
 
-        if (nombre != null && !nombre.isEmpty()) {
+        if (filtro.getNombre() != null && !filtro.getNombre().isEmpty()) {
             sql += " AND p.nombre LIKE ?";
-            params.add("%" + nombre + "%");
+            params.add("%" + filtro.getNombre() + "%");
         }
-        if (precioMin != null) {
+        if (filtro.getTipo() != null && !filtro.getTipo().isEmpty()) {
+            sql += " AND c.nombre LIKE ?";
+            params.add("%" + filtro.getTipo() + "%");
+        }
+        if (filtro.getPrecioMin() != null) {
             sql += " AND p.precio >= ?";
-            params.add(precioMin);
+            params.add(filtro.getPrecioMin());
         }
-        if (precioMax != null) {
+        if (filtro.getPrecioMax() != null) {
             sql += " AND p.precio <= ?";
-            params.add(precioMax);
+            params.add(filtro.getPrecioMax());
         }
+
+        if (filtro.getFechaInicio() != null) {
+            sql += " AND p.fecha_registro >= ?";
+            params.add(filtro.getFechaInicio());
+        }
+
+        if (filtro.getFechaFin() != null) {
+            sql += " AND p.fecha_registro <= ?";
+            params.add(filtro.getFechaFin());
+        }
+
+        log.info("******** " + sql + " *********");
+        log.info("******** " + params + " *********");
 
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             for (int i = 0; i < params.size(); i++) {
@@ -157,6 +176,8 @@ public class ProductoRepositoryJdbcImpl implements ProductoRepositoryJdbc {
                     stmt.setString(i + 1, (String) param);
                 } else if (param instanceof Long) {
                     stmt.setLong(i + 1, (Long) param);
+                } else if (param instanceof LocalDate) {
+                    stmt.setDate(i + 1, Date.valueOf((LocalDate) param));
                 }
             }
             try (ResultSet rs = stmt.executeQuery()) {
@@ -164,7 +185,7 @@ public class ProductoRepositoryJdbcImpl implements ProductoRepositoryJdbc {
                     lista.add(getProducto(rs));
                 }
             }
-        }  catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return lista;

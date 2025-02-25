@@ -6,19 +6,19 @@
         <c:if test="${errores != null && not empty errores}">
             <ul class="alert alert-danger container px-5">
                 <c:forEach items="${errores.values()}" var="error">
-                    <li>${error}</li>
+                    <li style="list-style-type: none;">${error}</li>
                 </c:forEach>
             </ul>
         </c:if>
         <h3 class="text-center mb-4">${title}</h3>
         <form action="${pageContext.request.contextPath}/login" method="post">
             <div class="mb-3">
-                <label for="username" class="form-label">Username</label>
+                <label for="username" class="form-label">Usuario</label>
                 <input type="text" class="form-control" name="username" id="username"
                        minlength="3" maxlength="12" value="${username}">
             </div>
             <div class="mb-3">
-                <label for="password" class="form-label">Password</label>
+                <label for="password" class="form-label">Contraseña</label>
                 <input type="password" class="form-control" name="password" id="password">
             </div>
             <div class="d-grid">
