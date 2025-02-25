@@ -1,7 +1,7 @@
 package org.gestion.productos.services;
 
-import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import org.gestion.productos.configs.Services;
 import org.gestion.productos.exceptions.ServiceJdbcException;
 import org.gestion.productos.models.Categoria;
 import org.gestion.productos.models.Producto;
@@ -13,8 +13,9 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
-@ApplicationScoped
+@Services
 public class ProductoServiceJdbcImpl implements ProductoService {
+
     @Inject
     private CrudRepository<Producto> repositoryJdbcProducto;
 

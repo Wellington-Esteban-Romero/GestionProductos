@@ -2,10 +2,7 @@ package org.gestion.productos.listeners;
 
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebListener;
-import jakarta.servlet.http.HttpSession;
-import jakarta.servlet.http.HttpSessionEvent;
 import jakarta.servlet.http.HttpSessionListener;
-import org.gestion.productos.models.Carro;
 
 @WebListener
 public class AppStartupListener implements ServletContextListener, ServletRequestListener, HttpSessionListener {
@@ -16,7 +13,6 @@ public class AppStartupListener implements ServletContextListener, ServletReques
     public void contextInitialized(ServletContextEvent sce) {
         sce.getServletContext().log("Iniciando contexto de la aplicación");
         servletContext = sce.getServletContext();
-        servletContext.setAttribute("mensaje", "Valor global de la aplicación");
     }
 
     @Override
@@ -36,13 +32,4 @@ public class AppStartupListener implements ServletContextListener, ServletReques
         servletContext.log("Finalizando request");
     }
 
-    @Override
-    public void sessionCreated(HttpSessionEvent se) {
-        servletContext.log("Iniciando sesión");
-    }
-
-    @Override
-    public void sessionDestroyed(HttpSessionEvent se) {
-        servletContext.log("Finalizando sesión");
-    }
 }

@@ -1,5 +1,7 @@
 package org.gestion.productos.repositories;
 
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
 import jakarta.inject.Inject;
 import org.gestion.productos.configs.MysqlConn;
 import org.gestion.productos.configs.Repositorio;
@@ -9,6 +11,7 @@ import org.gestion.productos.models.Producto;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 @Repositorio
 public class ProductoRepositoryJdbcImpl implements ProductoRepositoryJdbc {
@@ -16,6 +19,19 @@ public class ProductoRepositoryJdbcImpl implements ProductoRepositoryJdbc {
     @Inject
     @MysqlConn
     private Connection conn;
+
+    @Inject
+    private Logger log;
+
+    @PostConstruct
+    public void inicializar () {
+        log.info("Inicializando " + this.getClass().getName());
+    }
+
+    @PreDestroy
+    public void destruir () {
+        log.info("Destruyendo " + this.getClass().getName());
+    }
 
     @Override
     public List<Producto> listar() throws SQLException {

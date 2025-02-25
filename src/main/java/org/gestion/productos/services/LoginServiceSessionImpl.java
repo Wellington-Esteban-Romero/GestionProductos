@@ -1,12 +1,12 @@
 package org.gestion.productos.services;
 
-import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import org.gestion.productos.configs.Services;
 
 import java.util.Optional;
 
-@ApplicationScoped
+@Services
 public class LoginServiceSessionImpl implements LoginService {
 
     @Override

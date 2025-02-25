@@ -1,7 +1,7 @@
 package org.gestion.productos.services;
 
-import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import org.gestion.productos.configs.Services;
 import org.gestion.productos.exceptions.ServiceJdbcException;
 import org.gestion.productos.models.Usuario;
 import org.gestion.productos.repositories.UsuarioRepositoryJdbc;
@@ -10,7 +10,7 @@ import org.gestion.productos.utils.PasswordUtil;
 import java.sql.SQLException;
 import java.util.Optional;
 
-@ApplicationScoped
+@Services
 public class UsuarioServiceJdbcImpl implements UsuarioService {
 
     @Inject

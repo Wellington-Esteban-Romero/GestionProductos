@@ -1,5 +1,8 @@
 package org.gestion.productos.models;
 
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
+import jakarta.inject.Inject;
 import org.gestion.productos.configs.Carrito;
 
 import java.io.Serializable;
@@ -7,13 +10,25 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.logging.Logger;
 
 @Carrito
 public class Carro implements Serializable {
-    private final List<ItemCarro> items;
 
-    public Carro() {
+    private List<ItemCarro> items;
+
+    @Inject
+    private transient Logger log;
+
+    @PostConstruct
+    public void inicializar () {
         items = new ArrayList<>();
+        log.info("Carro inicializado");
+    }
+
+    @PreDestroy
+    public void destruir () {
+        log.info("Carro destruyendo");
     }
 
     public List<ItemCarro> getItems() {
