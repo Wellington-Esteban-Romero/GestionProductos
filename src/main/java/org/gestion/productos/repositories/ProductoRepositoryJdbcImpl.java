@@ -1,5 +1,6 @@
 package org.gestion.productos.repositories;
 
+import com.oracle.wls.shaded.org.apache.regexp.RE;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import jakarta.inject.Inject;
@@ -36,16 +37,19 @@ public class ProductoRepositoryJdbcImpl implements ProductoRepositoryJdbc {
     }
 
     @Override
-    public List<Producto> listar() throws SQLException {
+    public List<Producto> listar(int pagina, int tamanio_pagina) throws SQLException {
         List<Producto> productos = new ArrayList<>();
 
-        try (Statement stmt = conn.createStatement()) {
-            ResultSet rs = stmt.executeQuery("SELECT p.*, c.nombre as categoria FROM productos as p " +
-                    " INNER JOIN categorias as c ON (p.categoria_id = c.id)");
+        try (PreparedStatement stmt = conn.prepareStatement("SELECT p.*, c.nombre as categoria FROM productos as p " +
+                " INNER JOIN categorias as c ON (p.categoria_id = c.id) ORDER BY id LIMIT ? OFFSET ?")) {
+            stmt.setInt(1, tamanio_pagina);
+            stmt.setInt(2, pagina * tamanio_pagina);
 
-            while (rs.next()) {
-                Producto p = getProducto(rs);
-                productos.add(p);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    Producto p = getProducto(rs);
+                    productos.add(p);
+                }
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -189,6 +193,14 @@ public class ProductoRepositoryJdbcImpl implements ProductoRepositoryJdbc {
             e.printStackTrace();
         }
         return lista;
+    }
+
+    @Override
+    public int contarProductos() throws SQLException {
+        try (PreparedStatement stmt = conn.prepareStatement("SELECT COUNT(*) FROM productos");
+             ResultSet rs = stmt.executeQuery()) {
+            return rs.next() ? rs.getInt(1) : 0;
+        }
     }
 
     private static Producto getProducto(ResultSet rs) throws SQLException {

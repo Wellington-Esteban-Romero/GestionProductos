@@ -79,8 +79,6 @@
                 <input type="hidden" name="id" value="${producto.id}">
             </form>
         </div>
-
-        <!-- Sección de imagen a la derecha -->
         <div class="col-md-6 d-flex flex-column align-items-center">
             <img id="preview" src="" alt="Vista previa de la imagen" class="img-fluid" style="max-width: 100%; display: none;">
         </div>

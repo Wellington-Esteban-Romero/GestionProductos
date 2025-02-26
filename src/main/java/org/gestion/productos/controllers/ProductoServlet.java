@@ -17,6 +17,8 @@ import java.util.Optional;
 @WebServlet({"/productos.html", "/productos"})
 public class ProductoServlet extends HttpServlet {
 
+    private static final int TAMANIO_PAGINA = 10;
+
     @Inject
     private ProductoService productoService;
 
@@ -25,11 +27,21 @@ public class ProductoServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        List<Producto> productos = productoService.getProductos();
+        int pagina;
+        try {
+            pagina = Integer.parseInt(req.getParameter("pagina"));
+        } catch (NumberFormatException e) {
+            pagina = 0;
+        }
+        List<Producto> productos = productoService.obtenerProductos(pagina, TAMANIO_PAGINA);
+        int totalProductos = productoService.contarProductos();
+        int totalPaginas = (int) Math.ceil((double) totalProductos / TAMANIO_PAGINA);
         Optional<String> username = loginService.getUsername(req);
 
         req.setAttribute("title", req.getAttribute("title") + " - Listado de productos");
         req.setAttribute("productos", productos);
+        req.setAttribute("pagina", pagina);
+        req.setAttribute("totalPaginas", totalPaginas);
         req.setAttribute("username", username);
 
         getServletContext().getRequestDispatcher("/listar.jsp").forward(req, resp);

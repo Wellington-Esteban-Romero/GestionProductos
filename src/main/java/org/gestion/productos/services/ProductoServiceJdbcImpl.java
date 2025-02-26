@@ -7,6 +7,7 @@ import org.gestion.productos.exceptions.ServiceJdbcException;
 import org.gestion.productos.models.Categoria;
 import org.gestion.productos.models.Producto;
 import org.gestion.productos.repositories.CrudRepository;
+import org.gestion.productos.repositories.PaginacionRepository;
 import org.gestion.productos.repositories.ProductoRepositoryJdbc;
 import org.gestion.productos.repositories.ProductoRepositoryJdbcImpl;
 
@@ -18,7 +19,7 @@ import java.util.Optional;
 public class ProductoServiceJdbcImpl implements ProductoService {
 
     @Inject
-    private CrudRepository<Producto> repositoryJdbcProducto;
+    private PaginacionRepository<Producto> repositoryJdbcProducto;
 
     @Inject
     private CrudRepository<Categoria> repositoryJdbcCategoria;
@@ -27,9 +28,9 @@ public class ProductoServiceJdbcImpl implements ProductoService {
     private ProductoRepositoryJdbc productoRepositoryJdbc;
 
     @Override
-    public List<Producto> getProductos() {
+    public List<Producto> obtenerProductos(int pagina, int tamanio_pagina) {
         try {
-            return repositoryJdbcProducto.listar();
+            return repositoryJdbcProducto.listar(pagina, tamanio_pagina);
         } catch (SQLException e) {
             throw new ServiceJdbcException(e.getMessage(), e.getCause());
         }
@@ -102,6 +103,15 @@ public class ProductoServiceJdbcImpl implements ProductoService {
     public List<Producto> buscarProductos(ProductoFiltroDTO filtro) {
         try {
             return productoRepositoryJdbc.buscarProductos(filtro);
+        } catch (SQLException e) {
+            throw new ServiceJdbcException(e.getMessage(), e.getCause());
+        }
+    }
+
+    @Override
+    public int contarProductos() {
+        try {
+            return productoRepositoryJdbc.contarProductos();
         } catch (SQLException e) {
             throw new ServiceJdbcException(e.getMessage(), e.getCause());
         }

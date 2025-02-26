@@ -18,21 +18,21 @@
                            placeholder="Nombre categoría">
                 </div>
                 <div class="form-group col-md-3 col-sm-6">
-                    <label for="precioMin" class="col-form-label">Precio Mínimo (€)</label>
+                    <label for="precioMin" class="col-form-label">Precio Mínimo >=</label>
                     <input type="number" class="form-control" id="precioMin" name="precioMin"
                            placeholder="Precio Mínimo (€)" min="0">
                 </div>
                 <div class="form-group col-md-3 col-sm-6">
-                    <label for="precioMax" class="col-form-label">Precio Máximo (€)</label>
+                    <label for="precioMax" class="col-form-label">Precio Máximo <=</label>
                     <input type="number" class="form-control" id="precioMax" name="precioMax"
-                           placeholder="Precio Máximo (€)" min="0">
+                           placeholder="Precio Máximo (€)">
                 </div>
                 <div class="form-group col-md-3 col-sm-6">
-                    <label for="fecha_inicio" class="col-form-label">Fecha inicio</label>
+                    <label for="fecha_inicio" class="col-form-label">Fecha inicio >=</label>
                     <input type="date" class="form-control" name="fecha_inicio" id="fecha_inicio">
                 </div>
                 <div class="form-group col-md-3 col-sm-6">
-                    <label for="fecha_fin" class="col-form-label">Fecha Fin</label>
+                    <label for="fecha_fin" class="col-form-label">Fecha Fin <=</label>
                     <input type="date" class="form-control" name="fecha_fin" id="fecha_fin">
                 </div>
             </div>
@@ -95,6 +95,24 @@
                 </tr>
             </c:forEach>
         </table>
+        <!-- Paginación -->
+        <nav>
+            <ul class="pagination">
+                <c:if test="${pagina > 0}">
+                    <li class="page-item">
+                        <a class="page-link" href="?pagina=${pagina - 1}">Anterior</a>
+                    </li>
+                </c:if>
+                <li class="page-item disabled">
+                    <span class="page-link">Página ${pagina + 1} de ${totalPaginas}</span>
+                </li>
+                <c:if test="${pagina + 1 < totalPaginas}">
+                    <li class="page-item">
+                        <a class="page-link" href="?pagina=${pagina + 1}">Siguiente</a>
+                    </li>
+                </c:if>
+            </ul>
+        </nav>
     </c:otherwise>
 </c:choose>
 <jsp:include page="layout/footer.jsp"/>
