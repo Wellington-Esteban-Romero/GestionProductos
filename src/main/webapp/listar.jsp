@@ -1,6 +1,7 @@
 <%@ page contentType="text/html" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <jsp:include page="layout/header.jsp"/>
+<div class="flex-grow-1">
 <h3 class="text-center">${title}</h3>
 <c:if test="${username.isPresent()}">
     <div class="alert alert-info">Hola <c:out value="${username.get()}"/>, Bienvenido!</div>
@@ -115,4 +116,5 @@
         </nav>
     </c:otherwise>
 </c:choose>
+</div>
 <jsp:include page="layout/footer.jsp"/>
