@@ -8,14 +8,15 @@ public class Producto {
     private String nombre;
     private String descripcion;
     private Categoria categoria;
-    private int precio;
+    private double precio;
     private int stock;
     private LocalDate fechaRegistro;
+    private LocalDate fechaModificacion;
 
     public Producto() {
     }
 
-    public Producto(Long id, String nombre, String descripcion, String tipo, int precio, int stock) {
+    public Producto(Long id, String nombre, String descripcion, String tipo, double precio, int stock) {
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
@@ -50,11 +51,11 @@ public class Producto {
         this.categoria = categoria;
     }
 
-    public int getPrecio() {
+    public double getPrecio() {
         return precio;
     }
 
-    public void setPrecio(int precio) {
+    public void setPrecio(double precio) {
         this.precio = precio;
     }
 
@@ -80,6 +81,28 @@ public class Producto {
 
     public void setFechaRegistro(LocalDate fechaRegistro) {
         this.fechaRegistro = fechaRegistro;
+    }
+
+    public LocalDate getFechaModificacion() {
+        return fechaModificacion;
+    }
+
+    public void setFechaModificacion(LocalDate fechaModificacion) {
+        this.fechaModificacion = fechaModificacion;
+    }
+
+    @Override
+    public String toString() {
+        return "Producto{" +
+                "id=" + id +
+                ", nombre='" + nombre + '\'' +
+                ", descripcion='" + descripcion.trim() + '\'' +
+                ", categoria=" + categoria +
+                ", precio=" + precio +
+                ", stock=" + stock +
+                ", fechaRegistro=" + fechaRegistro +
+                ", fechaModificacion=" + fechaModificacion +
+                '}';
     }
 }
 

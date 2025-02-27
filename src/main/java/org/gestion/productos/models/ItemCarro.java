@@ -40,7 +40,7 @@ public class ItemCarro {
         return Objects.hashCode(producto);
     }
 
-    public int getImporte () {
+    public double getImporte () {
         return cantidad * producto.getPrecio();
     }
 }

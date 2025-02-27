@@ -49,9 +49,9 @@ public class Carro implements Serializable {
         }
     }
 
-    public int getTotal() {
+    public double getTotal() {
         return items.stream()
-                .mapToInt(ItemCarro::getImporte)
+                .mapToDouble(ItemCarro::getImporte)
                 .sum();
     }
 

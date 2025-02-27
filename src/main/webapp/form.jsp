@@ -33,10 +33,19 @@
 
                 <div class="mb-3">
                     <label for="precio" class="form-label">Precio</label>
-                    <input type="number" class="form-control ${not empty errores.precio ? 'is-invalid' : ''}"
-                           name="precio" id="precio" value="${producto.precio > 0? producto.precio : ''}">
+                    <input type="number" step="any" class="form-control ${not empty errores.precio ? 'is-invalid' : ''}"
+                           name="precio" id="precio" value="${producto.precio > 0.0? producto.precio : ''}">
                     <c:if test="${errores != null && not empty errores.precio}">
                         <div class="text-danger">${errores.precio}</div>
+                    </c:if>
+                </div>
+
+                <div class="mb-3">
+                    <label for="stock" class="form-label">Stock</label>
+                    <input type="number" class="form-control ${not empty errores.stock ? 'is-invalid' : ''}"
+                           name="stock" id="stock" value="${producto.stock >=0? producto.stock : ''}">
+                    <c:if test="${errores != null && not empty errores.stock}">
+                        <div class="text-danger">${errores.stock}</div>
                     </c:if>
                 </div>
 
@@ -52,7 +61,8 @@
 
                 <div class="mb-3">
                     <label for="categoria" class="form-label">Categoría</label>
-                    <select name="categoria" id="categoria" class="form-select ${not empty errores.categoria ? 'is-invalid' : ''}">
+                    <select name="categoria" id="categoria"
+                            class="form-select ${not empty errores.categoria ? 'is-invalid' : ''}">
                         <option value="">--- Seleccionar categoría ---</option>
                         <c:forEach items="${categorias}" var="c">
                             <option value="${c.id}" ${c.id.equals(producto.categoria.id)? "selected" : ""}>${c.nombre}</option>
@@ -64,12 +74,14 @@
                 </div>
 
                 <div class="mb-3">
-                    <label for="fecha_registro" class="form-label">Descripción</label>
-                    <textarea class="form-control" rows="4" maxlength="255" name="descripcion" id="descripcion"></textarea>
+                    <label for="descripcion" class="form-label">Descripción</label>
+                    <textarea class="form-control" rows="4" maxlength="255" name="descripcion"
+                              id="descripcion">${producto.descripcion}</textarea>
                 </div>
 
                 <div class="mb-3">
-                    <input type="file" class="form-control" name="inputGroupFile04" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04"
+                    <input type="file" class="form-control" name="inputGroupFile04" id="inputGroupFile04"
+                           aria-describedby="inputGroupFileAddon04"
                            aria-label="Upload" onchange="previewImage(event)">
                 </div>
 
@@ -80,7 +92,8 @@
             </form>
         </div>
         <div class="col-md-6 d-flex flex-column align-items-center">
-            <img id="preview" src="" alt="Vista previa de la imagen" class="img-fluid" style="max-width: 100%; display: none;">
+            <img id="preview" src="" alt="Vista previa de la imagen" class="img-fluid"
+                 style="max-width: 100%; display: none;">
         </div>
     </div>
 </div>

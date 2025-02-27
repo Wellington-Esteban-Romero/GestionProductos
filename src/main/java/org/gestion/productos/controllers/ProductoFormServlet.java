@@ -51,6 +51,7 @@ public class ProductoFormServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         String nombre = req.getParameter("nombre");
+        String descripcion = req.getParameter("descripcion");
 
         long id;
         try {
@@ -59,12 +60,20 @@ public class ProductoFormServlet extends HttpServlet {
             id = 0L;
         }
 
-        int precio;
+        double precio;
         try {
-            precio = Integer.parseInt(req.getParameter("precio"));
+            precio = Double.parseDouble(req.getParameter("precio"));
+            System.out.println("Precio: " +precio);
         } catch (NumberFormatException e) {
-            precio = 0;
+            precio = 0.0;
         }
+        int stock;
+        try {
+            stock = Integer.parseInt(req.getParameter("stock"));
+        } catch (NumberFormatException e) {
+            stock = 0;
+        }
+
         String fechaRegistro = req.getParameter("fecha_registro");
         long categoria_id;
         try {
@@ -81,7 +90,9 @@ public class ProductoFormServlet extends HttpServlet {
         }
         Producto producto = new Producto();
         producto.setNombre(nombre);
+        producto.setDescripcion(descripcion);
         producto.setPrecio(precio);
+        producto.setStock(stock);
         producto.setFechaRegistro(fecha_registro);
 
         Categoria categoria = new Categoria();
@@ -114,8 +125,11 @@ public class ProductoFormServlet extends HttpServlet {
         if (producto.getFechaRegistro() == null) {
             errores.put("fecha_registro", "La fecha del registro es obligatorio!");
         }
-        if (producto.getPrecio() == 0) {
+        if (producto.getPrecio() == 0.0) {
             errores.put("precio", "El precio es obligatorio!");
+        }
+        if (producto.getStock() == 0) {
+            errores.put("stock", "El stock es obligatorio!");
         }
         if (producto.getCategoria().getId().equals(0L)) {
             errores.put("categoria", "La categoría es obligatoria!");

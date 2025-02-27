@@ -80,19 +80,23 @@ public class ProductoRepositoryJdbcImpl implements ProductoRepositoryJdbc {
     public void guardar(Producto obj) throws SQLException {
         String sql;
         if (obj.getId() != null && (obj.getId() > 0)) {
-            sql = "UPDATE productos SET nombre = ?, precio = ?, categoria_id = ? WHERE id = ?";
+            sql = "UPDATE productos SET nombre = ?, descripcion = ?, precio = ?, stock = ?, categoria_id = ?, fecha_registro = ?, fecha_modificacion = ? WHERE id = ?";
         } else {
-            sql = "INSERT INTO productos (nombre, precio, categoria_id, fecha_registro) VALUES (?, ?, ?, ?)";
+            sql = "INSERT INTO productos (nombre, descripcion, precio, stock, categoria_id, fecha_registro) VALUES (?, ?, ?, ?, ?, ?)";
         }
 
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, obj.getNombre());
-            stmt.setDouble(2, obj.getPrecio());
-            stmt.setLong(3, obj.getCategoria().getId());
+            stmt.setString(2, obj.getDescripcion());
+            stmt.setDouble(3, obj.getPrecio());
+            stmt.setInt(4, obj.getStock());
+            stmt.setLong(5, obj.getCategoria().getId());
             if (obj.getId() != null && (obj.getId() > 0)) {
-                stmt.setLong(4, obj.getId());
+                stmt.setDate(6, Date.valueOf(obj.getFechaRegistro()));
+                stmt.setDate(7, Date.valueOf(LocalDate.now()));
+                stmt.setLong(8, obj.getId());
             } else {
-                stmt.setDate(4, Date.valueOf(obj.getFechaRegistro()));
+                stmt.setDate(6, Date.valueOf(obj.getFechaRegistro()));
             }
             stmt.executeUpdate();
         }
@@ -207,8 +211,13 @@ public class ProductoRepositoryJdbcImpl implements ProductoRepositoryJdbc {
         Producto p = new Producto();
         p.setId(rs.getLong("id"));
         p.setNombre(rs.getString("nombre"));
-        p.setPrecio(rs.getInt("precio"));
+        p.setDescripcion(rs.getString("descripcion"));
+        p.setPrecio(rs.getDouble("precio"));
+        p.setStock(rs.getInt("stock"));
         p.setFechaRegistro(rs.getDate("fecha_registro").toLocalDate());
+        p.setFechaModificacion((rs.getDate("fecha_modificacion") != null)?
+                rs.getDate("fecha_modificacion").toLocalDate() : LocalDate.now());
+        p.setPrecio(rs.getInt("precio"));
         Categoria c = new Categoria();
         c.setId(rs.getLong("categoria_id"));
         c.setNombre(rs.getString("categoria"));
