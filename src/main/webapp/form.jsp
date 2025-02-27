@@ -21,7 +21,8 @@
     <div class="row">
         <!-- Formulario a la izquierda -->
         <div class="col-md-6">
-            <form action="<c:out value="${pageContext.request.contextPath}"/>/productos/form" method="post">
+            <form action="<c:out value="${pageContext.request.contextPath}"/>/productos/form" method="post"
+                  enctype="multipart/form-data">
                 <div class="mb-3">
                     <label for="nombre" class="form-label">Nombre</label>
                     <input type="text" class="form-control ${not empty errores.nombre ? 'is-invalid' : ''}"
@@ -80,9 +81,8 @@
                 </div>
 
                 <div class="mb-3">
-                    <input type="file" class="form-control" name="inputGroupFile04" id="inputGroupFile04"
-                           aria-describedby="inputGroupFileAddon04"
-                           aria-label="Upload" onchange="previewImage(event)">
+                    <input type="file" class="form-control" name="imagen" accept="image/*"
+                           onchange="previewImage(event)">
                 </div>
 
                 <div class="mt-3">
@@ -92,8 +92,8 @@
             </form>
         </div>
         <div class="col-md-6 d-flex flex-column align-items-center">
-            <img id="preview" src="" alt="Vista previa de la imagen" class="img-fluid"
-                 style="max-width: 100%; display: none;">
+                <img id="preview" class="img-fluid" style="max-width: 100%;"
+                     src="${pageContext.request.contextPath}/producto/imagen/${producto.imagen}">
         </div>
     </div>
 </div>

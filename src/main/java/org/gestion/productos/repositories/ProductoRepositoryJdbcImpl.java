@@ -80,9 +80,9 @@ public class ProductoRepositoryJdbcImpl implements ProductoRepositoryJdbc {
     public void guardar(Producto obj) throws SQLException {
         String sql;
         if (obj.getId() != null && (obj.getId() > 0)) {
-            sql = "UPDATE productos SET nombre = ?, descripcion = ?, precio = ?, stock = ?, categoria_id = ?, fecha_registro = ?, fecha_modificacion = ? WHERE id = ?";
+            sql = "UPDATE productos SET nombre = ?, descripcion = ?, precio = ?, stock = ?, categoria_id = ?, fecha_registro = ?, fecha_modificacion = ?, imagen = ? WHERE id = ?";
         } else {
-            sql = "INSERT INTO productos (nombre, descripcion, precio, stock, categoria_id, fecha_registro) VALUES (?, ?, ?, ?, ?, ?)";
+            sql = "INSERT INTO productos (nombre, descripcion, precio, stock, categoria_id, fecha_registro, imagen) VALUES (?, ?, ?, ?, ?, ?, ?)";
         }
 
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -94,9 +94,11 @@ public class ProductoRepositoryJdbcImpl implements ProductoRepositoryJdbc {
             if (obj.getId() != null && (obj.getId() > 0)) {
                 stmt.setDate(6, Date.valueOf(obj.getFechaRegistro()));
                 stmt.setDate(7, Date.valueOf(LocalDate.now()));
-                stmt.setLong(8, obj.getId());
+                stmt.setString(8, obj.getImagen());
+                stmt.setLong(9, obj.getId());
             } else {
                 stmt.setDate(6, Date.valueOf(obj.getFechaRegistro()));
+                stmt.setString(7, obj.getImagen());
             }
             stmt.executeUpdate();
         }
@@ -217,7 +219,7 @@ public class ProductoRepositoryJdbcImpl implements ProductoRepositoryJdbc {
         p.setFechaRegistro(rs.getDate("fecha_registro").toLocalDate());
         p.setFechaModificacion((rs.getDate("fecha_modificacion") != null)?
                 rs.getDate("fecha_modificacion").toLocalDate() : LocalDate.now());
-        p.setPrecio(rs.getInt("precio"));
+        p.setImagen(rs.getString("imagen"));
         Categoria c = new Categoria();
         c.setId(rs.getLong("categoria_id"));
         c.setNombre(rs.getString("categoria"));

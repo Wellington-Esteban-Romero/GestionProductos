@@ -1,6 +1,7 @@
 package org.gestion.productos.models;
 
 
+import java.io.InputStream;
 import java.time.LocalDate;
 
 public class Producto {
@@ -12,6 +13,7 @@ public class Producto {
     private int stock;
     private LocalDate fechaRegistro;
     private LocalDate fechaModificacion;
+    private String imagen;
 
     public Producto() {
     }
@@ -91,18 +93,13 @@ public class Producto {
         this.fechaModificacion = fechaModificacion;
     }
 
-    @Override
-    public String toString() {
-        return "Producto{" +
-                "id=" + id +
-                ", nombre='" + nombre + '\'' +
-                ", descripcion='" + descripcion.trim() + '\'' +
-                ", categoria=" + categoria +
-                ", precio=" + precio +
-                ", stock=" + stock +
-                ", fechaRegistro=" + fechaRegistro +
-                ", fechaModificacion=" + fechaModificacion +
-                '}';
+    public String getImagen() {
+        return imagen;
     }
+
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
+    }
+
 }
 

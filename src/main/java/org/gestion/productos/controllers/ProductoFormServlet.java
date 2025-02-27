@@ -2,15 +2,21 @@ package org.gestion.productos.controllers;
 
 import jakarta.inject.Inject;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Part;
 import org.gestion.productos.models.Categoria;
 import org.gestion.productos.models.Producto;
 import org.gestion.productos.services.ProductoService;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -19,6 +25,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @WebServlet("/productos/form")
+@MultipartConfig(maxFileSize = 10 * 1024 * 1024)
 public class ProductoFormServlet extends HttpServlet {
 
     @Inject
@@ -27,12 +34,8 @@ public class ProductoFormServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        long id;
-        try {
-            id = Long.parseLong(req.getParameter("id"));
-        } catch (NumberFormatException e) {
-            id = 0L;
-        }
+        long id =  parseLong(req.getParameter("id"));
+
         Producto producto = new Producto();
         producto.setCategoria(new Categoria());
         if (id > 0) {
@@ -52,48 +55,34 @@ public class ProductoFormServlet extends HttpServlet {
 
         String nombre = req.getParameter("nombre");
         String descripcion = req.getParameter("descripcion");
+        long id =  parseLong(req.getParameter("id"));
+        double precio = parseDouble(req.getParameter("precio"));
+        int stock = parseInt(req.getParameter("stock"));
+        long categoria_id = parseLong(req.getParameter("categoria"));
+        LocalDate fecha_registro = parseFecha(req.getParameter("fecha_registro"));
 
-        long id;
-        try {
-            id = Long.parseLong(req.getParameter("id"));
-        } catch (NumberFormatException e) {
-            id = 0L;
-        }
-
-        double precio;
-        try {
-            precio = Double.parseDouble(req.getParameter("precio"));
-            System.out.println("Precio: " +precio);
-        } catch (NumberFormatException e) {
-            precio = 0.0;
-        }
-        int stock;
-        try {
-            stock = Integer.parseInt(req.getParameter("stock"));
-        } catch (NumberFormatException e) {
-            stock = 0;
+        Part filePart = req.getPart("imagen");
+        String fileName = null;
+        if (filePart != null && filePart.getSize() > 0) {
+            fileName = Path.of(filePart.getSubmittedFileName()).getFileName().toString();
+            String uploadDir = getServletContext().getRealPath("/imagenes");
+            System.out.println("***********uploadDir:"+uploadDir);
+            Path filePath = Path.of(uploadDir, fileName);
+            Files.createDirectories(filePath.getParent());
+            System.out.println("***********FilePath:"+filePath.getParent());
+            Files.copy(filePart.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
         }
 
-        String fechaRegistro = req.getParameter("fecha_registro");
-        long categoria_id;
-        try {
-            categoria_id = Long.parseLong(req.getParameter("categoria"));
-        } catch (NumberFormatException e) {
-            categoria_id = 0L;
-        }
+        System.out.println(fileName);
 
-        LocalDate fecha_registro;
-        try {
-            fecha_registro = LocalDate.parse(fechaRegistro, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        } catch (DateTimeParseException e) {
-            fecha_registro = null;
-        }
         Producto producto = new Producto();
         producto.setNombre(nombre);
         producto.setDescripcion(descripcion);
         producto.setPrecio(precio);
         producto.setStock(stock);
         producto.setFechaRegistro(fecha_registro);
+        producto.setImagen(fileName);
+
 
         Categoria categoria = new Categoria();
         categoria.setId(categoria_id);
@@ -108,8 +97,6 @@ public class ProductoFormServlet extends HttpServlet {
             resp.sendRedirect(req.getContextPath() + "/productos");
         } else {
             req.setAttribute("errores", errores);
-            //req.setAttribute("producto", req.getAttribute("inputGroupFile04"));
-            getServletContext().log(req.getAttribute("inputGroupFile04") + "sasasaweq ");
             req.setAttribute("producto", producto);
             req.setAttribute("categorias", productoService.listarCategorias());
             req.setAttribute("title", req.getAttribute("title") + " - Formulario productos");
@@ -135,5 +122,37 @@ public class ProductoFormServlet extends HttpServlet {
             errores.put("categoria", "La categoría es obligatoria!");
         }
         return errores;
+    }
+
+    private double parseDouble(String value) {
+        try {
+            return Double.parseDouble(value);
+        } catch (NumberFormatException e) {
+            return 0.0;
+        }
+    }
+
+    private int parseInt(String value) {
+        try {
+            return Integer.parseInt(value);
+        } catch (NumberFormatException e) {
+            return 0;
+        }
+    }
+
+    private long parseLong(String value) {
+        try {
+            return Long.parseLong(value);
+        } catch (NumberFormatException e) {
+            return 0L;
+        }
+    }
+
+    private LocalDate parseFecha(String value) {
+        try {
+            return LocalDate.parse(value, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        } catch (DateTimeParseException e) {
+            return null;
+        }
     }
 }
