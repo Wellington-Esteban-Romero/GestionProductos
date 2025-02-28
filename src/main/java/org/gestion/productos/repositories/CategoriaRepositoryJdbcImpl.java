@@ -53,6 +53,11 @@ public class CategoriaRepositoryJdbcImpl implements CrudRepository<Categoria> {
 
     }
 
+    @Override
+    public boolean existe(String name) throws SQLException {
+        return false;
+    }
+
     private static Categoria getCategoria(ResultSet rs) throws SQLException {
         Categoria categoria = new Categoria();
         categoria.setId(rs.getLong("id"));

@@ -74,8 +74,6 @@ public class ProductoFormServlet extends HttpServlet {
             Files.copy(filePart.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
         }
 
-        System.out.println(fileName);
-
         Producto producto = new Producto();
         producto.setNombre(nombre);
         producto.setDescripcion(descripcion);
@@ -108,6 +106,8 @@ public class ProductoFormServlet extends HttpServlet {
         Map<String, String> errores = new HashMap<>();
         if (producto.getNombre() == null || producto.getNombre().isEmpty()) {
             errores.put("nombre", "El nombre es obligatorio!");
+        } else if (productoService.existe(producto.getNombre())) {
+            errores.put("nombre", "El nombre ya existe!");
         }
         if (producto.getFechaRegistro() == null) {
             errores.put("fecha_registro", "La fecha del registro es obligatorio!");

@@ -113,6 +113,19 @@ public class ProductoRepositoryJdbcImpl implements ProductoRepositoryJdbc {
         }
     }
 
+    @Override
+    public boolean existe(String nombre) throws SQLException {
+        boolean existe = false;
+        try (PreparedStatement stmt = conn.prepareStatement("SELECT COUNT(*) FROM productos WHERE nombre = ?")) {
+            stmt.setString(1, nombre);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                existe = rs.getInt(1) > 0;
+            }
+        }
+        return existe;
+    }
+
     public int obtenerTotalProductos() throws SQLException {
         int total = 0;
         try (PreparedStatement stmt = conn.prepareStatement("SELECT COUNT(*) AS total FROM productos");

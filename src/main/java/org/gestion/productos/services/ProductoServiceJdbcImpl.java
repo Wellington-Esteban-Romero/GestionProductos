@@ -116,4 +116,13 @@ public class ProductoServiceJdbcImpl implements ProductoService {
             throw new ServiceJdbcException(e.getMessage(), e.getCause());
         }
     }
+
+    @Override
+    public boolean existe(String nombre) {
+        try {
+            return repositoryJdbcProducto.existe(nombre);
+        } catch (SQLException e) {
+            throw new ServiceJdbcException(e.getMessage(), e.getCause());
+        }
+    }
 }

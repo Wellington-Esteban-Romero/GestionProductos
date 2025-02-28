@@ -19,4 +19,5 @@ public interface ProductoService {
     List<Producto> obtenerUltimosProductos();
     List<Producto> buscarProductos(ProductoFiltroDTO filtro);
     int contarProductos();
+    boolean existe(String nombre);
 }

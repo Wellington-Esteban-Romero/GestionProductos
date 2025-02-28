@@ -54,6 +54,11 @@ public class UsuarioRepositoryJdbcImpl implements UsuarioRepositoryJdbc {
 
     }
 
+    @Override
+    public boolean existe(String name) throws SQLException {
+        return false;
+    }
+
     private static Usuario getUsuario(ResultSet rs) throws SQLException {
         Usuario usuario;
         usuario = new Usuario();

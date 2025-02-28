@@ -8,4 +8,5 @@ public interface PaginacionRepository<T> {
     T porId(Long id) throws SQLException;
     void guardar(T obj) throws SQLException;
     void eliminar(Long id) throws SQLException;
+    boolean existe(String nombre) throws SQLException;
 }
