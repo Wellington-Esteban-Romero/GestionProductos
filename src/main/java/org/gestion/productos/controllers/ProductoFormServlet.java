@@ -32,6 +32,8 @@ public class ProductoFormServlet extends HttpServlet {
     @Inject
     private Utils utils;
 
+    String nombreAnterior;
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
@@ -45,6 +47,8 @@ public class ProductoFormServlet extends HttpServlet {
                 producto = productoOptional.get();
             }
         }
+
+        nombreAnterior = producto.getNombre();
 
         req.setAttribute("title", req.getAttribute("title") + " - Formulario productos");
         req.setAttribute("producto", producto);
@@ -106,7 +110,7 @@ public class ProductoFormServlet extends HttpServlet {
         Map<String, String> errores = new HashMap<>();
         if (producto.getNombre() == null || producto.getNombre().isEmpty()) {
             errores.put("nombre", "El nombre es obligatorio!");
-        } else if (productoService.existe(producto.getNombre())) {
+        } else if (!producto.getNombre().equals(nombreAnterior) && productoService.existe(producto.getNombre())) {
             errores.put("nombre", "El nombre ya existe!");
         }
         if (producto.getFechaRegistro() == null) {
