@@ -9,11 +9,10 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.gestion.productos.dto.ProductoFiltroDTO;
 import org.gestion.productos.models.Producto;
 import org.gestion.productos.services.*;
+import org.gestion.productos.utils.Utils;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,39 +25,18 @@ public class ProductoBuscarServlet extends HttpServlet {
     @Inject
     private ProductoService productoService;
 
+    @Inject
+    private Utils utils;
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         String buscarNombre = req.getParameter("buscarNombre") != null ? req.getParameter("buscarNombre") : "";
         String tipo = req.getParameter("tipo") != null ? req.getParameter("tipo") : "";
-
-        long precioMin;
-        try {
-            precioMin = Long.parseLong(req.getParameter("precioMin"));
-        } catch (NumberFormatException e) {
-            precioMin = 0L;
-        }
-
-        long precioMax;
-        try {
-            precioMax = Long.parseLong(req.getParameter("precioMax"));
-        } catch (NumberFormatException e) {
-            precioMax = Long.MAX_VALUE;
-        }
-
-        LocalDate fecha_inicio;
-        try {
-            fecha_inicio = LocalDate.parse(req.getParameter("fecha_inicio"), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        } catch (DateTimeParseException e) {
-            fecha_inicio = null;
-        }
-
-        LocalDate fecha_fin;
-        try {
-            fecha_fin = LocalDate.parse(req.getParameter("fecha_fin"), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        } catch (DateTimeParseException e) {
-            fecha_fin = null;
-        }
+        long precioMin = utils.parseLong(req.getParameter("precioMin"));
+        long precioMax = utils.parseLongMax(req.getParameter("precioMax"));
+        LocalDate fecha_inicio = utils.parseFecha(req.getParameter("fecha_inicio"));
+        LocalDate fecha_fin = utils.parseFecha(req.getParameter("fecha_fin"));
 
         ProductoFiltroDTO filtro = new ProductoFiltroDTO(buscarNombre, tipo, precioMin, precioMax, fecha_inicio, fecha_fin);
         req.getServletContext().log("Filtro de búsqueda: " + filtro);

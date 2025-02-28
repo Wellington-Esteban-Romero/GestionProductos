@@ -10,6 +10,7 @@ import org.gestion.productos.models.Carro;
 import org.gestion.productos.models.ItemCarro;
 import org.gestion.productos.models.Producto;
 import org.gestion.productos.services.ProductoService;
+import org.gestion.productos.utils.Utils;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -23,9 +24,12 @@ public class AgregarCarroServlet extends HttpServlet {
     @Inject
     private ProductoService productoService;
 
+    @Inject
+    private Utils utils;
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Long id = Long.parseLong(req.getParameter("id"));
+        long id = utils.parseLong(req.getParameter("id"));
         Optional<Producto> producto = productoService.porId(id);
 
         if (producto.isPresent()) {

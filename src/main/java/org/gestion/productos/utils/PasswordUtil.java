@@ -1,7 +1,9 @@
 package org.gestion.productos.utils;
 
+import jakarta.enterprise.context.ApplicationScoped;
 import org.mindrot.jbcrypt.BCrypt;
 
+@ApplicationScoped
 public class PasswordUtil {
 
     public static String hashPassword(String plainPassword) {

@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.gestion.productos.models.Producto;
 import org.gestion.productos.services.LoginService;
 import org.gestion.productos.services.ProductoService;
+import org.gestion.productos.utils.Utils;
 
 import java.io.IOException;
 import java.util.List;
@@ -25,14 +26,12 @@ public class ProductoServlet extends HttpServlet {
     @Inject
     private LoginService loginService;
 
+    @Inject
+    private Utils utils;
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        int pagina;
-        try {
-            pagina = Integer.parseInt(req.getParameter("pagina"));
-        } catch (NumberFormatException e) {
-            pagina = 0;
-        }
+        int pagina = utils.parseInt(req.getParameter("pagina"));
         List<Producto> productos = productoService.obtenerProductos(pagina, TAMANIO_PAGINA);
         int totalProductos = productoService.contarProductos();
         int totalPaginas = (int) Math.ceil((double) totalProductos / TAMANIO_PAGINA);

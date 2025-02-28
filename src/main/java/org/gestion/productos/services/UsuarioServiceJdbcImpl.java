@@ -16,11 +16,14 @@ public class UsuarioServiceJdbcImpl implements UsuarioService {
     @Inject
     private UsuarioRepositoryJdbc usuarioRepositoryJdbc;
 
+    @Inject
+    private PasswordUtil passwordUtil;
+
     @Override
     public Optional<Usuario> iniciarSesion(String username, String password) {
         try {
             return Optional.ofNullable(usuarioRepositoryJdbc.porUsername(username))
-                    .filter(u -> PasswordUtil.checkPassword(password, u.getPassword()));
+                    .filter(u -> passwordUtil.checkPassword(password, u.getPassword()));
         } catch (SQLException e) {
             throw new ServiceJdbcException(e.getMessage(), e.getCause());
         }

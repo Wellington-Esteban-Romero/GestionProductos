@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.gestion.productos.models.Producto;
 import org.gestion.productos.services.ProductoService;
+import org.gestion.productos.utils.Utils;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -18,9 +19,13 @@ public class ProductoDetalle extends HttpServlet {
     @Inject
     private ProductoService productoService;
 
+    @Inject
+    private Utils utils;
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Long id = Long.parseLong(req.getParameter("id") != null ? req.getParameter("id") : "0");
+
+        long id = utils.parseLong(req.getParameter("id"));
         Optional<Producto> producto = productoService.porId(id);
         if (producto.isPresent()) {
             req.setAttribute("producto", producto.get());

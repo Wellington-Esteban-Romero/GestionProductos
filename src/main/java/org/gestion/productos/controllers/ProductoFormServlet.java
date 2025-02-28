@@ -11,15 +11,13 @@ import jakarta.servlet.http.Part;
 import org.gestion.productos.models.Categoria;
 import org.gestion.productos.models.Producto;
 import org.gestion.productos.services.ProductoService;
+import org.gestion.productos.utils.Utils;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -31,10 +29,13 @@ public class ProductoFormServlet extends HttpServlet {
     @Inject
     private ProductoService productoService;
 
+    @Inject
+    private Utils utils;
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        long id =  parseLong(req.getParameter("id"));
+        long id = utils.parseLong(req.getParameter("id"));
 
         Producto producto = new Producto();
         producto.setCategoria(new Categoria());
@@ -55,21 +56,21 @@ public class ProductoFormServlet extends HttpServlet {
 
         String nombre = req.getParameter("nombre");
         String descripcion = req.getParameter("descripcion");
-        long id =  parseLong(req.getParameter("id"));
-        double precio = parseDouble(req.getParameter("precio"));
-        int stock = parseInt(req.getParameter("stock"));
-        long categoria_id = parseLong(req.getParameter("categoria"));
-        LocalDate fecha_registro = parseFecha(req.getParameter("fecha_registro"));
+        long id = utils.parseLong(req.getParameter("id"));
+        double precio = utils.parseDouble(req.getParameter("precio"));
+        int stock = utils.parseInt(req.getParameter("stock"));
+        long categoria_id = utils.parseLong(req.getParameter("categoria"));
+        LocalDate fecha_registro = utils.parseFecha(req.getParameter("fecha_registro"));
 
         Part filePart = req.getPart("imagen");
         String fileName = null;
         if (filePart != null && filePart.getSize() > 0) {
             fileName = Path.of(filePart.getSubmittedFileName()).getFileName().toString();
             String uploadDir = getServletContext().getRealPath("/imagenes");
-            System.out.println("***********uploadDir:"+uploadDir);
+            System.out.println("***********uploadDir:" + uploadDir);
             Path filePath = Path.of(uploadDir, fileName);
             Files.createDirectories(filePath.getParent());
-            System.out.println("***********FilePath:"+filePath.getParent());
+            System.out.println("***********FilePath:" + filePath.getParent());
             Files.copy(filePart.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
         }
 
@@ -82,7 +83,6 @@ public class ProductoFormServlet extends HttpServlet {
         producto.setStock(stock);
         producto.setFechaRegistro(fecha_registro);
         producto.setImagen(fileName);
-
 
         Categoria categoria = new Categoria();
         categoria.setId(categoria_id);
@@ -122,37 +122,5 @@ public class ProductoFormServlet extends HttpServlet {
             errores.put("categoria", "La categoría es obligatoria!");
         }
         return errores;
-    }
-
-    private double parseDouble(String value) {
-        try {
-            return Double.parseDouble(value);
-        } catch (NumberFormatException e) {
-            return 0.0;
-        }
-    }
-
-    private int parseInt(String value) {
-        try {
-            return Integer.parseInt(value);
-        } catch (NumberFormatException e) {
-            return 0;
-        }
-    }
-
-    private long parseLong(String value) {
-        try {
-            return Long.parseLong(value);
-        } catch (NumberFormatException e) {
-            return 0L;
-        }
-    }
-
-    private LocalDate parseFecha(String value) {
-        try {
-            return LocalDate.parse(value, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        } catch (DateTimeParseException e) {
-            return null;
-        }
     }
 }

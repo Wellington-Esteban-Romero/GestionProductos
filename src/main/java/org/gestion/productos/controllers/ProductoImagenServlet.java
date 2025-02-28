@@ -16,7 +16,7 @@ public class ProductoImagenServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String imagePath = getServletContext().getRealPath("/imagenes") + req.getPathInfo();
-        System.out.println("*************** "+imagePath);
+        System.out.println("*************** "+imagePath + "*******************");
         File file = new File(imagePath);
 
         if (file.exists()) {
