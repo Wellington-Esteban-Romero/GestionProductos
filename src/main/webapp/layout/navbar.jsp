@@ -38,14 +38,25 @@
                     </div>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownUsuario" role="button"
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownAccesos" role="button"
                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Usuarios
+                        Accesos
                     </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdownUsuario">
-                        <a class="dropdown-item" href="${pageContext.request.contextPath}/usuario">Ver Usuarios</a>
-                        <a class="dropdown-item" href="agregarUsuario.jsp">Agregar Usuario</a>
-                    </div>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownAccesos">
+                        <!-- Sublista Usuarios -->
+                        <li class="dropdown-submenu">
+                            <a class="dropdown-item dropdown-toggle" href="#" id="navbarDropdownUsuarios" role="button"
+                               data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Usuarios
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdownUsuarios">
+                                <li><a class="dropdown-item" href="${pageContext.request.contextPath}/usuario">Listar Usuarios</a></li>
+                                <li><a class="dropdown-item" href="agregarUsuario.jsp">Agregar Usuario</a></li>
+                            </ul>
+                        </li>
+                        <!-- Opción Roles -->
+                        <li><a class="dropdown-item" href="${pageContext.request.contextPath}/roles">Roles</a></li>
+                    </ul>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownCarro" role="button"
