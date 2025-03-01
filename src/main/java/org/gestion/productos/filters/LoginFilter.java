@@ -10,7 +10,7 @@ import org.gestion.productos.services.LoginServiceSessionImpl;
 import java.io.IOException;
 import java.util.Optional;
 
-@WebFilter({"/carro/*", "/productos/form/*", "/productos/eliminar/*"})
+@WebFilter({"/carro/*", "/productos/form/*", "/productos/eliminar/*", "/categorias/form/*"})
 public class LoginFilter implements Filter {
 
     @Override

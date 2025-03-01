@@ -84,7 +84,7 @@ public class ProductoServiceJdbcImpl implements ProductoService {
     @Override
     public int obtenerTotalProductos() {
         try {
-            return ((ProductoRepositoryJdbcImpl)repositoryJdbcProducto).obtenerTotalProductos();
+            return ((ProductoRepositoryJdbcImpl) repositoryJdbcProducto).obtenerTotalProductos();
         } catch (SQLException e) {
             throw new ServiceJdbcException(e.getMessage(), e.getCause());
         }
@@ -93,7 +93,7 @@ public class ProductoServiceJdbcImpl implements ProductoService {
     @Override
     public List<Producto> obtenerUltimosProductos() {
         try {
-            return ((ProductoRepositoryJdbcImpl)repositoryJdbcProducto).obtenerUltimosProductos();
+            return ((ProductoRepositoryJdbcImpl) repositoryJdbcProducto).obtenerUltimosProductos();
         } catch (SQLException e) {
             throw new ServiceJdbcException(e.getMessage(), e.getCause());
         }
@@ -121,6 +121,24 @@ public class ProductoServiceJdbcImpl implements ProductoService {
     public boolean existe(String nombre) {
         try {
             return repositoryJdbcProducto.existe(nombre);
+        } catch (SQLException e) {
+            throw new ServiceJdbcException(e.getMessage(), e.getCause());
+        }
+    }
+
+    @Override
+    public boolean activar(Long id) {
+        try {
+            return repositoryJdbcCategoria.activar(id);
+        } catch (SQLException e) {
+            throw new ServiceJdbcException(e.getMessage(), e.getCause());
+        }
+    }
+
+    @Override
+    public boolean desactivar(Long id) {
+        try {
+            return repositoryJdbcCategoria.desactivar(id);
         } catch (SQLException e) {
             throw new ServiceJdbcException(e.getMessage(), e.getCause());
         }

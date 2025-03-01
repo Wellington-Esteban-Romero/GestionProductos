@@ -34,7 +34,7 @@
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownCategoria">
                         <a class="dropdown-item" href="${pageContext.request.contextPath}/categorias">Ver Categorías</a>
-                        <a class="dropdown-item" href="agregarCategoria.jsp">Agregar Categorías</a>
+                        <a class="dropdown-item" href="${pageContext.request.contextPath}/categorias/form">Agregar Categorías</a>
                     </div>
                 </li>
                 <li class="nav-item dropdown">
@@ -61,7 +61,7 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownCarro" role="button"
                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Carro[${carro.items.size()}]
+                        Carro<span class="badge bg-light text-dark ms-1">${carro.items.size()}</span>
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownCarro">
                         <a class="dropdown-item" href="${pageContext.request.contextPath}/carro/ver">Ver carro</a>

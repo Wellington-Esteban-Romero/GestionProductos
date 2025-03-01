@@ -59,6 +59,16 @@ public class UsuarioRepositoryJdbcImpl implements UsuarioRepositoryJdbc {
         return false;
     }
 
+    @Override
+    public boolean activar(Long id) throws SQLException {
+        return false;
+    }
+
+    @Override
+    public boolean desactivar(Long id) throws SQLException {
+        return false;
+    }
+
     private static Usuario getUsuario(ResultSet rs) throws SQLException {
         Usuario usuario;
         usuario = new Usuario();

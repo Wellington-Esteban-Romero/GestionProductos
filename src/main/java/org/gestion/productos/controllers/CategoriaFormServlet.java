@@ -2,7 +2,6 @@ package org.gestion.productos.controllers;
 
 import jakarta.inject.Inject;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,9 +21,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-@WebServlet("/productos/form")
-@MultipartConfig(maxFileSize = 10 * 1024 * 1024)
-public class ProductoFormServlet extends HttpServlet {
+@WebServlet("/categorias/form") //adaptar lo para categoria
+public class CategoriaFormServlet extends HttpServlet {
 
     @Inject
     private ProductoService productoService;
@@ -39,21 +37,19 @@ public class ProductoFormServlet extends HttpServlet {
 
         long id = utils.parseLong(req.getParameter("id"));
 
-        Producto producto = new Producto();
-        producto.setCategoria(new Categoria());
+        Categoria categoria = new Categoria();
         if (id > 0) {
-            Optional<Producto> productoOptional = productoService.porId(id);
-            if (productoOptional.isPresent()) {
-                producto = productoOptional.get();
+            Optional<Categoria> categoriaOptional = productoService.porIdCategoria(id);
+            if (categoriaOptional.isPresent()) {
+                categoria = categoriaOptional.get();
             }
         }
 
-        nombreAnterior = producto.getNombre();
+        nombreAnterior = categoria.getNombre();
 
-        req.setAttribute("title", req.getAttribute("title") + " - Formulario productos");
-        req.setAttribute("producto", producto);
-        req.setAttribute("categorias", productoService.listarCategorias().stream().filter(Categoria::isActivo).toList());
-        getServletContext().getRequestDispatcher("/form.jsp").forward(req, resp);
+        req.setAttribute("title", req.getAttribute("title") + " - Formulario categorías");
+        req.setAttribute("categoria", categoria);
+        getServletContext().getRequestDispatcher("/formCategoria.jsp").forward(req, resp);
     }
 
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -100,8 +96,7 @@ public class ProductoFormServlet extends HttpServlet {
         } else {
             req.setAttribute("errores", errores);
             req.setAttribute("producto", producto);
-            req.setAttribute("categorias", productoService.listarCategorias().stream().filter(Categoria::isActivo).toList());
-            System.out.println("************* listasss: " + productoService.listarCategorias());
+            req.setAttribute("categorias", productoService.listarCategorias());
             req.setAttribute("title", req.getAttribute("title") + " - Formulario productos");
             getServletContext().getRequestDispatcher("/form.jsp").forward(req, resp);
         }

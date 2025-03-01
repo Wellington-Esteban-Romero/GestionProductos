@@ -20,4 +20,7 @@ public interface ProductoService {
     List<Producto> buscarProductos(ProductoFiltroDTO filtro);
     int contarProductos();
     boolean existe(String nombre);
+    boolean activar(Long id);
+    boolean desactivar(Long id);
+
 }

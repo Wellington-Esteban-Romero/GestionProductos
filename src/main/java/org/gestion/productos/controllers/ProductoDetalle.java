@@ -11,6 +11,8 @@ import org.gestion.productos.services.ProductoService;
 import org.gestion.productos.utils.Utils;
 
 import java.io.IOException;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.Optional;
 
 @WebServlet("/productos/detalles")
@@ -29,6 +31,8 @@ public class ProductoDetalle extends HttpServlet {
         Optional<Producto> producto = productoService.porId(id);
         if (producto.isPresent()) {
             req.setAttribute("producto", producto.get());
+            req.setAttribute("fechaRegistro", Date.from(producto.get().getFechaRegistro().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+            req.setAttribute("fechaModificacion", Date.from(producto.get().getFechaRegistro().atStartOfDay(ZoneId.systemDefault()).toInstant()));
             req.setAttribute("title", req.getAttribute("title") + " - Detalle Producto");
             getServletContext().getRequestDispatcher("/detalle.jsp").forward(req, resp);
         } else {

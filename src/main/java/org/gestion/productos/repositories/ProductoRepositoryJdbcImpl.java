@@ -1,6 +1,5 @@
 package org.gestion.productos.repositories;
 
-import com.oracle.wls.shaded.org.apache.regexp.RE;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import jakarta.inject.Inject;
@@ -160,7 +159,8 @@ public class ProductoRepositoryJdbcImpl implements ProductoRepositoryJdbc {
         List<Producto> lista = new ArrayList<>();
         List<Object> params = new ArrayList<>();
 
-        String sql = "SELECT p.*, c.nombre as categoria FROM productos as p INNER JOIN categorias as c ON (p.categoria_id = c.id) WHERE 1=1";
+        String sql = "SELECT p.*, c.nombre as categoria FROM productos as p INNER JOIN categorias as c ON (p.categoria_id = c.id) " +
+                "WHERE 1=1";
 
         if (filtro.getNombre() != null && !filtro.getNombre().isEmpty()) {
             sql += " AND p.nombre LIKE ?";
@@ -231,7 +231,7 @@ public class ProductoRepositoryJdbcImpl implements ProductoRepositoryJdbc {
         p.setStock(rs.getInt("stock"));
         p.setFechaRegistro(rs.getDate("fecha_registro").toLocalDate());
         p.setFechaModificacion((rs.getDate("fecha_modificacion") != null)?
-                rs.getDate("fecha_modificacion").toLocalDate() : LocalDate.now());
+                rs.getDate("fecha_modificacion").toLocalDate() : LocalDate.of(1980,1,1));
         p.setImagen(rs.getString("imagen"));
         Categoria c = new Categoria();
         c.setId(rs.getLong("categoria_id"));

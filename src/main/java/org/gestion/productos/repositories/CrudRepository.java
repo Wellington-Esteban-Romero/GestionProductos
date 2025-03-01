@@ -9,4 +9,6 @@ public interface CrudRepository<T> {
     void guardar(T obj) throws SQLException;
     void eliminar(Long id) throws SQLException;
     boolean existe(String nombre) throws SQLException;
+    boolean activar(Long id) throws SQLException;
+    boolean desactivar(Long id) throws SQLException;
 }

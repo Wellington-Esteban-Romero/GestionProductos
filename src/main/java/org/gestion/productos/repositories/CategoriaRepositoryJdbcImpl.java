@@ -58,10 +58,38 @@ public class CategoriaRepositoryJdbcImpl implements CrudRepository<Categoria> {
         return false;
     }
 
+    @Override
+    public boolean activar(Long id) throws SQLException {
+        boolean response = Boolean.FALSE;
+
+        try (PreparedStatement stmt = conn.prepareStatement("UPDATE categorias SET activo=1 WHERE id = ?")) {
+            stmt.setLong(1, id);
+            if (stmt.executeUpdate() > 0) {
+                response = Boolean.TRUE;
+            }
+        }
+        return response;
+    }
+
+    @Override
+    public boolean desactivar(Long id) throws SQLException {
+        boolean response = Boolean.FALSE;
+
+        try (PreparedStatement stmt = conn.prepareStatement("UPDATE categorias SET activo=0 WHERE id = ?")) {
+            stmt.setLong(1, id);
+            if (stmt.executeUpdate() > 0) {
+                response = Boolean.TRUE;
+            }
+        }
+        return response;
+    }
+
     private static Categoria getCategoria(ResultSet rs) throws SQLException {
         Categoria categoria = new Categoria();
         categoria.setId(rs.getLong("id"));
         categoria.setNombre(rs.getString("nombre"));
+        categoria.setDescripcion(rs.getString("descripcion"));
+        categoria.setActivo(rs.getBoolean("activo"));
         return categoria;
     }
 }
