@@ -7,7 +7,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.gestion.productos.models.Categoria;
-import org.gestion.productos.services.ProductoService;
+import org.gestion.productos.services.CategoriaService;
 import org.gestion.productos.utils.Utils;
 
 import java.io.IOException;
@@ -17,7 +17,7 @@ import java.util.Optional;
 public class CategoriaEliminarServlet extends HttpServlet {
 
     @Inject
-    private ProductoService productoService;
+    private CategoriaService categoriaService;
 
     @Inject
     private Utils utils;
@@ -29,12 +29,12 @@ public class CategoriaEliminarServlet extends HttpServlet {
         int activarId = utils.parseInt(req.getParameter("active"));
 
         if (id > 0) {
-            Optional<Categoria> categoriaOptional = productoService.porIdCategoria(id);
+            Optional<Categoria> categoriaOptional = categoriaService.porIdCategoria(id);
             if (categoriaOptional.isPresent()) {
                 if (activarId == 1) {
-                    productoService.activar(id);
+                    categoriaService.activar(id);
                 } else {
-                    productoService.desactivar(id);
+                    categoriaService.desactivar(id);
                 }
                 resp.sendRedirect(req.getContextPath() + "/categorias");
             } else {

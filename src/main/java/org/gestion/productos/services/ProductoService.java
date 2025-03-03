@@ -14,13 +14,9 @@ public interface ProductoService {
     void guardar(Producto producto);
     void eliminar(Long id);
     List<Categoria> listarCategorias();
-    Optional<Categoria> porIdCategoria(Long id);
     int obtenerTotalProductos();
     List<Producto> obtenerUltimosProductos();
     List<Producto> buscarProductos(ProductoFiltroDTO filtro);
     int contarProductos();
     boolean existe(String nombre);
-    boolean activar(Long id);
-    boolean desactivar(Long id);
-
 }

@@ -73,15 +73,6 @@ public class ProductoServiceJdbcImpl implements ProductoService {
     }
 
     @Override
-    public Optional<Categoria> porIdCategoria(Long id) {
-        try {
-            return Optional.ofNullable(repositoryJdbcCategoria.porId(id));
-        } catch (SQLException e) {
-            throw new ServiceJdbcException(e.getMessage(), e.getCause());
-        }
-    }
-
-    @Override
     public int obtenerTotalProductos() {
         try {
             return ((ProductoRepositoryJdbcImpl) repositoryJdbcProducto).obtenerTotalProductos();
@@ -121,24 +112,6 @@ public class ProductoServiceJdbcImpl implements ProductoService {
     public boolean existe(String nombre) {
         try {
             return repositoryJdbcProducto.existe(nombre);
-        } catch (SQLException e) {
-            throw new ServiceJdbcException(e.getMessage(), e.getCause());
-        }
-    }
-
-    @Override
-    public boolean activar(Long id) {
-        try {
-            return repositoryJdbcCategoria.activar(id);
-        } catch (SQLException e) {
-            throw new ServiceJdbcException(e.getMessage(), e.getCause());
-        }
-    }
-
-    @Override
-    public boolean desactivar(Long id) {
-        try {
-            return repositoryJdbcCategoria.desactivar(id);
         } catch (SQLException e) {
             throw new ServiceJdbcException(e.getMessage(), e.getCause());
         }

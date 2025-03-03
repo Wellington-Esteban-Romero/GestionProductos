@@ -7,8 +7,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-6">
-            <form action="<c:out value="${pageContext.request.contextPath}"/>/categorias/form" method="post"
-                  enctype="multipart/form-data">
+            <form action="<c:out value="${pageContext.request.contextPath}"/>/categorias/form" method="post">
                 <div class="mb-3">
                     <label for="nombre" class="form-label">Nombre</label>
                     <input type="text" class="form-control ${not empty errores.nombre ? 'is-invalid' : ''}"

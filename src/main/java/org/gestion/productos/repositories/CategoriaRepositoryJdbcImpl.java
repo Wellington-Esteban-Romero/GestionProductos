@@ -45,7 +45,21 @@ public class CategoriaRepositoryJdbcImpl implements CrudRepository<Categoria> {
 
     @Override
     public void guardar(Categoria obj) throws SQLException {
+        String sql;
+        if (obj.getId() != null && (obj.getId() > 0)) {
+            sql = "UPDATE categorias SET nombre = ?, descripcion = ? WHERE id = ?";
+        } else {
+            sql = "INSERT INTO categorias (nombre, descripcion) VALUES (?, ?)";
+        }
 
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, obj.getNombre());
+            stmt.setString(2, obj.getDescripcion());
+            if (obj.getId() != null && (obj.getId() > 0)) {
+                stmt.setLong(3, obj.getId());
+            }
+            stmt.executeUpdate();
+        }
     }
 
     @Override
@@ -54,8 +68,16 @@ public class CategoriaRepositoryJdbcImpl implements CrudRepository<Categoria> {
     }
 
     @Override
-    public boolean existe(String name) throws SQLException {
-        return false;
+    public boolean existe(String nombre) throws SQLException {
+        boolean existe = false;
+        try (PreparedStatement stmt = conn.prepareStatement("SELECT COUNT(*) FROM categorias WHERE nombre = ?")) {
+            stmt.setString(1, nombre);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                existe = rs.getInt(1) > 0;
+            }
+        }
+        return existe;
     }
 
     @Override
