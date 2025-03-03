@@ -34,7 +34,8 @@
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownCategoria">
                         <a class="dropdown-item" href="${pageContext.request.contextPath}/categorias">Ver Categorías</a>
-                        <a class="dropdown-item" href="${pageContext.request.contextPath}/categorias/form">Agregar Categorías</a>
+                        <a class="dropdown-item" href="${pageContext.request.contextPath}/categorias/form">Agregar
+                            Categorías</a>
                     </div>
                 </li>
                 <li class="nav-item dropdown">
@@ -50,7 +51,8 @@
                                 Usuarios
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdownUsuarios">
-                                <li><a class="dropdown-item" href="${pageContext.request.contextPath}/usuario">Listar Usuarios</a></li>
+                                <li><a class="dropdown-item" href="${pageContext.request.contextPath}/usuario">Listar
+                                    Usuarios</a></li>
                                 <li><a class="dropdown-item" href="agregarUsuario.jsp">Agregar Usuario</a></li>
                             </ul>
                         </li>
@@ -76,6 +78,9 @@
                         <a class="dropdown-item"
                            href="${pageContext.request.contextPath}/${not empty sessionScope.username? "logout" : "login"}">
                             ${not empty sessionScope.username? "Cerrar Sesión" : "Iniciar Sesión"}</a>
+                        <c:if test="${empty sessionScope.username}">
+                            <a class="dropdown-item" href="${pageContext.request.contextPath}/registrar">Registrar</a>
+                        </c:if>
                     </div>
                 </li>
             </ul>
