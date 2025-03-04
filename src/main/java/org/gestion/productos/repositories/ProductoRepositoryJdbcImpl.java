@@ -79,25 +79,26 @@ public class ProductoRepositoryJdbcImpl implements ProductoRepositoryJdbc {
     public void guardar(Producto obj) throws SQLException {
         String sql;
         if (obj.getId() != null && (obj.getId() > 0)) {
-            sql = "UPDATE productos SET nombre = ?, descripcion = ?, precio = ?, stock = ?, categoria_id = ?, fecha_registro = ?, fecha_modificacion = ?, imagen = ? WHERE id = ?";
+            sql = "UPDATE productos SET nombre = ?, codigo = ?, descripcion = ?, precio = ?, stock = ?, categoria_id = ?, fecha_registro = ?, fecha_modificacion = ?, imagen = ? WHERE id = ?";
         } else {
-            sql = "INSERT INTO productos (nombre, descripcion, precio, stock, categoria_id, fecha_registro, imagen) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            sql = "INSERT INTO productos (nombre, codigo, descripcion, precio, stock, categoria_id, fecha_registro, imagen) VALUES (?, ?, ?, ?, ?, ?, ?)";
         }
 
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, obj.getNombre());
-            stmt.setString(2, obj.getDescripcion());
-            stmt.setDouble(3, obj.getPrecio());
-            stmt.setInt(4, obj.getStock());
-            stmt.setLong(5, obj.getCategoria().getId());
+            stmt.setString(2, obj.getCodigo());
+            stmt.setString(3, obj.getDescripcion());
+            stmt.setDouble(4, obj.getPrecio());
+            stmt.setInt(5, obj.getStock());
+            stmt.setLong(6, obj.getCategoria().getId());
             if (obj.getId() != null && (obj.getId() > 0)) {
-                stmt.setDate(6, Date.valueOf(obj.getFechaRegistro()));
-                stmt.setDate(7, Date.valueOf(LocalDate.now()));
-                stmt.setString(8, obj.getImagen());
-                stmt.setLong(9, obj.getId());
+                stmt.setDate(7, Date.valueOf(obj.getFechaRegistro()));
+                stmt.setDate(8, Date.valueOf(LocalDate.now()));
+                stmt.setString(9, obj.getImagen());
+                stmt.setLong(10, obj.getId());
             } else {
-                stmt.setDate(6, Date.valueOf(obj.getFechaRegistro()));
-                stmt.setString(7, obj.getImagen());
+                stmt.setDate(7, Date.valueOf(obj.getFechaRegistro()));
+                stmt.setString(8, obj.getImagen());
             }
             stmt.executeUpdate();
         }
@@ -226,6 +227,7 @@ public class ProductoRepositoryJdbcImpl implements ProductoRepositoryJdbc {
         Producto p = new Producto();
         p.setId(rs.getLong("id"));
         p.setNombre(rs.getString("nombre"));
+        p.setCodigo(rs.getString("codigo"));
         p.setDescripcion(rs.getString("descripcion"));
         p.setPrecio(rs.getDouble("precio"));
         p.setStock(rs.getInt("stock"));

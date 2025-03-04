@@ -3,12 +3,14 @@ package org.gestion.productos.repositories;
 import jakarta.inject.Inject;
 import org.gestion.productos.configs.MysqlConn;
 import org.gestion.productos.configs.Repositorio;
+import org.gestion.productos.models.Role;
 import org.gestion.productos.models.Usuario;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Repositorio
@@ -36,7 +38,21 @@ public class UsuarioRepositoryJdbcImpl implements UsuarioRepositoryJdbc {
 
     @Override
     public List<Usuario> listar() throws SQLException {
-        return List.of();
+        List<Usuario> usuarios = new ArrayList<>();
+
+        try (PreparedStatement stmt = conn.prepareStatement("SELECT u.*, r.nombre as role FROM usuarios as u " +
+                " INNER JOIN roles as r ON (u.rol_id = r.id)")) {
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    Usuario p = getUsuario(rs);
+                    usuarios.add(p);
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return usuarios;
     }
 
     @Override
@@ -73,9 +89,18 @@ public class UsuarioRepositoryJdbcImpl implements UsuarioRepositoryJdbc {
         Usuario usuario;
         usuario = new Usuario();
         usuario.setId(rs.getLong("id"));
+        usuario.setNombre(rs.getString("nombre"));
+        usuario.setApellidos(rs.getString("apellidos"));
+        usuario.setEmail(rs.getString("email"));
+        usuario.setTelefono(rs.getString("telefono"));
+        usuario.setDireccion(rs.getString("direccion"));
         usuario.setUsername(rs.getString("username"));
         usuario.setPassword(rs.getString("password"));
-        usuario.setEmail(rs.getString("email"));
+        usuario.setActivo(rs.getBoolean("activo"));
+        Role role = new Role();
+        role.setId(rs.getLong("role_id"));
+        role.setNombre(rs.getString("role"));
+        usuario.setRole(role);
         return usuario;
     }
 }

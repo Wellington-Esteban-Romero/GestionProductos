@@ -39,8 +39,8 @@
                 <input type="password" class="form-control" name="password" id="password" required>
             </div>
             <div class="mb-3">
-                <label for="confirmPassword" class="form-label">Confirmar Contraseña</label>
-                <input type="password" class="form-control" name="confirmPassword" id="confirmPassword" required>
+                <label for="repetir_password" class="form-label">Confirmar Contraseña</label>
+                <input type="password" class="form-control" name="repetir_password" id="repetir_password" required>
             </div>
             <div class="d-grid">
                 <input type="submit" class="btn btn-primary" value="Registrar Usuario">

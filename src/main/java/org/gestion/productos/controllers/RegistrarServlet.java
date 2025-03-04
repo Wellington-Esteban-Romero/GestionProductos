@@ -28,10 +28,15 @@ public class RegistrarServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String username = req.getParameter("username");//adaptarlo a registro usuario
+        String nombre = req.getParameter("nombre");
+        String apellidos = req.getParameter("apellidos");
+        String email = req.getParameter("email");
+        String telefono = req.getParameter("telefono");
+        String direccion = req.getParameter("direccion");
+        String username = req.getParameter("username");
         String password = req.getParameter("password");
         String repetir_password = req.getParameter("repetir_password");
-        req.setAttribute("title", req.getAttribute("title") + " - Iniciar Sesión");
+        req.setAttribute("title", req.getAttribute("title") + " - Registrar");
 
         Map<String, String> errores = validar(username, repetir_password);
         if (!errores.isEmpty()) {

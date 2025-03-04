@@ -1,12 +1,11 @@
 package org.gestion.productos.models;
 
-
-import java.io.InputStream;
 import java.time.LocalDate;
 
 public class Producto {
     private Long id;
     private String nombre;
+    private String codigo;
     private String descripcion;
     private Categoria categoria;
     private double precio;
@@ -18,9 +17,10 @@ public class Producto {
     public Producto() {
     }
 
-    public Producto(Long id, String nombre, String descripcion, String tipo, double precio, int stock) {
+    public Producto(Long id, String nombre, String codigo, String descripcion, String tipo, double precio, int stock) {
         this.id = id;
         this.nombre = nombre;
+        this.codigo = codigo;
         this.descripcion = descripcion;
         Categoria categoria = new Categoria();
         categoria.setNombre(tipo);
@@ -43,6 +43,14 @@ public class Producto {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
     }
 
     public Categoria getCategoria() {
