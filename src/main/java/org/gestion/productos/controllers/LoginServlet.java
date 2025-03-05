@@ -90,7 +90,9 @@ public class LoginServlet extends HttpServlet {
         return errores;
     }
 
-    private void reenviarFormularioConErrores(HttpServletRequest req, HttpServletResponse resp, Map<String, String> errores, String username) throws ServletException, IOException {
+    private void reenviarFormularioConErrores(HttpServletRequest req, HttpServletResponse resp,
+                                              Map<String, String> errores, String username)
+            throws ServletException, IOException {
         req.setAttribute("errores", errores);
         req.setAttribute("username", username);
         getServletContext().getRequestDispatcher("/login.jsp").forward(req, resp);

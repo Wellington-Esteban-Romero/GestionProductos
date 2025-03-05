@@ -28,4 +28,14 @@ public class UsuarioServiceJdbcImpl implements UsuarioService {
             throw new ServiceJdbcException(e.getMessage(), e.getCause());
         }
     }
+
+    @Override
+    public boolean registrar(Usuario usuario) {
+        try {
+            usuario.setPassword(PasswordUtil.hashPassword(usuario.getPassword()));
+            return usuarioRepositoryJdbc.registrar(usuario);
+        } catch (SQLException e) {
+            throw new ServiceJdbcException(e.getMessage(), e.getCause());
+        }
+    }
 }

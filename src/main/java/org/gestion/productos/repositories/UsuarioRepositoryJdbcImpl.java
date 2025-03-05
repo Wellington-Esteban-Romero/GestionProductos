@@ -23,7 +23,9 @@ public class UsuarioRepositoryJdbcImpl implements UsuarioRepositoryJdbc {
     @Override
     public Usuario porUsername(String username) throws SQLException {
         Usuario usuario = null;
-        try (PreparedStatement ps = conn.prepareStatement("select * from usuarios where username = ?")) {
+        try (PreparedStatement ps = conn.prepareStatement("SELECT u.*, r.nombre as role FROM usuarios as u " +
+                " INNER JOIN roles as r ON (u.rol_id = r.id) WHERE u.username = ?")
+        ) {
             ps.setString(1, username);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
@@ -34,6 +36,29 @@ public class UsuarioRepositoryJdbcImpl implements UsuarioRepositoryJdbc {
             throw new RuntimeException(e);
         }
         return usuario;
+    }
+
+    @Override
+    public boolean registrar(Usuario usuario) throws SQLException {
+        boolean resultado = Boolean.FALSE;
+        String sql = "INSERT INTO usuarios (nombre, apellidos, email, telefono, direccion, username, password, rol_id) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, usuario.getNombre());
+            stmt.setString(2, usuario.getApellidos());
+            stmt.setString(3, usuario.getEmail());
+            stmt.setInt(4, Integer.parseInt(usuario.getTelefono()));
+            stmt.setString(5, usuario.getDireccion());
+            stmt.setString(6, usuario.getUsername());
+            stmt.setString(7, usuario.getPassword());
+            stmt.setLong(8, usuario.getRole().getId());
+
+            if (stmt.executeUpdate() > 0) {
+                resultado = Boolean.TRUE;
+            }
+        }
+        return resultado;
     }
 
     @Override
@@ -98,7 +123,7 @@ public class UsuarioRepositoryJdbcImpl implements UsuarioRepositoryJdbc {
         usuario.setPassword(rs.getString("password"));
         usuario.setActivo(rs.getBoolean("activo"));
         Role role = new Role();
-        role.setId(rs.getLong("role_id"));
+        role.setId(rs.getLong("rol_id"));
         role.setNombre(rs.getString("role"));
         usuario.setRole(role);
         return usuario;

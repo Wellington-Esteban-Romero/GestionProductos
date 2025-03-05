@@ -6,41 +6,66 @@
     <div class="card mb-3 p-4 shadow-lg" style="width: 30rem;">
         <h3 class="text-center mb-4">${title}</h3>
 
-        <form action="${pageContext.request.contextPath}/register" method="post">
+        <form action="${pageContext.request.contextPath}/registrar" method="post">
             <div class="mb-3">
                 <label for="nombre" class="form-label">Nombre</label>
-                <input type="text" class="form-control" name="nombre" id="nombre" required>
+                <input type="text" class="form-control" name="nombre" id="nombre" value="${usuario.nombre}">
+                <c:if test="${errores != null && not empty errores.nombre}">
+                    <div class="text-danger">${errores.nombre}</div>
+                </c:if>
             </div>
             <div class="mb-3">
                 <label for="apellidos" class="form-label">Apellidos</label>
-                <input type="text" class="form-control" name="apellidos" id="apellidos" required>
+                <input type="text" class="form-control" name="apellidos" id="apellidos" value="${usuario.apellidos}">
+                <c:if test="${errores != null && not empty errores.apellidos}">
+                    <div class="text-danger">${errores.apellidos}</div>
+                </c:if>
             </div>
             <div class="mb-3">
                 <label for="email" class="form-label">Correo Electrónico</label>
-                <input type="email" class="form-control" name="email" id="email" required>
+                <input type="email" class="form-control" name="email" id="email" value="${usuario.email}">
+                <c:if test="${errores != null && not empty errores.email}">
+                    <div class="text-danger">${errores.email}</div>
+                </c:if>
             </div>
             <div class="mb-3">
                 <label for="telefono" class="form-label">Número de Teléfono</label>
-                <input type="tel" class="form-control" name="telefono" id="telefono" pattern="[0-9]{6}"
-                       placeholder="Ingrese su número de teléfono" required>
+                <input type="tel" class="form-control" name="telefono" id="telefono" value="${usuario.telefono}"
+                       pattern="[0-9]{9}"
+                       placeholder="Ingrese su número de teléfono">
+                <c:if test="${errores != null && not empty errores.telefono}">
+                    <div class="text-danger">${errores.telefono}</div>
+                </c:if>
             </div>
             <div class="mb-3">
                 <label for="direccion" class="form-label">Dirección</label>
                 <textarea class="form-control" name="direccion" id="direccion" rows="2"
-                          placeholder="Ingrese su dirección" required></textarea>
+                          placeholder="Ingrese su dirección" maxlength="80">${usuario.direccion}</textarea>
+                <c:if test="${errores != null && not empty errores.direccion}">
+                    <div class="text-danger">${errores.direccion}</div>
+                </c:if>
             </div>
             <div class="mb-3">
                 <label for="username" class="form-label">Usuario</label>
                 <input type="text" class="form-control" name="username" id="username"
-                       minlength="3" maxlength="12" value="${username}" required>
+                       minlength="3" maxlength="12" value="${usuario.username}">
+                <c:if test="${errores != null && not empty errores.usuario}">
+                    <div class="text-danger">${errores.usuario}</div>
+                </c:if>
             </div>
             <div class="mb-3">
                 <label for="password" class="form-label">Contraseña</label>
-                <input type="password" class="form-control" name="password" id="password" required>
+                <input type="password" class="form-control" name="password" id="password" value="${usuario.password}">
+                <c:if test="${errores != null && not empty errores.contrasenia}">
+                    <div class="text-danger">${errores.contrasenia}</div>
+                </c:if>
             </div>
             <div class="mb-3">
                 <label for="repetir_password" class="form-label">Confirmar Contraseña</label>
-                <input type="password" class="form-control" name="repetir_password" id="repetir_password" required>
+                <input type="password" class="form-control" name="repetir_password" id="repetir_password">
+                <c:if test="${errores != null && not empty errores.repetir_password}">
+                    <div class="text-danger">${errores.repetir_password}</div>
+                </c:if>
             </div>
             <div class="d-grid">
                 <input type="submit" class="btn btn-primary" value="Registrar Usuario">
