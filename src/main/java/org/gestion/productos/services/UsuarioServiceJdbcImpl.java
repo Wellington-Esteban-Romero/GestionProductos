@@ -38,4 +38,13 @@ public class UsuarioServiceJdbcImpl implements UsuarioService {
             throw new ServiceJdbcException(e.getMessage(), e.getCause());
         }
     }
+
+    @Override
+    public Usuario obtenerUsuarioPorUsername(String username) {
+        try {
+            return usuarioRepositoryJdbc.porUsername(username);
+        } catch (SQLException e) {
+            throw new ServiceJdbcException(e.getMessage(), e.getCause());
+        }
+    }
 }

@@ -4,7 +4,9 @@ import org.gestion.productos.models.Usuario;
 
 import java.util.Optional;
 
-public interface UsuarioService{
+public interface UsuarioService {
     Optional<Usuario> iniciarSesion(String username, String password);
     boolean registrar(Usuario usuario);
+    Usuario obtenerUsuarioPorUsername(String username);
+
 }

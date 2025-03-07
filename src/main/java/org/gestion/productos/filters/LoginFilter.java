@@ -1,5 +1,6 @@
 package org.gestion.productos.filters;
 
+import jakarta.inject.Inject;
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
@@ -13,10 +14,13 @@ import java.util.Optional;
 @WebFilter({"/carro/*", "/productos/form/*", "/productos/eliminar/*", "/categorias/form/*"})
 public class LoginFilter implements Filter {
 
+    @Inject
+    private LoginService loginService;
+
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws
             IOException, ServletException {
-        LoginService loginService = new LoginServiceSessionImpl();
+
         Optional<String> username = loginService.getUsername((HttpServletRequest) servletRequest);
         if (username.isPresent()) {
             filterChain.doFilter(servletRequest, servletResponse);
