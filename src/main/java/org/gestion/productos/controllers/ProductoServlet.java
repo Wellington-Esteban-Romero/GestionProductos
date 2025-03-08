@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.gestion.productos.models.Producto;
 import org.gestion.productos.services.LoginService;
 import org.gestion.productos.services.ProductoService;
+import org.gestion.productos.utils.Constantes;
 import org.gestion.productos.utils.Utils;
 
 import java.io.IOException;
@@ -17,8 +18,6 @@ import java.util.Optional;
 
 @WebServlet({"/productos.html", "/productos"})
 public class ProductoServlet extends HttpServlet {
-
-    private static final int TAMANIO_PAGINA = 10;
 
     @Inject
     private ProductoService productoService;
@@ -32,9 +31,9 @@ public class ProductoServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int pagina = utils.parseInt(req.getParameter("pagina"));
-        List<Producto> productos = productoService.obtenerProductos(pagina, TAMANIO_PAGINA);
+        List<Producto> productos = productoService.obtenerProductos(pagina, Constantes.TAMANIO_PAGINA);
         int totalProductos = productoService.contarProductos();
-        int totalPaginas = (int) Math.ceil((double) totalProductos / TAMANIO_PAGINA);
+        int totalPaginas = (int) Math.ceil((double) totalProductos / Constantes.TAMANIO_PAGINA);
         Optional<String> username = loginService.getUsername(req);
 
         req.setAttribute("title", req.getAttribute("title") + " - Listado de productos");

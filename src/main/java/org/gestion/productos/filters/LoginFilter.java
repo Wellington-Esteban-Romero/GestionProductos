@@ -6,12 +6,13 @@ import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.gestion.productos.services.LoginService;
-import org.gestion.productos.services.LoginServiceSessionImpl;
 
 import java.io.IOException;
 import java.util.Optional;
 
-@WebFilter({"/carro/*", "/productos/form/*", "/productos/eliminar/*", "/categorias/form/*"})
+@WebFilter({"/carro/*", "/productos/form/*", "/productos/eliminar/*",
+        "/pedidos",
+        "/categorias", "/categorias/form/*", "/categorias/eliminar/*"})
 public class LoginFilter implements Filter {
 
     @Inject

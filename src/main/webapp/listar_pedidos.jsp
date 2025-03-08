@@ -12,7 +12,7 @@
                 <tr>
                     <th>id</th>
                     <th>Usuario</th>
-                    <th>Estado Pedido</th>
+                    <th>Estado</th>
                     <th>Fecha Pedido</th>
                     <th>Total</th>
                     <th>Editar</th>
@@ -26,15 +26,15 @@
                                 <c:out value="${pedido.id}"/>
                             </a>
                         </td>
-                        <td><c:out value="${pedido.usuario.nombre}"/>
+                        <td>
+                            <c:out value="${pedido.usuario.nombre}"/>
+                            <c:out value="${pedido.usuario.apellidos}"/>
                         </td>
-                        <td><c:out value="${pedido.estado.id}"/>
+                        <td><c:out value="${pedido.estado.nombre}"/>
                         </td>
                         <td><c:out value="${pedido.fecha_pedido}"/>
                         </td>
                         <td><c:out value="${pedido.total}"/>
-                        </td>
-                        <td>
                         <td><a class="btn btn-sm btn-success"
                                href="<c:out value="${pageContext.request.contextPath}"/>/pedidos/form?id=<c:out value="${pedido.id}"/>">Editar</a>
                         </td>

@@ -8,7 +8,6 @@ import org.gestion.productos.models.Categoria;
 import org.gestion.productos.models.Producto;
 import org.gestion.productos.repositories.CrudRepository;
 import org.gestion.productos.repositories.PaginacionRepository;
-import org.gestion.productos.repositories.ProductoRepositoryJdbc;
 import org.gestion.productos.repositories.ProductoRepositoryJdbcImpl;
 
 import java.sql.SQLException;
@@ -23,9 +22,6 @@ public class ProductoServiceJdbcImpl implements ProductoService {
 
     @Inject
     private CrudRepository<Categoria> repositoryJdbcCategoria;
-
-    @Inject
-    private ProductoRepositoryJdbc productoRepositoryJdbc;
 
     @Override
     public List<Producto> obtenerProductos(int pagina, int tamanio_pagina) {
@@ -93,7 +89,7 @@ public class ProductoServiceJdbcImpl implements ProductoService {
     @Override
     public List<Producto> buscarProductos(ProductoFiltroDTO filtro) {
         try {
-            return productoRepositoryJdbc.buscarProductos(filtro);
+            return repositoryJdbcProducto.filtar(filtro);
         } catch (SQLException e) {
             throw new ServiceJdbcException(e.getMessage(), e.getCause());
         }
@@ -102,7 +98,7 @@ public class ProductoServiceJdbcImpl implements ProductoService {
     @Override
     public int contarProductos() {
         try {
-            return productoRepositoryJdbc.contarProductos();
+            return repositoryJdbcProducto.contar();
         } catch (SQLException e) {
             throw new ServiceJdbcException(e.getMessage(), e.getCause());
         }

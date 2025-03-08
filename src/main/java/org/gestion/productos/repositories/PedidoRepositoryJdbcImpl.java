@@ -5,9 +5,14 @@ import jakarta.annotation.PreDestroy;
 import jakarta.inject.Inject;
 import org.gestion.productos.configs.MysqlConn;
 import org.gestion.productos.configs.Repositorio;
+import org.gestion.productos.dto.ProductoFiltroDTO;
 import org.gestion.productos.models.Pedido;
+import org.gestion.productos.models.PedidoEstado;
+import org.gestion.productos.models.Producto;
+import org.gestion.productos.models.Usuario;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -33,7 +38,43 @@ public class PedidoRepositoryJdbcImpl implements PaginacionRepository<Pedido> {
 
     @Override
     public List<Pedido> listar(int pagina, int tamanio_pagina) throws SQLException {
-        return List.of();
+        List<Pedido> pedidos = new ArrayList<>();
+
+        try (PreparedStatement stmt = conn.prepareStatement("SELECT p.*, u.nombre as usuario_nombre, u.apellidos as usuario_ape, " +
+                " pe.nombre as estado " +
+                " FROM pedidos as p " +
+                " INNER JOIN usuarios as u ON (p.usuario_id = u.id) " +
+                " INNER JOIN pedidoestados as pe ON (p.estado_id = pe.id) ORDER BY id LIMIT ? OFFSET ?")) {
+            stmt.setInt(1, tamanio_pagina);
+            stmt.setInt(2, pagina * tamanio_pagina);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    Pedido p = getPedido(rs);
+                    pedidos.add(p);
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return pedidos;
+    }
+
+    private static Pedido getPedido(ResultSet rs) throws SQLException {
+        Pedido p = new Pedido();
+        p.setId(rs.getLong("id"));
+        Usuario u = new Usuario();
+        u.setId(rs.getLong("usuario_id"));
+        u.setNombre(rs.getString("usuario_nombre"));
+        u.setApellidos(rs.getString("usuario_ape"));
+        p.setUsuario(u);
+        PedidoEstado pe = new PedidoEstado();
+        pe.setId(rs.getLong("estado_id"));
+        pe.setNombre(rs.getString("estado"));
+        p.setEstado(pe);
+        p.setFecha_pedido(rs.getDate("fecha_pedido").toLocalDate());
+        p.setTotal(rs.getDouble("total"));
+        return p;
     }
 
     @Override
@@ -64,5 +105,18 @@ public class PedidoRepositoryJdbcImpl implements PaginacionRepository<Pedido> {
     @Override
     public boolean existe(String nombre) throws SQLException {
         return false;
+    }
+
+    @Override
+    public List<Producto> filtar(ProductoFiltroDTO filtro) throws SQLException {
+        return List.of();
+    }
+
+    @Override
+    public int contar() throws SQLException {
+        try (PreparedStatement stmt = conn.prepareStatement("SELECT COUNT(*) FROM pedidos");
+             ResultSet rs = stmt.executeQuery()) {
+            return rs.next() ? rs.getInt(1) : 0;
+        }
     }
 }

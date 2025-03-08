@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 @Repositorio
-public class ProductoRepositoryJdbcImpl implements ProductoRepositoryJdbc {
+public class ProductoRepositoryJdbcImpl implements PaginacionRepository<Producto> {
 
     @Inject
     @MysqlConn
@@ -156,7 +156,7 @@ public class ProductoRepositoryJdbcImpl implements ProductoRepositoryJdbc {
     }
 
     @Override
-    public List<Producto> buscarProductos(ProductoFiltroDTO filtro) throws SQLException {
+    public List<Producto> filtar(ProductoFiltroDTO filtro) throws SQLException {
         List<Producto> lista = new ArrayList<>();
         List<Object> params = new ArrayList<>();
 
@@ -216,7 +216,7 @@ public class ProductoRepositoryJdbcImpl implements ProductoRepositoryJdbc {
     }
 
     @Override
-    public int contarProductos() throws SQLException {
+    public int contar() throws SQLException {
         try (PreparedStatement stmt = conn.prepareStatement("SELECT COUNT(*) FROM productos");
              ResultSet rs = stmt.executeQuery()) {
             return rs.next() ? rs.getInt(1) : 0;
