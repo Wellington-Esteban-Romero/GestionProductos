@@ -21,6 +21,7 @@ import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 
 @WebServlet("/productos/form")
 @MultipartConfig(maxFileSize = 10 * 1024 * 1024)
@@ -69,7 +70,7 @@ public class ProductoFormServlet extends HttpServlet {
         Part filePart = req.getPart("imagen");
         String fileName = null;
         if (filePart != null && filePart.getSize() > 0) {
-            fileName = Path.of(filePart.getSubmittedFileName()).getFileName().toString();
+            fileName = UUID.randomUUID() + "_" + Path.of(filePart.getSubmittedFileName()).getFileName().toString();
             String uploadDir = getServletContext().getRealPath("/imagenes");
             System.out.println("***********uploadDir:" + uploadDir);
             Path filePath = Path.of(uploadDir, fileName);

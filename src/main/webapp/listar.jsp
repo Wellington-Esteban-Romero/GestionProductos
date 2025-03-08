@@ -1,5 +1,6 @@
 <%@ page contentType="text/html" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page import="java.time.format.DateTimeFormatter" %>
 <jsp:include page="layout/header.jsp"/>
 <div class="flex-grow-1">
 <h3 class="text-center">${title}</h3>
@@ -74,7 +75,7 @@
                     </td>
                     <td><c:out value="${producto.categoria.nombre}"/>
                     </td>
-                    <td><c:out value="${producto.fechaRegistro}"/>
+                    <td><c:out value="${producto.fechaRegistro.format(DateTimeFormatter.ofPattern('dd-MM-yyyy'))}"/>
                     </td>
                     <c:if test="${username.present}">
                         <td><c:out value="${producto.precio}"/><c:out value="€"/>
