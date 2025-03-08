@@ -58,9 +58,9 @@
                 <th>Fecha registro</th>
                 <c:if test="${username.present}">
                     <th>Precio</th>
-                    <th>Agregar</th>
-                    <th>Editar</th>
-                    <th>Eliminar</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
                 </c:if>
             </tr>
             <c:forEach items="${productos}" var="producto">
