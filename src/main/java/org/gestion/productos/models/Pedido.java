@@ -51,4 +51,15 @@ public class Pedido {
     public void setTotal(double total) {
         this.total = total;
     }
+
+    @Override
+    public String toString() {
+        return "Pedido{" +
+                "id=" + id +
+                ", usuario=" + usuario +
+                ", estado=" + estado +
+                ", fecha_pedido=" + fecha_pedido +
+                ", total=" + total +
+                '}';
+    }
 }

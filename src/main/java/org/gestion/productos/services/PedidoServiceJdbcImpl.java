@@ -4,7 +4,11 @@ import jakarta.inject.Inject;
 import org.gestion.productos.configs.Services;
 import org.gestion.productos.exceptions.ServiceJdbcException;
 import org.gestion.productos.models.Pedido;
+import org.gestion.productos.models.PedidoDetalle;
+import org.gestion.productos.repositories.CrudRepository;
 import org.gestion.productos.repositories.PaginacionRepository;
+import org.gestion.productos.repositories.PedidoDetalleRepositoryJdbc;
+import org.gestion.productos.repositories.PedidoDetalleRepositoryJdbcImpl;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -15,10 +19,22 @@ public class PedidoServiceJdbcImpl implements PedidoService {
     @Inject
     private PaginacionRepository<Pedido> repositoryJdbc;
 
+    @Inject
+    private CrudRepository<PedidoDetalle> repositoryPedidoDetalle;
+
     @Override
     public List<Pedido> listarPedidos(int pagina, int tamanio_pagina) {
         try {
             return repositoryJdbc.listar(pagina, tamanio_pagina);
+        } catch (SQLException e) {
+            throw new ServiceJdbcException(e.getMessage(), e.getCause());
+        }
+    }
+
+    @Override
+    public List<PedidoDetalle> listarPedidosDetalles(Long pedido_id) {
+        try {
+            return ((PedidoDetalleRepositoryJdbcImpl)repositoryPedidoDetalle).listar(pedido_id);
         } catch (SQLException e) {
             throw new ServiceJdbcException(e.getMessage(), e.getCause());
         }

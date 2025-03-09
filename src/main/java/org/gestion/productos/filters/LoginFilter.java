@@ -26,8 +26,9 @@ public class LoginFilter implements Filter {
         if (username.isPresent()) {
             filterChain.doFilter(servletRequest, servletResponse);
         } else {
-            ((HttpServletResponse)servletResponse).sendError(HttpServletResponse.SC_UNAUTHORIZED,
-                    "No está autorizado acceder a está página");
+            servletRequest.getRequestDispatcher("/errores/401.jsp").forward(servletRequest, servletResponse);
+//            ((HttpServletResponse)servletResponse).sendError(HttpServletResponse.SC_UNAUTHORIZED,
+//                    "No está autorizado acceder a está página");
         }
     }
 }

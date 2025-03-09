@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page import="java.time.format.DateTimeFormatter" %>
 <jsp:include page="layout/header.jsp"/>
+
 <div class="flex-grow-1">
     <h3 class="text-center">${title}</h3>
     <c:choose>
@@ -10,12 +11,12 @@
         </c:when>
         <c:otherwise>
             <c:forEach items="${pedidos}" var="pedido">
-                <div class="accordion" id="accordionPedido">
+                <div class="accordion" id="accordionPedido_${pedido.id}">
                     <div class="accordion-item">
                         <h2 class="accordion-header">
                             <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="<c:out value="#"/><c:out value="collapse_"/>${pedido.id}"
-                                    aria-expanded="true" aria-controls="<c:out value="collapse_"/>${pedido.id}">
+                                    data-bs-target="#collapse_${pedido.id}"
+                                    aria-expanded="true" aria-controls="collapse_${pedido.id}">
                                 <table>
                                     <tr>
                                         <th>Pedido</th>
@@ -33,51 +34,29 @@
                                 </table>
                             </button>
                         </h2>
-                        <div id="<c:out value="collapse_"/>${pedido.id}" class="accordion-collapse collapse show"
-                             data-bs-parent="#accordionPedido">
+                        <div id="collapse_${pedido.id}" class="accordion-collapse collapse show"
+                             data-bs-parent="#accordionPedido_${pedido.id}">
                             <div class="accordion-body">
-                                <a class="btn btn-sm btn-light" >Detalles del pedido</a>
+                                <a class="btn btn-sm btn-light">Detalles del pedido</a>
                                 <div class="mt-3 mb-3">
                                     <c:out value="${pedido.estado.nombre}"/>
                                 </div>
                                 <table class="table table-hover table-striped">
                                     <tr>
-                                        <th>id</th>
-                                        <th>Usuario</th>
-                                        <th>Estado</th>
-                                        <th>Fecha Pedido</th>
-                                        <th>Total</th>
-                                        <th></th>
-                                        <th></th>
+                                        <th>Nombre</th>
+                                        <th>Precio</th>
+                                        <th>Unidad/es</th>
                                     </tr>
-                                    <c:forEach items="${pedidos}" var="pedido">
-                                        <tr>
-                                            <td>
-                                                <a style="text-decoration:none;"
-                                                   href="${pageContext.request.contextPath}/pedido/detalles?id=<c:out value="${pedido.id}"/>">
-                                                    <c:out value="${pedido.id}"/>
-                                                </a>
-                                            </td>
-                                            <td>
-                                                <c:out value="${pedido.usuario.nombre}"/>
-                                                <c:out value="${pedido.usuario.apellidos}"/>
-                                            </td>
-                                            <td><c:out value="${pedido.estado.nombre}"/>
-                                            </td>
-                                            <td><c:out
-                                                    value="${pedido.fecha_pedido.format(DateTimeFormatter.ofPattern('dd-MM-yyyy'))}"/>
-                                            </td>
-                                            <td>
-                                                    <c:out value="${pedido.total}"/>
-                                                    <c:out value="€"/>
-                                            <td><a class="btn btn-sm btn-success"
-                                                   href="<c:out value="${pageContext.request.contextPath}"/>/pedidos/form?id=<c:out value="${pedido.id}"/>">Editar</a>
-                                            </td>
-                                            <td><a class="btn btn-sm btn-danger"
-                                                   onclick="return confirm('¿Esta seguro que quiere eliminar?');"
-                                                   href="<c:out value="${pageContext.request.contextPath}"/>/pedidos/eliminar?id=<c:out value="${pedido.id}"/>">Eliminar</a>
-                                            </td>
-                                        </tr>
+                                    <c:forEach items="${detalles}" var="detalle">
+                                        <c:if test="${pedido.id eq detalle.pedido.id}">
+                                            <tr>
+                                                <td>
+                                                    <c:out value="${detalle.producto.nombre}"/>
+                                                </td>
+                                                <td><c:out value="${detalle.total}"/>€</td>
+                                                <td><c:out value="${detalle.cantidad}"/></td>
+                                            </tr>
+                                        </c:if>
                                     </c:forEach>
                                 </table>
                             </div>
@@ -85,6 +64,7 @@
                     </div>
                 </div>
             </c:forEach>
+
             <!-- Paginación -->
             <nav>
                 <ul class="pagination">
@@ -106,4 +86,5 @@
         </c:otherwise>
     </c:choose>
 </div>
+
 <jsp:include page="layout/footer.jsp"/>

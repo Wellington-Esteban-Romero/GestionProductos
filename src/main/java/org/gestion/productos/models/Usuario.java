@@ -91,4 +91,20 @@ public class Usuario {
     public void setRole(Role role) {
         this.role = role;
     }
+
+    @Override
+    public String toString() {
+        return "Usuario{" +
+                "id=" + id +
+                ", nombre='" + nombre + '\'' +
+                ", apellidos='" + apellidos + '\'' +
+                ", email='" + email + '\'' +
+                ", telefono='" + telefono + '\'' +
+                ", direccion='" + direccion + '\'' +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", activo=" + activo +
+                ", role=" + role +
+                '}';
+    }
 }
