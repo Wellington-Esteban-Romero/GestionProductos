@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.gestion.productos.dto.ProductoFiltroDTO;
 import org.gestion.productos.models.Producto;
+import org.gestion.productos.models.Usuario;
 import org.gestion.productos.services.*;
 import org.gestion.productos.utils.Utils;
 
@@ -41,8 +42,8 @@ public class ProductoBuscarServlet extends HttpServlet {
         ProductoFiltroDTO filtro = new ProductoFiltroDTO(buscarNombre, tipo, precioMin, precioMax, fecha_inicio, fecha_fin);
         req.getServletContext().log("Filtro de búsqueda: " + filtro);
 
-        Optional<String> username = loginService.getUsername(req);
-        req.setAttribute("username", username);
+        Optional<Usuario> usuarioOptional = loginService.getUsername(req);
+        req.setAttribute("username", usuarioOptional);
         req.setAttribute("title", req.getAttribute("title") + " - Listado de productos");
 
         if (filtro.getNombre().isEmpty() && filtro.getTipo().isEmpty() && filtro.getPrecioMin().equals(0L)

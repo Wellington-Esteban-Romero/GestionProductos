@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.gestion.productos.models.Producto;
+import org.gestion.productos.models.Usuario;
 import org.gestion.productos.services.LoginService;
 import org.gestion.productos.services.ProductoService;
 import org.gestion.productos.utils.Constantes;
@@ -34,13 +35,13 @@ public class ProductoServlet extends HttpServlet {
         List<Producto> productos = productoService.obtenerProductos(pagina, Constantes.TAMANIO_PAGINA);
         int totalProductos = productoService.contarProductos();
         int totalPaginas = (int) Math.ceil((double) totalProductos / Constantes.TAMANIO_PAGINA);
-        Optional<String> username = loginService.getUsername(req);
+        Optional<Usuario> usuarioOptional = loginService.getUsername(req);
 
         req.setAttribute("title", req.getAttribute("title") + " - Listado de productos");
         req.setAttribute("productos", productos);
         req.setAttribute("pagina", pagina);
         req.setAttribute("totalPaginas", totalPaginas);
-        req.setAttribute("username", username);
+        req.setAttribute("username", usuarioOptional);
 
         getServletContext().getRequestDispatcher("/listar.jsp").forward(req, resp);
     }

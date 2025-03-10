@@ -5,6 +5,7 @@ import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.gestion.productos.models.Usuario;
 import org.gestion.productos.services.LoginService;
 
 import java.io.IOException;
@@ -22,7 +23,7 @@ public class LoginFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws
             IOException, ServletException {
 
-        Optional<String> username = loginService.getUsername((HttpServletRequest) servletRequest);
+        Optional<Usuario> username = loginService.getUsername((HttpServletRequest) servletRequest);
         if (username.isPresent()) {
             filterChain.doFilter(servletRequest, servletResponse);
         } else {

@@ -81,13 +81,13 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownCuenta" role="button"
                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        ${not empty sessionScope.username? sessionScope.username : "Cuenta"}
+                        ${not empty sessionScope.usuario.username? sessionScope.usuario.username : "Cuenta"}
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownCuenta">
                         <a class="dropdown-item"
-                           href="${pageContext.request.contextPath}/${not empty sessionScope.username? "logout" : "login"}">
-                            ${not empty sessionScope.username? "Cerrar Sesión" : "Iniciar Sesión"}</a>
-                        <c:if test="${empty sessionScope.username}">
+                           href="${pageContext.request.contextPath}/${not empty sessionScope.usuario.username? "logout" : "login"}">
+                            ${not empty sessionScope.usuario.username? "Cerrar Sesión" : "Iniciar Sesión"}</a>
+                        <c:if test="${empty sessionScope.usuario.username}">
                             <a class="dropdown-item" href="${pageContext.request.contextPath}/registrar">Registrar</a>
                         </c:if>
                     </div>

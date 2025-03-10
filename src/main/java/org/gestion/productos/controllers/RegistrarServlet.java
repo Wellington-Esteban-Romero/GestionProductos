@@ -29,9 +29,9 @@ public class RegistrarServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        Optional<String> username = loginService.getUsername(req);
+        Optional<Usuario> usuarioOptional = loginService.getUsername(req);
 
-        if (username.isPresent()) {
+        if (usuarioOptional.isPresent()) {
             resp.setContentType("text/html;charset=UTF-8");
             try (PrintWriter out = resp.getWriter()) {
 
@@ -39,10 +39,10 @@ public class RegistrarServlet extends HttpServlet {
                 out.println("<html>");
                 out.println("   <head>");
                 out.println("       <meta charset=\"UTF-8\">");
-                out.println("       <title>Hola " + username.get() + "</title>");
+                out.println("       <title>Hola " + usuarioOptional.get().getUsername() + "</title>");
                 out.println("   </head>");
                 out.println("   <body>");
-                out.println("       <h1>Hola " + username.get() + " ya has iniciado sesión</h1>");
+                out.println("       <h1>Hola " + usuarioOptional.get().getUsername() + " ya has iniciado sesión</h1>");
                 out.println("   <p><a href='" + req.getContextPath() + "/'>Volver</a></p>");
                 out.println("   <p><a href='" + req.getContextPath() + "/logout'>Cerrar sesión</a></p>");
                 out.println("   </body>");

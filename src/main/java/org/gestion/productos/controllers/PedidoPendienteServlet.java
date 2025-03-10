@@ -36,12 +36,12 @@ public class PedidoPendienteServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        Optional<String> username = loginService.getUsername(req);
-        if (username.isPresent()) {
-            Usuario usuario = usuarioService.obtenerUsuarioPorUsername(username.get());
+        Optional<Usuario> usuarioOptional = loginService.getUsername(req);
+        if (usuarioOptional.isPresent()) {
+            //Usuario usuario = usuarioService.obtenerUsuarioPorUsername(username.get());
 
             Pedido pedido = new Pedido();
-            pedido.setUsuario(usuario);
+            pedido.setUsuario(usuarioOptional.get());
             PedidoEstado pedidoEstado = new PedidoEstado();
             pedidoEstado.setId(1L);
             pedido.setEstado(pedidoEstado);

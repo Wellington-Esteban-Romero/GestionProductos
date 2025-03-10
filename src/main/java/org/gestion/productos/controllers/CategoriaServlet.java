@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.gestion.productos.models.Categoria;
+import org.gestion.productos.models.Usuario;
 import org.gestion.productos.services.LoginService;
 import org.gestion.productos.services.ProductoService;
 
@@ -26,9 +27,9 @@ public class CategoriaServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         List<Categoria> categorias = productoService.listarCategorias();
-        Optional<String> username = loginService.getUsername(req);
+        Optional<Usuario> usuarioOptional = loginService.getUsername(req);
         req.setAttribute("categorias", categorias);
-        req.setAttribute("username", username);
+        req.setAttribute("username", usuarioOptional);
         req.setAttribute("title", req.getAttribute("title") + " - Lista categorías");
         getServletContext().getRequestDispatcher("/listar_categorias.jsp").forward(req, resp);
     }

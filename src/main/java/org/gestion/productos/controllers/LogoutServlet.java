@@ -4,6 +4,7 @@ import jakarta.inject.Inject;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
+import org.gestion.productos.models.Usuario;
 import org.gestion.productos.services.LoginService;
 
 import java.io.IOException;
@@ -18,8 +19,8 @@ public class LogoutServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        Optional<String> username = loginService.getUsername(req);
-        if (username.isPresent()) {
+        Optional<Usuario> usuarioOptional = loginService.getUsername(req);
+        if (usuarioOptional.isPresent()) {
             HttpSession session = req.getSession();
             session.invalidate();
         }
