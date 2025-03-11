@@ -22,9 +22,11 @@
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownProductos">
                         <a class="dropdown-item" href="${pageContext.request.contextPath}/productos">Ver Productos</a>
-                        <a class="dropdown-item"
-                           href="<c:out value="${pageContext.request.contextPath}"/>/productos/form">Agregar
-                            Productos</a>
+                        <c:if test="${sessionScope.usuario.role.nombre == 'ROLE_ADMINISTRADOR'}">
+                            <a class="dropdown-item"
+                               href="<c:out value="${pageContext.request.contextPath}"/>/productos/form">Agregar
+                                Productos</a>
+                        </c:if>
                     </div>
                 </li>
                 <li class="nav-item dropdown">
@@ -36,39 +38,45 @@
                         <a class="dropdown-item" href="${pageContext.request.contextPath}/pedidos">Ver Pedidos</a>
                     </div>
                 </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownCategoria" role="button"
-                       data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Categorias
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdownCategoria">
-                        <a class="dropdown-item" href="${pageContext.request.contextPath}/categorias">Ver Categorías</a>
-                        <a class="dropdown-item" href="${pageContext.request.contextPath}/categorias/form">Agregar
-                            Categorías</a>
-                    </div>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownAccesos" role="button"
-                       data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Accesos
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownAccesos">
-                        <!-- Sublista Usuarios -->
-                        <li class="dropdown-submenu">
-                            <a class="dropdown-item dropdown-toggle" href="#" id="navbarDropdownUsuarios" role="button"
-                               data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Usuarios
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdownUsuarios">
-                                <li><a class="dropdown-item" href="${pageContext.request.contextPath}/usuario">Listar
-                                    Usuarios</a></li>
-                                <li><a class="dropdown-item" href="agregarUsuario.jsp">Agregar Usuario</a></li>
-                            </ul>
-                        </li>
-                        <!-- Opción Roles -->
-                        <li><a class="dropdown-item" href="${pageContext.request.contextPath}/roles">Roles</a></li>
-                    </ul>
-                </li>
+                <c:if test="${sessionScope.usuario.role.nombre == 'ROLE_ADMINISTRADOR'}">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownCategoria" role="button"
+                           data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Categorias
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownCategoria">
+                            <a class="dropdown-item" href="${pageContext.request.contextPath}/categorias">Ver
+                                Categorías</a>
+                            <a class="dropdown-item" href="${pageContext.request.contextPath}/categorias/form">Agregar
+                                Categorías</a>
+                        </div>
+                    </li>
+                </c:if>
+                <c:if test="${sessionScope.usuario.role.nombre == 'ROLE_ADMINISTRADOR'}">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownAccesos" role="button"
+                           data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Accesos
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownAccesos">
+                            <!-- Sublista Usuarios -->
+                            <li class="dropdown-submenu">
+                                <a class="dropdown-item dropdown-toggle" href="#" id="navbarDropdownUsuarios"
+                                   role="button"
+                                   data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Usuarios
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdownUsuarios">
+                                    <li><a class="dropdown-item" href="${pageContext.request.contextPath}/usuario">Listar
+                                        Usuarios</a></li>
+                                    <li><a class="dropdown-item" href="agregarUsuario.jsp">Agregar Usuario</a></li>
+                                </ul>
+                            </li>
+                            <!-- Opción Roles -->
+                            <li><a class="dropdown-item" href="${pageContext.request.contextPath}/roles">Roles</a></li>
+                        </ul>
+                    </li>
+                </c:if>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownCarro" role="button"
                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

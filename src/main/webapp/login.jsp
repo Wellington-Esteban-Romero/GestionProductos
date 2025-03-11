@@ -21,8 +21,11 @@
                 <label for="password" class="form-label">Contraseña</label>
                 <input type="password" class="form-control" name="password" id="password">
             </div>
-            <div class="d-grid">
+            <div class="d-grid mb-2">
                 <input type="submit" class="btn btn-primary" value="Iniciar Sesión">
+            </div>
+            <div class="text-center">
+                ¿No registrado? <a href="${pageContext.request.contextPath}/registrar">Regístrate aquí</a>
             </div>
         </form>
     </div>

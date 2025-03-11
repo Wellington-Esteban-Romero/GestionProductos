@@ -5,7 +5,6 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import org.gestion.productos.models.Usuario;
-import org.gestion.productos.services.LoginService;
 import org.gestion.productos.services.UsuarioService;
 
 import java.io.IOException;
@@ -20,35 +19,9 @@ public class LoginServlet extends HttpServlet {
     @Inject
     private UsuarioService usuarioService;
 
-    @Inject
-    private LoginService loginService;
-
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-        Optional<Usuario> usuario = loginService.getUsername(req);
-
-        if (usuario.isPresent()) {
-            resp.setContentType("text/html;charset=UTF-8");
-            try (PrintWriter out = resp.getWriter()) {
-
-                out.println("<!DOCTYPE html>");
-                out.println("<html>");
-                out.println("   <head>");
-                out.println("       <meta charset=\"UTF-8\">");
-                out.println("       <title>Hola " + usuario.get().getUsername() + "</title>");
-                out.println("   </head>");
-                out.println("   <body>");
-                out.println("       <h1>Hola " + usuario.get().getUsername() + " ya has iniciado sesión</h1>");
-                out.println("   <p><a href='" + req.getContextPath() + "/'>Volver</a></p>");
-                out.println("   <p><a href='" + req.getContextPath() + "/logout'>Cerrar sesión</a></p>");
-                out.println("   </body>");
-                out.println("</html>");
-            }
-        } else {
-            req.setAttribute("title", req.getAttribute("title") + " - Iniciar Sesión");
-            getServletContext().getRequestDispatcher("/login.jsp").forward(req, resp);
-        }
+        getServletContext().getRequestDispatcher("/ya_iniciado.jsp").forward(req, resp);
     }
 
     @Override
@@ -66,6 +39,7 @@ public class LoginServlet extends HttpServlet {
             if (usuarioOptional.isPresent()) {
                 HttpSession httpSession = req.getSession();
                 httpSession.setAttribute("usuario", usuarioOptional.get());
+                httpSession.setAttribute("mensajeBienvenida", "true");
 
                 resp.sendRedirect(req.getContextPath() + "/");
             } else {

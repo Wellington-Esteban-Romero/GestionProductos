@@ -4,7 +4,6 @@ import jakarta.inject.Inject;
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import org.gestion.productos.models.Usuario;
 import org.gestion.productos.services.LoginService;
 
@@ -23,13 +22,11 @@ public class LoginFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws
             IOException, ServletException {
 
-        Optional<Usuario> username = loginService.getUsername((HttpServletRequest) servletRequest);
-        if (username.isPresent()) {
+        Optional<Usuario> usuario = loginService.getUsername((HttpServletRequest) servletRequest);
+        if (usuario.isPresent()) {
             filterChain.doFilter(servletRequest, servletResponse);
         } else {
             servletRequest.getRequestDispatcher("/errores/401.jsp").forward(servletRequest, servletResponse);
-//            ((HttpServletResponse)servletResponse).sendError(HttpServletResponse.SC_UNAUTHORIZED,
-//                    "No está autorizado acceder a está página");
         }
     }
 }

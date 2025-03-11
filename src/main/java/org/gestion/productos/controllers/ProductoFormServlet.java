@@ -1,8 +1,11 @@
 package org.gestion.productos.controllers;
 
+import jakarta.annotation.security.DeclareRoles;
 import jakarta.inject.Inject;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.HttpConstraint;
 import jakarta.servlet.annotation.MultipartConfig;
+import jakarta.servlet.annotation.ServletSecurity;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -23,6 +26,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
+@DeclareRoles({"admin"})
 @WebServlet("/productos/form")
 @MultipartConfig(maxFileSize = 10 * 1024 * 1024)
 public class ProductoFormServlet extends HttpServlet {

@@ -40,11 +40,12 @@ public class UsuarioServiceJdbcImpl implements UsuarioService {
     }
 
     @Override
-    public Usuario obtenerUsuarioPorUsername(String username) {
+    public boolean esRol(Long id, String rol) {
         try {
-            return usuarioRepositoryJdbc.porUsername(username);
+            return usuarioRepositoryJdbc.tieneRol(id, rol);
         } catch (SQLException e) {
             throw new ServiceJdbcException(e.getMessage(), e.getCause());
         }
     }
+
 }

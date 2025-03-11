@@ -23,8 +23,8 @@ public class UsuarioRepositoryJdbcImpl implements UsuarioRepositoryJdbc {
     @Override
     public Usuario porUsername(String username) throws SQLException {
         Usuario usuario = null;
-        try (PreparedStatement ps = conn.prepareStatement("SELECT u.*, r.nombre as role FROM usuarios as u " +
-                " INNER JOIN roles as r ON (u.rol_id = r.id) WHERE u.username = ?")
+            try (PreparedStatement ps = conn.prepareStatement("SELECT u.*, r.nombre as role FROM usuarios as u " +
+                    " INNER JOIN roles as r ON (u.rol_id = r.id) WHERE u.username = ?")
         ) {
             ps.setString(1, username);
             try (ResultSet rs = ps.executeQuery()) {
@@ -57,6 +57,25 @@ public class UsuarioRepositoryJdbcImpl implements UsuarioRepositoryJdbc {
             if (stmt.executeUpdate() > 0) {
                 resultado = Boolean.TRUE;
             }
+        }
+        return resultado;
+    }
+
+    @Override
+    public boolean tieneRol(Long usuarioId, String rol) throws SQLException {
+        boolean resultado = Boolean.FALSE;
+        String sql = "SELECT count(*)  FROM usuarios as u " +
+                " INNER JOIN roles as r ON (u.rol_id = r.id) WHERE u.id = ? AND r.nombre = ?";
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setLong(1, usuarioId);
+            stmt.setString(2, rol);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    resultado = rs.getInt(1) > 0;
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
         return resultado;
     }

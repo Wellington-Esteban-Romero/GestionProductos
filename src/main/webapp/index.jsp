@@ -3,11 +3,17 @@
 <%@ page import="java.time.format.DateTimeFormatter" %>
 <jsp:include page="layout/header.jsp" />
     <h3 class="text-center">${title}</h3>
-    <c:if test="${not empty sessionScope.username}">
-        <div class="alert alert-info">Hola <c:out value="${username}"/>, Has iniciado sesión correctamente</div>
-        <div class="mt-3 mb-2">
-        </div>
-
+    <c:if test="${not empty sessionScope.mensajeBienvenida}">
+        <div id="alerta-bienvenida" class="alert alert-info">Hola <c:out value="${sessionScope.usuario.username}"/>, Has iniciado sesión correctamente</div>
+        <script>
+            setTimeout(function() {
+                var alerta = document.getElementById('alerta-bienvenida');
+                if (alerta) {
+                    alerta.style.display = 'none';
+                }
+            }, 3000);
+        </script>
+        <c:remove var="mensajeBienvenida" scope="session" />
     </c:if>
     <!-- Sección de estadísticas -->
     <h2 class="mt-4">Estadísticas 📊</h2>
@@ -20,7 +26,7 @@
         <tr>
             <th>ID</th>
             <th>Nombre</th>
-            <th>Categoria</th>
+            <th>Categoría</th>
             <th>Precio</th>
             <th>Fecha registro</th>
         </tr>

@@ -12,7 +12,6 @@ import org.gestion.productos.services.LoginService;
 import org.gestion.productos.services.UsuarioService;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -32,22 +31,7 @@ public class RegistrarServlet extends HttpServlet {
         Optional<Usuario> usuarioOptional = loginService.getUsername(req);
 
         if (usuarioOptional.isPresent()) {
-            resp.setContentType("text/html;charset=UTF-8");
-            try (PrintWriter out = resp.getWriter()) {
-
-                out.println("<!DOCTYPE html>");
-                out.println("<html>");
-                out.println("   <head>");
-                out.println("       <meta charset=\"UTF-8\">");
-                out.println("       <title>Hola " + usuarioOptional.get().getUsername() + "</title>");
-                out.println("   </head>");
-                out.println("   <body>");
-                out.println("       <h1>Hola " + usuarioOptional.get().getUsername() + " ya has iniciado sesión</h1>");
-                out.println("   <p><a href='" + req.getContextPath() + "/'>Volver</a></p>");
-                out.println("   <p><a href='" + req.getContextPath() + "/logout'>Cerrar sesión</a></p>");
-                out.println("   </body>");
-                out.println("</html>");
-            }
+            getServletContext().getRequestDispatcher("/ya_iniciado.jsp").forward(req, resp);
         } else {
             req.setAttribute("title", req.getAttribute("title") + " - Registrar");
             getServletContext().getRequestDispatcher("/registrar.jsp").forward(req, resp);
