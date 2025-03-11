@@ -57,6 +57,11 @@ public class ProductoRepositoryJdbcImpl implements PaginacionRepository<Producto
     }
 
     @Override
+    public List<Producto> listar(int pagina, int tamanio_pagina, Long usuario_id) throws SQLException {
+        return List.of();
+    }
+
+    @Override
     public Producto porId(Long id) throws SQLException {
         Producto producto = new Producto();
         try (PreparedStatement stmt = conn.prepareStatement("SELECT p.*, c.nombre as categoria FROM productos as p " +
@@ -81,7 +86,7 @@ public class ProductoRepositoryJdbcImpl implements PaginacionRepository<Producto
         if (obj.getId() != null && (obj.getId() > 0)) {
             sql = "UPDATE productos SET nombre = ?, codigo = ?, descripcion = ?, precio = ?, stock = ?, categoria_id = ?, fecha_registro = ?, fecha_modificacion = ?, imagen = ? WHERE id = ?";
         } else {
-            sql = "INSERT INTO productos (nombre, codigo, descripcion, precio, stock, categoria_id, fecha_registro, imagen) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            sql = "INSERT INTO productos (nombre, codigo, descripcion, precio, stock, categoria_id, fecha_registro, imagen) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         }
 
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
