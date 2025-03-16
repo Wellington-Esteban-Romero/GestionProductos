@@ -4,6 +4,7 @@ import jakarta.inject.Inject;
 import org.gestion.productos.configs.MysqlConn;
 import org.gestion.productos.configs.Repositorio;
 import org.gestion.productos.models.Categoria;
+import org.gestion.productos.utils.Constantes;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -108,10 +109,10 @@ public class CategoriaRepositoryJdbcImpl implements CrudRepository<Categoria> {
 
     private static Categoria getCategoria(ResultSet rs) throws SQLException {
         Categoria categoria = new Categoria();
-        categoria.setId(rs.getLong("id"));
-        categoria.setNombre(rs.getString("nombre"));
-        categoria.setDescripcion(rs.getString("descripcion"));
-        categoria.setActivo(rs.getBoolean("activo"));
+        categoria.setId(rs.getLong(Constantes.CAMPO_CATEGORIA_ID));
+        categoria.setNombre(rs.getString(Constantes.CAMPO_CATEGORIA_NOMBRE));
+        categoria.setDescripcion(rs.getString(Constantes.CAMPO_CATEGORIA_DESCRIPCION));
+        categoria.setActivo(rs.getBoolean(Constantes.CAMPO_CATEGORIA_ACTIVO));
         return categoria;
     }
 }

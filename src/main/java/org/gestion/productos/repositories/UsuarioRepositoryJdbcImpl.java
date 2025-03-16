@@ -5,6 +5,7 @@ import org.gestion.productos.configs.MysqlConn;
 import org.gestion.productos.configs.Repositorio;
 import org.gestion.productos.models.Role;
 import org.gestion.productos.models.Usuario;
+import org.gestion.productos.utils.Constantes;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -23,8 +24,8 @@ public class UsuarioRepositoryJdbcImpl implements UsuarioRepositoryJdbc {
     @Override
     public Usuario porUsername(String username) throws SQLException {
         Usuario usuario = null;
-            try (PreparedStatement ps = conn.prepareStatement("SELECT u.*, r.nombre as role FROM usuarios as u " +
-                    " INNER JOIN roles as r ON (u.rol_id = r.id) WHERE u.username = ?")
+        try (PreparedStatement ps = conn.prepareStatement("SELECT u.*, r.nombre as role FROM usuarios as u " +
+                " INNER JOIN roles as r ON (u.rol_id = r.id) WHERE u.username = ?")
         ) {
             ps.setString(1, username);
             try (ResultSet rs = ps.executeQuery()) {
@@ -132,18 +133,18 @@ public class UsuarioRepositoryJdbcImpl implements UsuarioRepositoryJdbc {
     private static Usuario getUsuario(ResultSet rs) throws SQLException {
         Usuario usuario;
         usuario = new Usuario();
-        usuario.setId(rs.getLong("id"));
-        usuario.setNombre(rs.getString("nombre"));
-        usuario.setApellidos(rs.getString("apellidos"));
-        usuario.setEmail(rs.getString("email"));
-        usuario.setTelefono(rs.getString("telefono"));
-        usuario.setDireccion(rs.getString("direccion"));
-        usuario.setUsername(rs.getString("username"));
-        usuario.setPassword(rs.getString("password"));
-        usuario.setActivo(rs.getBoolean("activo"));
+        usuario.setId(rs.getLong(Constantes.CAMPO_USUARIO_ID));
+        usuario.setNombre(rs.getString(Constantes.CAMPO_USUARIO_NOMBRE));
+        usuario.setApellidos(rs.getString(Constantes.CAMPO_USUARIO_APELLIDOS));
+        usuario.setEmail(rs.getString(Constantes.CAMPO_USUARIO_EMAIL));
+        usuario.setTelefono(rs.getString(Constantes.CAMPO_USUARIO_TELEFONO));
+        usuario.setDireccion(rs.getString(Constantes.CAMPO_USUARIO_DIRECCION));
+        usuario.setUsername(rs.getString(Constantes.CAMPO_USUARIO_USERNAME));
+        usuario.setPassword(rs.getString(Constantes.CAMPO_USUARIO_PASSWORD));
+        usuario.setActivo(rs.getBoolean(Constantes.CAMPO_USUARIO_ACTIVO));
         Role role = new Role();
-        role.setId(rs.getLong("rol_id"));
-        role.setNombre(rs.getString("role"));
+        role.setId(rs.getLong(Constantes.CAMPO_USUARIO_ROL_ID));
+        role.setNombre(rs.getString(Constantes.CAMPO_USUARIO_ROL_NOMBRE));
         usuario.setRole(role);
         return usuario;
     }

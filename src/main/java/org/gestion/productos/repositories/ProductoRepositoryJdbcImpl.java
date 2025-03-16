@@ -8,6 +8,7 @@ import org.gestion.productos.configs.Repositorio;
 import org.gestion.productos.dto.ProductoFiltroDTO;
 import org.gestion.productos.models.Categoria;
 import org.gestion.productos.models.Producto;
+import org.gestion.productos.utils.Constantes;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -84,7 +85,8 @@ public class ProductoRepositoryJdbcImpl implements PaginacionRepository<Producto
     public void guardar(Producto obj) throws SQLException {
         String sql;
         if (obj.getId() != null && (obj.getId() > 0)) {
-            sql = "UPDATE productos SET nombre = ?, codigo = ?, descripcion = ?, precio = ?, stock = ?, categoria_id = ?, fecha_registro = ?, fecha_modificacion = ?, imagen = ? WHERE id = ?";
+            sql = "UPDATE productos SET nombre = ?, codigo = ?, descripcion = ?, precio = ?, stock = ?, categoria_id = ?, " +
+                    "fecha_registro = ?, fecha_modificacion = ?, imagen = ? WHERE id = ?";
         } else {
             sql = "INSERT INTO productos (nombre, codigo, descripcion, precio, stock, categoria_id, fecha_registro, imagen) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         }
@@ -230,19 +232,19 @@ public class ProductoRepositoryJdbcImpl implements PaginacionRepository<Producto
 
     private static Producto getProducto(ResultSet rs) throws SQLException {
         Producto p = new Producto();
-        p.setId(rs.getLong("id"));
-        p.setNombre(rs.getString("nombre"));
-        p.setCodigo(rs.getString("codigo"));
-        p.setDescripcion(rs.getString("descripcion"));
-        p.setPrecio(rs.getDouble("precio"));
-        p.setStock(rs.getInt("stock"));
-        p.setFechaRegistro(rs.getDate("fecha_registro").toLocalDate());
-        p.setFechaModificacion((rs.getDate("fecha_modificacion") != null)?
-                rs.getDate("fecha_modificacion").toLocalDate() : LocalDate.of(1980,1,1));
-        p.setImagen(rs.getString("imagen"));
+        p.setId(rs.getLong(Constantes.CAMPO_PRODUCTO_ID));
+        p.setNombre(rs.getString(Constantes.CAMPO_PRODUCTO_NOMBRE));
+        p.setCodigo(rs.getString(Constantes.CAMPO_PRODUCTO_CODIGO));
+        p.setDescripcion(rs.getString(Constantes.CAMPO_PRODUCTO_DESCRIPCION));
+        p.setPrecio(rs.getDouble(Constantes.CAMPO_PRODUCTO_PRECIO));
+        p.setStock(rs.getInt(Constantes.CAMPO_PRODUCTO_STOCK));
+        p.setFechaRegistro(rs.getDate(Constantes.CAMPO_PRODUCTO_FECHA_REGISTRO).toLocalDate());
+        p.setFechaModificacion((rs.getDate(Constantes.CAMPO_PRODUCTO_FECHA_MODIFICACION) != null) ?
+                rs.getDate(Constantes.CAMPO_PRODUCTO_FECHA_MODIFICACION).toLocalDate() : LocalDate.of(1980, 1, 1));
+        p.setImagen(rs.getString(Constantes.CAMPO_PRODUCTO_IMAGEN));
         Categoria c = new Categoria();
-        c.setId(rs.getLong("categoria_id"));
-        c.setNombre(rs.getString("categoria"));
+        c.setId(rs.getLong(Constantes.CAMPO_PRODUCTO_CATEGORIA_ID));
+        c.setNombre(rs.getString(Constantes.CAMPO_PRODUCTO_CATEGORIA_NOMBRE));
         p.setCategoria(c);
         return p;
     }
