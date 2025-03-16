@@ -6,5 +6,6 @@
 
     <interceptors>
         <class>org.gestion.productos.interceptors.LoggingInterceptor</class>
+        <class>org.gestion.productos.interceptors.TransactionalInterceptor</class>
     </interceptors>
 </beans>
