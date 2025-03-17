@@ -37,4 +37,33 @@ public final class Constantes {
     public static final String CAMPO_USUARIO_ACTIVO = "activo";
     public static final String CAMPO_USUARIO_ROL_ID = "rol_id";
     public static final String CAMPO_USUARIO_ROL_NOMBRE = "role";
+
+    //Nombre campos tabla role
+    public static final String TABLA_ROLE = "roles";
+    public static final String CAMPO_ROLE_ID = "id";
+    public static final String CAMPO_ROLE_NOMBRE = "nombre";
+    public static final String CAMPO_ROLE_DESCRIPCION = "descripcion";
+
+    //Nombre campos tabla pedidoestados
+    public static final String TABLA_PEDIDO_ESTADO = "pedidoestados";
+    public static final String TABLA_PEDIDO_ESTADO_ID = "id";
+    public static final String TABLA_PEDIDO_ESTADO_NOMBRE = "nombre";
+    public static final String TABLA_PEDIDO_ESTADO_DESCRIPCION = "descripcion";
+
+    //Nombre campos tabla detallepedidos
+    public static final String TABLA_PEDIDO_DETALLE = "detallepedidos";
+    public static final String TABLA_PEDIDO_DETALLE_ID = "id";
+    public static final String TABLA_PEDIDO_DETALLE_PEDIDO_ID = "pedido_id";
+    public static final String TABLA_PEDIDO_DETALLE_PRODUCTO_ID = "producto_id";
+    public static final String TABLA_PEDIDO_DETALLE_CANTIDAD = "cantidad";
+    public static final String TABLA_PEDIDO_DETALLE_TOTAL = "total";
+
+
+    //Nombre campos tabla pedidos
+    public static final String TABLA_PEDIDO = "pedidos";
+    public static final String CAMPO_PEDIDO_ID = "id";
+    public static final String CAMPO_PEDIDO_USUARIO_ID = "usuario_id";
+    public static final String CAMPO_PEDIDO_PEDIDO_ESTADO_ID = "estado_id";
+    public static final String CAMPO_PEDIDO_FECHA_PEDIDO = "fecha_pedido";
+    public static final String CAMPO_PEDIDO_TOTAL = "total";
 }
