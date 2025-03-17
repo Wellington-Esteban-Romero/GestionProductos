@@ -95,6 +95,9 @@
                         <a class="dropdown-item"
                            href="${pageContext.request.contextPath}/${not empty sessionScope.usuario.username? "logout" : "login"}">
                             ${not empty sessionScope.usuario.username? "Cerrar Sesión" : "Iniciar Sesión"}</a>
+                        <c:if test="${not empty sessionScope.usuario.username}">
+                            <a class="dropdown-item" href="${pageContext.request.contextPath}/perfil">Perfil</a>
+                        </c:if>
                         <c:if test="${empty sessionScope.usuario.username}">
                             <a class="dropdown-item" href="${pageContext.request.contextPath}/registrar">Registrar</a>
                         </c:if>
