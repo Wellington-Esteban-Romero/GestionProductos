@@ -7,7 +7,8 @@ import java.util.List;
 
 public interface PedidoService {
     List<Pedido> listarPedidos(int pagina, int tamanio_pagina);
-    List<PedidoDetalle> listarPedidosDetalles(Long pedido_id);
+    List<Pedido> listarPedidos(int pagina, int tamanio_pagina, Long usuario_id);
+    List<PedidoDetalle> listarPedidosDetalles(Long pedido_id, Long usuario_id);
     void guardar(Pedido obj);
     int contarPedidos();
 }

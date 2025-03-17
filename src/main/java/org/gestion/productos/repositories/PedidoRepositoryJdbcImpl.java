@@ -60,6 +60,31 @@ public class PedidoRepositoryJdbcImpl implements PaginacionRepository<Pedido> {
         return pedidos;
     }
 
+    @Override
+    public List<Pedido> listar(int pagina, int tamanio_pagina, Long usuario_id) throws SQLException {
+        List<Pedido> pedidos = new ArrayList<>();
+
+        try (PreparedStatement stmt = conn.prepareStatement("SELECT p.*, u.nombre as usuario_nombre, u.apellidos as usuario_ape, " +
+                " pe.nombre as estado " +
+                " FROM pedidos as p " +
+                " INNER JOIN usuarios as u ON (p.usuario_id = u.id) " +
+                " INNER JOIN pedidoestados as pe ON (p.estado_id = pe.id) WHERE u.id = ? ORDER BY id LIMIT ? OFFSET ?")) {
+            stmt.setLong(1, usuario_id);
+            stmt.setInt(2, tamanio_pagina);
+            stmt.setInt(3, pagina * tamanio_pagina);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    Pedido p = getPedido(rs);
+                    pedidos.add(p);
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return pedidos;
+    }
+
     private static Pedido getPedido(ResultSet rs) throws SQLException {
         Pedido p = new Pedido();
         p.setId(rs.getLong("id"));

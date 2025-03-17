@@ -20,16 +20,18 @@ public class PedidoDetalleRepositoryJdbcImpl implements PedidoDetalleRepositoryJ
     private Connection conn;
 
     @Override
-    public List<PedidoDetalle> listar(Long pedido_id) throws SQLException {
+    public List<PedidoDetalle> listar(Long pedido_id, Long usuario_id) throws SQLException {
         List<PedidoDetalle> pedidoDetalles = new ArrayList<>();
         System.out.println("*********IDS pedidos repo IMPL: "+pedido_id);
         try (PreparedStatement stmt = conn.prepareStatement("SELECT dp.*, pr.nombre as nombre_producto, pr.precio as precio_producto " +
                 " FROM detallepedidos as dp " +
                 " INNER JOIN pedidos as p ON (dp.pedido_id = p.id) " +
                 " INNER JOIN productos as pr ON (dp.producto_id = pr.id) " +
-                " WHERE dp.pedido_id = ?")) {
+                " INNER JOIN usuarios as u ON (p.usuario_id = u.id) " +
+                " WHERE dp.pedido_id = ? AND u.id = ?")) {
 
             stmt.setLong(1, pedido_id);
+            stmt.setLong(2, usuario_id);
 
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {

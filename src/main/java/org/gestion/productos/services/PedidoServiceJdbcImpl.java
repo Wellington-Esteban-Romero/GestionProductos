@@ -32,9 +32,18 @@ public class PedidoServiceJdbcImpl implements PedidoService {
     }
 
     @Override
-    public List<PedidoDetalle> listarPedidosDetalles(Long pedido_id) {
+    public List<Pedido> listarPedidos(int pagina, int tamanio_pagina, Long usuario_id) {
         try {
-            return ((PedidoDetalleRepositoryJdbcImpl)repositoryPedidoDetalle).listar(pedido_id);
+            return repositoryJdbc.listar(pagina, tamanio_pagina, usuario_id);
+        } catch (SQLException e) {
+            throw new ServiceJdbcException(e.getMessage(), e.getCause());
+        }
+    }
+
+    @Override
+    public List<PedidoDetalle> listarPedidosDetalles(Long pedido_id, Long usuario_id) {
+        try {
+            return ((PedidoDetalleRepositoryJdbcImpl)repositoryPedidoDetalle).listar(pedido_id, usuario_id);
         } catch (SQLException e) {
             throw new ServiceJdbcException(e.getMessage(), e.getCause());
         }

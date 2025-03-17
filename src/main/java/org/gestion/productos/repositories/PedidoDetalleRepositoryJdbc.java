@@ -6,5 +6,5 @@ import java.sql.SQLException;
 import java.util.List;
 
 public interface PedidoDetalleRepositoryJdbc extends CrudRepository<PedidoDetalle> {
-    List<PedidoDetalle> listar(Long pedido_id) throws SQLException;
+    List<PedidoDetalle> listar(Long pedido_id, Long usuario_id) throws SQLException;
 }

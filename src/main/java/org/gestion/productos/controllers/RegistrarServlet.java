@@ -60,7 +60,7 @@ public class RegistrarServlet extends HttpServlet {
         usuario.setPassword(password);
 
         Role role = new Role();
-        role.setId(1L);
+        role.setId(2L);
         usuario.setRole(role);
 
         Map<String, String> errores = validar(usuario, repetir_password);

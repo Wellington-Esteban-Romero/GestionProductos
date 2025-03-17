@@ -8,14 +8,17 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.gestion.productos.models.Pedido;
 import org.gestion.productos.models.PedidoDetalle;
+import org.gestion.productos.models.Usuario;
+import org.gestion.productos.services.LoginService;
 import org.gestion.productos.services.PedidoService;
-import org.gestion.productos.services.ProductoService;
+import org.gestion.productos.services.UsuarioService;
 import org.gestion.productos.utils.Constantes;
 import org.gestion.productos.utils.Utils;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @WebServlet({"/pedidos.html", "/pedidos"})
 public class PedidoServlet extends HttpServlet {
@@ -24,28 +27,39 @@ public class PedidoServlet extends HttpServlet {
     private PedidoService pedidoService;
 
     @Inject
-    private ProductoService productoService;
+    private LoginService loginService;
+
+    @Inject
+    private UsuarioService usuarioService;
 
     @Inject
     private Utils utils;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        Optional<Usuario> usuarioOptional = loginService.getUsername(req);
+        List<Pedido> pedidos;
+
         int pagina = utils.parseInt(req.getParameter("pagina"));
-        List<Pedido> pedidos = pedidoService.listarPedidos(pagina, Constantes.TAMANIO_PAGINA);
+
+        if (usuarioService.esRol(usuarioOptional.get().getId(), "ROLE_ADMINISTRADOR")){
+            pedidos = pedidoService.listarPedidos(pagina, Constantes.TAMANIO_PAGINA);
+        } else {
+            pedidos = pedidoService.listarPedidos(pagina, Constantes.TAMANIO_PAGINA, usuarioOptional.get().getId());
+        }
+
         int total = pedidoService.contarPedidos();
         int totalPaginas = (int) Math.ceil((double) total / Constantes.TAMANIO_PAGINA);
 
         List<PedidoDetalle> pedidosDetalle = new ArrayList<>();
 
         pedidos.forEach(pedido -> {
-            List<PedidoDetalle> detalles = pedidoService.listarPedidosDetalles(pedido.getId());
+            List<PedidoDetalle> detalles = pedidoService.listarPedidosDetalles(pedido.getId(), usuarioOptional.get().getId());
             pedidosDetalle.addAll(detalles);
         });
 
-
-        System.out.println("****** DETALLES: "+pedidosDetalle);
-
+        System.out.println("****** DETALLES: " + pedidosDetalle);
 
         req.setAttribute("title", req.getAttribute("title") + " - Listado de productos");
         req.setAttribute("pedidos", pedidos);
@@ -54,10 +68,5 @@ public class PedidoServlet extends HttpServlet {
         req.setAttribute("totalPaginas", totalPaginas);
 
         getServletContext().getRequestDispatcher("/listar_pedidos.jsp").forward(req, resp);
-    }
-
-    private void crearDetallesPedido (HttpServletRequest req, Long pedido_id) {
-        List<PedidoDetalle> pedidosDetalle = pedidoService.listarPedidosDetalles(pedido_id);
-        req.setAttribute("detalles", pedidosDetalle);
     }
 }
