@@ -7,6 +7,7 @@
     <title>${title}</title>
     <link href="${pageContext.request.contextPath}/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap-icons.css">
     <style>
         body {
             font-family: 'Roboto', sans-serif;
