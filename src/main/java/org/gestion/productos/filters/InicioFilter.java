@@ -15,7 +15,7 @@ public class InicioFilter implements Filter {
 
         // Verifica si la solicitud es para la página de inicio
         if (httpRequest.getRequestURI().equals(httpRequest.getContextPath() + "/")) {
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/inicio.jsp");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/login.jsp");
             dispatcher.forward(request, response);
             return;
         }

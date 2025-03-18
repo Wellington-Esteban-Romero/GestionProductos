@@ -41,7 +41,7 @@ public class LoginServlet extends HttpServlet {
                 httpSession.setAttribute("usuario", usuarioOptional.get());
                 httpSession.setAttribute("mensajeBienvenida", "true");
 
-                resp.sendRedirect(req.getContextPath() + "/");
+                resp.sendRedirect(req.getContextPath() + "/inicio.jsp");
             } else {
                 errores.put("invalidoCredenciales", "Usuario o Contraseña incorrectos");
                 reenviarFormularioConErrores(req, resp, errores, username);
@@ -53,13 +53,13 @@ public class LoginServlet extends HttpServlet {
         Map<String, String> errores = new HashMap<>();
 
         if (username.isEmpty()) {
-            errores.put("usuario", "El usuario es obligatorio!");
+            errores.put("usuario", "El usuario es obligatorio");
         } else if (!username.matches("^[a-zA-Z0-9_]{3,12}$")) {
-            errores.put("usuario", "El usuario debe ser alfanumérico y deber contener entre 3 y 12 caracteres!");
+            errores.put("usuario", "El usuario debe ser alfanumérico y deber contener entre 3 y 12 caracteres");
         }
 
         if (password.isEmpty()) {
-            errores.put("contrasenia", "La contraseña es obligatorio!");
+            errores.put("contrasenia", "La contraseña es obligatorio");
         }
         return errores;
     }

@@ -4,7 +4,7 @@
 <%-- Verificar si el usuario está en la sesión --%>
 <c:if test="${not empty sessionScope.usuario}">
     <h1>Hola ${sessionScope.usuario.username}, ya has iniciado sesión</h1>
-    <p><a class="btn btn-secondary" href="${pageContext.request.contextPath}/">Volver</a></p>
+    <p><a class="btn btn-secondary" href="${pageContext.request.contextPath}/index.jsp">Volver</a></p>
     <p><a class="btn btn-primary" href="${pageContext.request.contextPath}/logout">Cerrar sesión</a></p>
 </c:if>
 <jsp:include page="layout/footer.jsp"/>

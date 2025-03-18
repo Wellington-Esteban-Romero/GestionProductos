@@ -27,6 +27,11 @@
             <div class="text-center">
                 ¿No registrado? <a href="${pageContext.request.contextPath}/registrar">Regístrate aquí</a>
             </div>
+            <div class="text-center mt-3">
+                <a href="${pageContext.request.contextPath}/perfil/invitado" class="btn btn-outline-secondary">
+                    Entrar como invitado
+                </a>
+            </div>
         </form>
     </div>
 </div>
