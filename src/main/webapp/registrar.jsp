@@ -55,10 +55,16 @@
             </div>
             <div class="mb-3">
                 <label for="password" class="form-label">Contraseña</label>
-                <input type="password" class="form-control" name="password" id="password" value="${usuario.password}">
-                <c:if test="${errores != null && not empty errores.contrasenia}">
-                    <div class="text-danger">${errores.contrasenia}</div>
-                </c:if>
+                <div class="input-group">
+                    <input type="password" class="form-control" name="password" id="password"
+                           value="${usuario.password}">
+                    <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                        <i class="bi bi-eye-fill"></i>
+                    </button>
+                    <c:if test="${errores != null && not empty errores.contrasenia}">
+                        <div class="text-danger">${errores.contrasenia}</div>
+                    </c:if>
+                </div>
             </div>
             <div class="mb-3">
                 <label for="repetir_password" class="form-label">Confirmar Contraseña</label>
@@ -70,8 +76,29 @@
             <div class="d-grid">
                 <input type="submit" class="btn btn-primary" value="Registrar Usuario">
             </div>
+            <div class="text-center mt-3">
+                <a href="${pageContext.request.contextPath}/login" class="text-decoration-none">
+                    ¿Ya tienes una cuenta? Inicia sesión aquí
+                </a>
+            </div>
         </form>
     </div>
 </div>
 
 <jsp:include page="layout/footer.jsp"/>
+
+<script>
+    document.getElementById('togglePassword').addEventListener('click', function () {
+        const passwordField = document.getElementById('password');
+        const icon = this.querySelector('i');
+        if (passwordField.type === 'password') {
+            passwordField.type = 'text';
+            icon.classList.remove('bi-eye-fill');
+            icon.classList.add('bi-eye-slash-fill');
+        } else {
+            passwordField.type = 'password';
+            icon.classList.remove('bi-eye-slash-fill');
+            icon.classList.add('bi-eye-fill');
+        }
+    });
+</script>

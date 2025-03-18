@@ -17,9 +17,14 @@
                 <input type="text" class="form-control" name="username" id="username"
                        minlength="3" maxlength="12" value="${username}">
             </div>
-            <div class="mb-3">
+            <div class="mb-3 position-relative">
                 <label for="password" class="form-label">Contraseña</label>
-                <input type="password" class="form-control" name="password" id="password">
+                <div class="input-group">
+                    <input type="password" class="form-control" name="password" id="password">
+                    <button type="button" class="btn btn-outline-secondary" id="togglePassword">
+                        <i class="bi bi-eye-fill"></i>
+                    </button>
+                </div>
             </div>
             <div class="d-grid mb-2">
                 <input type="submit" class="btn btn-primary" value="Iniciar Sesión">
@@ -36,3 +41,18 @@
     </div>
 </div>
 <jsp:include page="layout/footer.jsp"/>
+<script>
+    document.getElementById('togglePassword').addEventListener('click', function () {
+        const passwordField = document.getElementById('password');
+        const icon = this.querySelector('i');
+        if (passwordField.type === 'password') {
+            passwordField.type = 'text';
+            icon.classList.remove('bi-eye-fill');
+            icon.classList.add('bi-eye-slash-fill');
+        } else {
+            passwordField.type = 'password';
+            icon.classList.remove('bi-eye-slash-fill');
+            icon.classList.add('bi-eye-fill');
+        }
+    });
+</script>
