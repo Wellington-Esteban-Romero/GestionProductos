@@ -45,12 +45,15 @@
             </table>
             <div class="d-flex justify-content-between">
                 <a class="btn btn-primary" href="javascript:document.formCarro.submit();">Actualizar</a>
-                <a class="btn btn-warning" href="${pageContext.request.contextPath}/pedidos/pendientes">Continuar</a>
+                <c:if test="${not empty carro.items}">
+                    <a class="btn btn-warning"
+                       href="${pageContext.request.contextPath}/pedidos/continuar">Continuar</a>
+                </c:if>
             </div>
         </form>
     </c:otherwise>
 </c:choose>
 <div class="mt-3">
-    <a class="btn btn-sm btn-success" href="${pageContext.request.contextPath}/productos">Seguir comprando</a>
+    <a class="btn btn-sm btn-success" href="${pageContext.request.contextPath}/productos">${carro.items.isEmpty()? "Comprar" : "Seguir comprando"}</a>
 </div>
 <jsp:include page="layout/footer.jsp"/>

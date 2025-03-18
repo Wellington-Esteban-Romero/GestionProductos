@@ -11,34 +11,24 @@ import org.gestion.productos.models.Pedido;
 import org.gestion.productos.models.PedidoEstado;
 import org.gestion.productos.models.Usuario;
 import org.gestion.productos.services.LoginService;
-import org.gestion.productos.services.PedidoService;
-import org.gestion.productos.services.UsuarioService;
 
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Optional;
 
-@WebServlet("/pedidos/pendientes")
-public class PedidoPendienteServlet extends HttpServlet {
+@WebServlet("/pedidos/continuar")
+public class PedidoContinuarServlet extends HttpServlet {
 
     @Inject
     private LoginService loginService;
 
     @Inject
-    private UsuarioService usuarioService;
-
-    @Inject
-    private PedidoService pedidoService;
-
-    @Inject
-    private Carro carro;
+    Carro carro;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
         Optional<Usuario> usuarioOptional = loginService.getUsername(req);
         if (usuarioOptional.isPresent()) {
-            //Usuario usuario = usuarioService.obtenerUsuarioPorUsername(username.get());
 
             Pedido pedido = new Pedido();
             pedido.setUsuario(usuarioOptional.get());
@@ -48,7 +38,9 @@ public class PedidoPendienteServlet extends HttpServlet {
             pedido.setFecha_pedido(LocalDate.now());
             pedido.setTotal(carro.getTotal());
 
-            pedidoService.guardar(pedido);
+            //pedidoService.guardar(pedido);
+            req.setAttribute("pedido", pedido);
+            getServletContext().getRequestDispatcher("/detalles_pedido.jsp").forward(req, resp);
         }
     }
 }
