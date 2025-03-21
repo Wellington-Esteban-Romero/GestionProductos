@@ -61,10 +61,10 @@
                     <button class="btn btn-outline-secondary" type="button" id="togglePassword">
                         <i class="bi bi-eye-fill"></i>
                     </button>
-                    <c:if test="${errores != null && not empty errores.contrasenia}">
-                        <div class="text-danger">${errores.contrasenia}</div>
-                    </c:if>
                 </div>
+                <c:if test="${errores != null && not empty errores.contrasenia}">
+                    <div class="text-danger">${errores.contrasenia}</div>
+                </c:if>
             </div>
             <div class="mb-3">
                 <label for="repetir_password" class="form-label">Confirmar Contraseña</label>
