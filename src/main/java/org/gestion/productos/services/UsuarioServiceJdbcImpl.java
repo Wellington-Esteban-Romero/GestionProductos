@@ -48,4 +48,13 @@ public class UsuarioServiceJdbcImpl implements UsuarioService {
         }
     }
 
+    @Override
+    public boolean existeUsuario(String nombre) {
+        try {
+            return usuarioRepositoryJdbc.existe(nombre);
+        } catch (SQLException e) {
+            throw new ServiceJdbcException(e.getMessage(), e.getCause());
+        }
+    }
+
 }

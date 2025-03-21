@@ -123,7 +123,7 @@ public class ProductoRepositoryJdbcImpl implements PaginacionRepository<Producto
 
     @Override
     public boolean existe(String nombre) throws SQLException {
-        boolean existe = false;
+        boolean existe = Boolean.FALSE;
         try (PreparedStatement stmt = conn.prepareStatement("SELECT COUNT(*) FROM productos WHERE nombre = ?")) {
             stmt.setString(1, nombre);
             ResultSet rs = stmt.executeQuery();

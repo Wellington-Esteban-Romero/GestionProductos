@@ -109,7 +109,9 @@ public class RegistrarServlet extends HttpServlet {
         }
 
         if (usuario.getUsername().isEmpty()) {
-            errores.put("usuario", "El campo usuario es obligatorio!");
+            errores.put("usuario", "El campo usuario es obligatorio.");
+        } else if (usuarioService.existeUsuario(usuario.getUsername())) {
+            errores.put("usuario", "El usuario ya existe.");
         } else if (!usuario.getUsername().matches("^[a-zA-Z0-9_]{3,12}$")) {
             errores.put("usuario", "El campo usuario debe ser alfanumérico y deber contener entre 3 y 12 caracteres!");
         }

@@ -116,8 +116,16 @@ public class UsuarioRepositoryJdbcImpl implements UsuarioRepositoryJdbc {
     }
 
     @Override
-    public boolean existe(String name) throws SQLException {
-        return false;
+    public boolean existe(String nombre) throws SQLException {
+        boolean existe = Boolean.FALSE;
+        try (PreparedStatement stmt = conn.prepareStatement("SELECT COUNT(*) FROM usuarios WHERE username = ?")) {
+            stmt.setString(1, nombre);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                existe = rs.getInt(1) > 0;
+            }
+        }
+        return existe;
     }
 
     @Override
