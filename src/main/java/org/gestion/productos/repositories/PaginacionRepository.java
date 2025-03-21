@@ -1,7 +1,6 @@
 package org.gestion.productos.repositories;
 
-import org.gestion.productos.dto.ProductoFiltroDTO;
-import org.gestion.productos.models.Producto;
+import org.gestion.productos.dto.FiltroDTO;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -13,6 +12,6 @@ public interface PaginacionRepository<T> {
     void guardar(T obj) throws SQLException;
     void eliminar(Long id) throws SQLException;
     boolean existe(String nombre) throws SQLException;
-    List<Producto> filtar(ProductoFiltroDTO filtro) throws SQLException;
+    List<T> filtrar(FiltroDTO filtro) throws SQLException;
     int contar() throws SQLException;
 }

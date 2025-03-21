@@ -2,7 +2,7 @@ package org.gestion.productos.dto;
 
 import java.time.LocalDate;
 
-public class ProductoFiltroDTO implements FiltroDTO {
+public class PedidoFiltroDTO implements FiltroDTO {
     private String nombre;
     private String tipo;
     private Long precioMin;
@@ -10,7 +10,7 @@ public class ProductoFiltroDTO implements FiltroDTO {
     private LocalDate fechaInicio;
     private LocalDate fechaFin;
 
-    public ProductoFiltroDTO(String nombre, String tipo, Long precioMin, Long precioMax, LocalDate fechaInicio, LocalDate fechaFin) {
+    public PedidoFiltroDTO(String nombre, String tipo, Long precioMin, Long precioMax, LocalDate fechaInicio, LocalDate fechaFin) {
         this.nombre = nombre;
         this.tipo = tipo;
         this.precioMin = precioMin;

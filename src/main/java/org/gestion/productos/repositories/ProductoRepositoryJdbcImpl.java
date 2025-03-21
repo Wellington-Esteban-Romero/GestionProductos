@@ -5,6 +5,7 @@ import jakarta.annotation.PreDestroy;
 import jakarta.inject.Inject;
 import org.gestion.productos.configs.MysqlConn;
 import org.gestion.productos.configs.Repositorio;
+import org.gestion.productos.dto.FiltroDTO;
 import org.gestion.productos.dto.ProductoFiltroDTO;
 import org.gestion.productos.models.Categoria;
 import org.gestion.productos.models.Producto;
@@ -163,7 +164,8 @@ public class ProductoRepositoryJdbcImpl implements PaginacionRepository<Producto
     }
 
     @Override
-    public List<Producto> filtar(ProductoFiltroDTO filtro) throws SQLException {
+    public List<Producto> filtrar(FiltroDTO filtroDTO) throws SQLException {
+        ProductoFiltroDTO filtro = (ProductoFiltroDTO) filtroDTO;
         List<Producto> lista = new ArrayList<>();
         List<Object> params = new ArrayList<>();
 

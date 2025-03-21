@@ -5,10 +5,11 @@ import jakarta.annotation.PreDestroy;
 import jakarta.inject.Inject;
 import org.gestion.productos.configs.MysqlConn;
 import org.gestion.productos.configs.Repositorio;
+import org.gestion.productos.dto.FiltroDTO;
+import org.gestion.productos.dto.PedidoFiltroDTO;
 import org.gestion.productos.dto.ProductoFiltroDTO;
 import org.gestion.productos.models.Pedido;
 import org.gestion.productos.models.PedidoEstado;
-import org.gestion.productos.models.Producto;
 import org.gestion.productos.models.Usuario;
 
 import java.sql.*;
@@ -17,7 +18,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 @Repositorio
-public class PedidoRepositoryJdbcImpl implements PaginacionRepository<Pedido> {
+public class PedidoRepositoryJdbcImpl implements PaginacionRepository<Pedido>{
 
     @Inject
     @MysqlConn
@@ -133,7 +134,7 @@ public class PedidoRepositoryJdbcImpl implements PaginacionRepository<Pedido> {
     }
 
     @Override
-    public List<Producto> filtar(ProductoFiltroDTO filtro) throws SQLException {
+    public List<Pedido> filtrar(FiltroDTO filtrodto) throws SQLException {
         return List.of();
     }
 

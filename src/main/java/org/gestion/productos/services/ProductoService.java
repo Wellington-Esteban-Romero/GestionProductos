@@ -4,7 +4,6 @@ import org.gestion.productos.dto.ProductoFiltroDTO;
 import org.gestion.productos.models.Categoria;
 import org.gestion.productos.models.Producto;
 
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 

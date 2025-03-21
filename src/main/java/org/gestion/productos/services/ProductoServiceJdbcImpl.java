@@ -2,6 +2,7 @@ package org.gestion.productos.services;
 
 import jakarta.inject.Inject;
 import org.gestion.productos.configs.Services;
+import org.gestion.productos.dto.PedidoFiltroDTO;
 import org.gestion.productos.dto.ProductoFiltroDTO;
 import org.gestion.productos.exceptions.ServiceJdbcException;
 import org.gestion.productos.models.Categoria;
@@ -22,6 +23,7 @@ public class ProductoServiceJdbcImpl implements ProductoService {
 
     @Inject
     private CrudRepository<Categoria> repositoryJdbcCategoria;
+
 
     @Override
     public List<Producto> obtenerProductos(int pagina, int tamanio_pagina) {
@@ -89,7 +91,7 @@ public class ProductoServiceJdbcImpl implements ProductoService {
     @Override
     public List<Producto> buscarProductos(ProductoFiltroDTO filtro) {
         try {
-            return repositoryJdbcProducto.filtar(filtro);
+            return repositoryJdbcProducto.filtrar(filtro);
         } catch (SQLException e) {
             throw new ServiceJdbcException(e.getMessage(), e.getCause());
         }
