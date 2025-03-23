@@ -90,7 +90,8 @@ public class ProductoRepositoryJdbcImpl implements ProductoRepositoryJdbc {
             sql = "UPDATE productos SET nombre = ?, codigo = ?, descripcion = ?, precio = ?, stock = ?, categoria_id = ?, " +
                     "fecha_registro = ?, fecha_modificacion = ?, imagen = ? WHERE id = ?";
         } else {
-            sql = "INSERT INTO productos (nombre, codigo, descripcion, precio, stock, categoria_id, fecha_registro, imagen) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            sql = "INSERT INTO productos (nombre, codigo, descripcion, precio, stock, categoria_id, fecha_registro, imagen) " +
+                    " VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         }
 
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -157,7 +158,24 @@ public class ProductoRepositoryJdbcImpl implements ProductoRepositoryJdbc {
         try (PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
-                lista.add(new ReporteMensual(rs.getString("mes"), rs.getInt("cantidad")));
+                lista.add(getE(rs));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return lista;
+    }
+
+    @Override
+    public List<ReporteMensual> obtenerProductosVendidosPorMes() throws SQLException {
+        List<ReporteMensual> lista = new ArrayList<>();
+        String sql = "SELECT DATE_FORMAT(fecha_venta, '%Y-%m') AS mes, SUM(cantidad) AS cantidad FROM ventas GROUP BY mes ORDER BY mes";
+
+        try (PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                lista.add(getE(rs));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -251,5 +269,10 @@ public class ProductoRepositoryJdbcImpl implements ProductoRepositoryJdbc {
         c.setNombre(rs.getString(Constantes.CAMPO_PRODUCTO_CATEGORIA_NOMBRE));
         p.setCategoria(c);
         return p;
+    }
+
+    private static ReporteMensual getE(ResultSet rs) throws SQLException {
+        return new ReporteMensual(rs.getString(Constantes.CAMPO_REPORTE_MENSUAL_MES),
+                rs.getInt(Constantes.CAMPO_REPORTE_MENSUAL_CANTIDAD));
     }
 }

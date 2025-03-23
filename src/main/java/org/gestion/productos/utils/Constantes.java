@@ -7,7 +7,7 @@ public final class Constantes {
     public static final String TABLA_PRODUCTO = "productos";
     public static final String CAMPO_PRODUCTO_ID = "id";
     public static final String CAMPO_PRODUCTO_NOMBRE = "nombre";
-    public static final String CAMPO_PRODUCTO_CODIGO = "nombre";
+    public static final String CAMPO_PRODUCTO_CODIGO = "codigo";
     public static final String CAMPO_PRODUCTO_DESCRIPCION = "descripcion";
     public static final String CAMPO_PRODUCTO_PRECIO = "precio";
     public static final String CAMPO_PRODUCTO_STOCK = "stock";
@@ -66,4 +66,8 @@ public final class Constantes {
     public static final String CAMPO_PEDIDO_PEDIDO_ESTADO_ID = "estado_id";
     public static final String CAMPO_PEDIDO_FECHA_PEDIDO = "fecha_pedido";
     public static final String CAMPO_PEDIDO_TOTAL = "total";
+
+    //Nombre campos ReporteMenusal
+    public static final String CAMPO_REPORTE_MENSUAL_MES = "mes";
+    public static final String CAMPO_REPORTE_MENSUAL_CANTIDAD = "cantidad";
 }

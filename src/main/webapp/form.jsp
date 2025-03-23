@@ -26,9 +26,19 @@
                 <div class="mb-3">
                     <label for="nombre" class="form-label">Nombre</label>
                     <input type="text" class="form-control ${not empty errores.nombre ? 'is-invalid' : ''}"
-                           name="nombre" id="nombre" value="${producto.nombre}">
+                           name="nombre" id="nombre" value="${producto.nombre}" maxlength="50">
                     <c:if test="${errores != null && not empty errores.nombre}">
                         <div class="text-danger">${errores.nombre}</div>
+                    </c:if>
+                </div>
+
+
+                <div class="mb-3">
+                    <label for="codigo" class="form-label">Codigo</label>
+                    <input type="text" class="form-control ${not empty errores.codigo ? 'is-invalid' : ''}"
+                           name="codigo" id="codigo" value="${producto.codigo}">
+                    <c:if test="${errores != null && not empty errores.codigo}">
+                        <div class="text-danger">${errores.codigo}</div>
                     </c:if>
                 </div>
 

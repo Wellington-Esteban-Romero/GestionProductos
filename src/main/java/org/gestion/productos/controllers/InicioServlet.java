@@ -6,7 +6,6 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.gestion.productos.models.Producto;
 import org.gestion.productos.models.ReporteMensual;
 import org.gestion.productos.services.ProductoService;
 
@@ -24,10 +23,13 @@ public class InicioServlet extends HttpServlet {
 
         int totalProductos = productoService.obtenerTotalProductos();
         List<ReporteMensual> productosPorMes = productoService.obtenerProductosAgregadosPorMes();
+        List<ReporteMensual> productosVendidosPorMes = productoService.obtenerProductosAgregadosPorMes();
 
         req.setAttribute("totalProductos", totalProductos);
         req.setAttribute("productosPorMes", productosPorMes);
+        req.setAttribute("productosVendidosPorMes", productosVendidosPorMes);
 
+        req.setAttribute("title", req.getAttribute("title") + " - Dashboard");
         getServletContext().getRequestDispatcher("/index.jsp").forward(req, resp);
     }
 }

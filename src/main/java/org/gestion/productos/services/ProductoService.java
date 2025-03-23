@@ -16,6 +16,7 @@ public interface ProductoService {
     List<Categoria> listarCategorias();
     int obtenerTotalProductos();
     List<ReporteMensual> obtenerProductosAgregadosPorMes();
+    List<ReporteMensual> obtenerProductosVendidosPorMes();
     List<Producto> buscarProductos(ProductoFiltroDTO filtro);
     int contarProductos();
     boolean existe(String nombre);

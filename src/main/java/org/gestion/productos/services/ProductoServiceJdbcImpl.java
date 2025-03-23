@@ -88,6 +88,15 @@ public class ProductoServiceJdbcImpl implements ProductoService {
     }
 
     @Override
+    public List<ReporteMensual> obtenerProductosVendidosPorMes() {
+        try {
+            return productoRepositoryJdbcImpl.obtenerProductosVendidosPorMes();
+        } catch (SQLException e) {
+            throw new ServiceJdbcException(e.getMessage(), e.getCause());
+        }
+    }
+
+    @Override
     public List<Producto> buscarProductos(ProductoFiltroDTO filtro) {
         try {
             return productoRepositoryJdbcImpl.filtrar(filtro);

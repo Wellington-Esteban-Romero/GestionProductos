@@ -14,11 +14,11 @@ public class ConexionFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
             throws IOException, ServletException {
 
-            try {
-                filterChain.doFilter(servletRequest, servletResponse);
-            } catch (ServiceJdbcException e) {
-                ((HttpServletResponse) servletResponse).sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
-                e.printStackTrace();
-            }
+        try {
+            filterChain.doFilter(servletRequest, servletResponse);
+        } catch (ServiceJdbcException e) {
+            ((HttpServletResponse) servletResponse).sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
+            e.printStackTrace();
+        }
     }
 }

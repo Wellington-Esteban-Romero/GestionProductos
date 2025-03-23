@@ -64,6 +64,7 @@ public class ProductoFormServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         String nombre = req.getParameter("nombre");
+        String codigo = req.getParameter("codigo");
         String descripcion = req.getParameter("descripcion");
         long id = utils.parseLong(req.getParameter("id"));
         double precio = utils.parseDouble(req.getParameter("precio"));
@@ -85,6 +86,7 @@ public class ProductoFormServlet extends HttpServlet {
 
         Producto producto = new Producto();
         producto.setNombre(nombre);
+        producto.setCodigo(codigo);
         producto.setDescripcion(descripcion);
         producto.setPrecio(precio);
         producto.setStock(stock);
@@ -106,7 +108,6 @@ public class ProductoFormServlet extends HttpServlet {
             req.setAttribute("errores", errores);
             req.setAttribute("producto", producto);
             req.setAttribute("categorias", productoService.listarCategorias().stream().filter(Categoria::isActivo).toList());
-            System.out.println("************* listasss: " + productoService.listarCategorias());
             req.setAttribute("title", req.getAttribute("title") + " - Formulario productos");
             getServletContext().getRequestDispatcher("/form.jsp").forward(req, resp);
         }
@@ -115,21 +116,24 @@ public class ProductoFormServlet extends HttpServlet {
     private Map<String, String> validar(Producto producto) {
         Map<String, String> errores = new HashMap<>();
         if (producto.getNombre() == null || producto.getNombre().isEmpty()) {
-            errores.put("nombre", "El nombre es obligatorio!");
+            errores.put("nombre", "El nombre es obligatorio.");
         } else if (!producto.getNombre().equals(nombreAnterior) && productoService.existe(producto.getNombre())) {
-            errores.put("nombre", "El nombre ya existe!");
+            errores.put("nombre", "El nombre ya existe.");
+        }
+        if (producto.getCodigo() == null || producto.getCodigo().isEmpty()) {
+            errores.put("codigo", "El código es obligatorio.");
         }
         if (producto.getFechaRegistro() == null) {
-            errores.put("fecha_registro", "La fecha del registro es obligatorio!");
+            errores.put("fecha_registro", "La fecha del registro es obligatorio.");
         }
         if (producto.getPrecio() == 0.0) {
-            errores.put("precio", "El precio es obligatorio!");
+            errores.put("precio", "El precio es obligatorio.");
         }
         if (producto.getStock() == 0) {
-            errores.put("stock", "El stock es obligatorio!");
+            errores.put("stock", "El stock es obligatorio.");
         }
         if (producto.getCategoria().getId().equals(0L)) {
-            errores.put("categoria", "La categoría es obligatoria!");
+            errores.put("categoria", "La categoría es obligatoria.");
         }
         return errores;
     }
