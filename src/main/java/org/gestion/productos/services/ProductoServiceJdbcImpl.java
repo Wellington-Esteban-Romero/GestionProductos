@@ -2,14 +2,13 @@ package org.gestion.productos.services;
 
 import jakarta.inject.Inject;
 import org.gestion.productos.configs.Services;
-import org.gestion.productos.dto.PedidoFiltroDTO;
 import org.gestion.productos.dto.ProductoFiltroDTO;
 import org.gestion.productos.exceptions.ServiceJdbcException;
 import org.gestion.productos.models.Categoria;
 import org.gestion.productos.models.Producto;
+import org.gestion.productos.models.ReporteMensual;
 import org.gestion.productos.repositories.CrudRepository;
-import org.gestion.productos.repositories.PaginacionRepository;
-import org.gestion.productos.repositories.ProductoRepositoryJdbcImpl;
+import org.gestion.productos.repositories.ProductoRepositoryJdbc;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -19,7 +18,7 @@ import java.util.Optional;
 public class ProductoServiceJdbcImpl implements ProductoService {
 
     @Inject
-    private PaginacionRepository<Producto> repositoryJdbcProducto;
+    private ProductoRepositoryJdbc productoRepositoryJdbcImpl;
 
     @Inject
     private CrudRepository<Categoria> repositoryJdbcCategoria;
@@ -28,7 +27,7 @@ public class ProductoServiceJdbcImpl implements ProductoService {
     @Override
     public List<Producto> obtenerProductos(int pagina, int tamanio_pagina) {
         try {
-            return repositoryJdbcProducto.listar(pagina, tamanio_pagina);
+            return productoRepositoryJdbcImpl.listar(pagina, tamanio_pagina);
         } catch (SQLException e) {
             throw new ServiceJdbcException(e.getMessage(), e.getCause());
         }
@@ -37,7 +36,7 @@ public class ProductoServiceJdbcImpl implements ProductoService {
     @Override
     public Optional<Producto> porId(Long id) {
         try {
-            return Optional.ofNullable(repositoryJdbcProducto.porId(id));
+            return Optional.ofNullable(productoRepositoryJdbcImpl.porId(id));
         } catch (SQLException e) {
             throw new ServiceJdbcException(e.getMessage(), e.getCause());
         }
@@ -46,7 +45,7 @@ public class ProductoServiceJdbcImpl implements ProductoService {
     @Override
     public void guardar(Producto producto) {
         try {
-            repositoryJdbcProducto.guardar(producto);
+            productoRepositoryJdbcImpl.guardar(producto);
         } catch (SQLException e) {
             throw new ServiceJdbcException(e.getMessage(), e.getCause());
         }
@@ -55,7 +54,7 @@ public class ProductoServiceJdbcImpl implements ProductoService {
     @Override
     public void eliminar(Long id) {
         try {
-            repositoryJdbcProducto.eliminar(id);
+            productoRepositoryJdbcImpl.eliminar(id);
         } catch (SQLException e) {
             throw new ServiceJdbcException(e.getMessage(), e.getCause());
         }
@@ -73,16 +72,16 @@ public class ProductoServiceJdbcImpl implements ProductoService {
     @Override
     public int obtenerTotalProductos() {
         try {
-            return ((ProductoRepositoryJdbcImpl) repositoryJdbcProducto).obtenerTotalProductos();
+            return productoRepositoryJdbcImpl.obtenerTotalProductos();
         } catch (SQLException e) {
             throw new ServiceJdbcException(e.getMessage(), e.getCause());
         }
     }
 
     @Override
-    public List<Producto> obtenerUltimosProductos() {
+    public List<ReporteMensual> obtenerProductosAgregadosPorMes() {
         try {
-            return ((ProductoRepositoryJdbcImpl) repositoryJdbcProducto).obtenerUltimosProductos();
+            return productoRepositoryJdbcImpl.obtenerProductosAgregadosPorMes();
         } catch (SQLException e) {
             throw new ServiceJdbcException(e.getMessage(), e.getCause());
         }
@@ -91,7 +90,7 @@ public class ProductoServiceJdbcImpl implements ProductoService {
     @Override
     public List<Producto> buscarProductos(ProductoFiltroDTO filtro) {
         try {
-            return repositoryJdbcProducto.filtrar(filtro);
+            return productoRepositoryJdbcImpl.filtrar(filtro);
         } catch (SQLException e) {
             throw new ServiceJdbcException(e.getMessage(), e.getCause());
         }
@@ -100,7 +99,7 @@ public class ProductoServiceJdbcImpl implements ProductoService {
     @Override
     public int contarProductos() {
         try {
-            return repositoryJdbcProducto.contar();
+            return productoRepositoryJdbcImpl.contar();
         } catch (SQLException e) {
             throw new ServiceJdbcException(e.getMessage(), e.getCause());
         }
@@ -109,7 +108,7 @@ public class ProductoServiceJdbcImpl implements ProductoService {
     @Override
     public boolean existe(String nombre) {
         try {
-            return repositoryJdbcProducto.existe(nombre);
+            return productoRepositoryJdbcImpl.existe(nombre);
         } catch (SQLException e) {
             throw new ServiceJdbcException(e.getMessage(), e.getCause());
         }

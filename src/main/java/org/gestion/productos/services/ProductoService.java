@@ -3,6 +3,7 @@ package org.gestion.productos.services;
 import org.gestion.productos.dto.ProductoFiltroDTO;
 import org.gestion.productos.models.Categoria;
 import org.gestion.productos.models.Producto;
+import org.gestion.productos.models.ReporteMensual;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,7 +15,7 @@ public interface ProductoService {
     void eliminar(Long id);
     List<Categoria> listarCategorias();
     int obtenerTotalProductos();
-    List<Producto> obtenerUltimosProductos();
+    List<ReporteMensual> obtenerProductosAgregadosPorMes();
     List<Producto> buscarProductos(ProductoFiltroDTO filtro);
     int contarProductos();
     boolean existe(String nombre);

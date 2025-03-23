@@ -9,6 +9,7 @@ import org.gestion.productos.dto.FiltroDTO;
 import org.gestion.productos.dto.ProductoFiltroDTO;
 import org.gestion.productos.models.Categoria;
 import org.gestion.productos.models.Producto;
+import org.gestion.productos.models.ReporteMensual;
 import org.gestion.productos.utils.Constantes;
 
 import java.sql.*;
@@ -18,7 +19,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 @Repositorio
-public class ProductoRepositoryJdbcImpl implements PaginacionRepository<Producto> {
+public class ProductoRepositoryJdbcImpl implements ProductoRepositoryJdbc {
 
     @Inject
     @MysqlConn
@@ -134,6 +135,7 @@ public class ProductoRepositoryJdbcImpl implements PaginacionRepository<Producto
         return existe;
     }
 
+    @Override
     public int obtenerTotalProductos() throws SQLException {
         int total = 0;
         try (PreparedStatement stmt = conn.prepareStatement("SELECT COUNT(*) AS total FROM productos");
@@ -148,16 +150,16 @@ public class ProductoRepositoryJdbcImpl implements PaginacionRepository<Producto
         return total;
     }
 
-    public List<Producto> obtenerUltimosProductos() throws SQLException {
-        List<Producto> lista = new ArrayList<>();
-        try (PreparedStatement stmt = conn.prepareStatement("SELECT p.*, c.nombre as categoria FROM productos as p " +
-                " INNER JOIN categorias as c ON (p.categoria_id = c.id) ORDER BY id DESC LIMIT 5");
-             ResultSet rs = stmt.executeQuery()) {
+    public List<ReporteMensual> obtenerProductosAgregadosPorMes() throws SQLException {
+        List<ReporteMensual> lista = new ArrayList<>();
+        String sql = "SELECT DATE_FORMAT(fecha_registro, '%Y-%m') AS mes, COUNT(*) AS cantidad FROM productos GROUP BY mes ORDER BY mes";
 
+        try (PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
-                lista.add(getProducto(rs));
+                lista.add(new ReporteMensual(rs.getString("mes"), rs.getInt("cantidad")));
             }
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return lista;

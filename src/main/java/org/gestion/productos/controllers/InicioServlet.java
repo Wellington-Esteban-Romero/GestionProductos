@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.gestion.productos.models.Producto;
+import org.gestion.productos.models.ReporteMensual;
 import org.gestion.productos.services.ProductoService;
 
 import java.io.IOException;
@@ -22,10 +23,10 @@ public class InicioServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         int totalProductos = productoService.obtenerTotalProductos();
-        List<Producto> productos = productoService.obtenerUltimosProductos();
+        List<ReporteMensual> productosPorMes = productoService.obtenerProductosAgregadosPorMes();
 
         req.setAttribute("totalProductos", totalProductos);
-        req.setAttribute("ultimosProductos", productos);
+        req.setAttribute("productosPorMes", productosPorMes);
 
         getServletContext().getRequestDispatcher("/index.jsp").forward(req, resp);
     }
