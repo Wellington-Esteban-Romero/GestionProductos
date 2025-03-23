@@ -5,11 +5,12 @@ import jakarta.interceptor.AroundInvoke;
 import jakarta.interceptor.Interceptor;
 import jakarta.interceptor.InvocationContext;
 import org.gestion.productos.configs.MysqlConn;
+import org.gestion.productos.exceptions.ServiceJdbcException;
 
 import java.sql.Connection;
 import java.util.logging.Logger;
 
-@Transactional
+@TransactionalJdbc
 @Interceptor
 public class TransactionalInterceptor {
 
@@ -34,9 +35,9 @@ public class TransactionalInterceptor {
             log.info("***** Commit y terminado " + invocation.getMethod().getName() + " de la clase "
                     + invocation.getMethod().getDeclaringClass());
             return resultado;
-        } catch (Throwable t) {
+        } catch (ServiceJdbcException e) {
             conn.rollback();
-            throw t;
+            throw e;
         }
     }
 }

@@ -20,6 +20,6 @@ public class LoggingInterceptor {
                 + invocation.getMethod().getDeclaringClass());
         Object result = invocation.proceed();
         log.info("Saliendo del método " + invocation.getMethod().getName());
-        return invocation.proceed();
+        return result;
     }
 }
