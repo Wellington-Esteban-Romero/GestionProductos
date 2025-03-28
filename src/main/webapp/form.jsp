@@ -10,7 +10,6 @@
             output.src = reader.result;
             output.style.display = 'block';
         };
-        debugger
         reader.readAsDataURL(event.target.files[0]);
     }
 </script>
@@ -19,6 +18,12 @@
 
 <div class="container">
     <div class="row">
+        <!-- Imagen del producto a la derecha -->
+        <div class="col-md-6 d-flex flex-column align-items-center mb-3">
+            <img id="preview" class="img-fluid" style="max-width: 100%; border-radius: 15px;"
+                 src="${pageContext.request.contextPath}/producto/imagen/${producto.imagen}" alt="Vista previa">
+        </div>
+
         <!-- Formulario a la izquierda -->
         <div class="col-md-6">
             <form action="<c:out value="${pageContext.request.contextPath}"/>/productos/form" method="post"
@@ -32,9 +37,8 @@
                     </c:if>
                 </div>
 
-
                 <div class="mb-3">
-                    <label for="codigo" class="form-label">Codigo</label>
+                    <label for="codigo" class="form-label">Código</label>
                     <input type="text" class="form-control ${not empty errores.codigo ? 'is-invalid' : ''}"
                            name="codigo" id="codigo" value="${producto.codigo}">
                     <c:if test="${errores != null && not empty errores.codigo}">
@@ -45,7 +49,7 @@
                 <div class="mb-3">
                     <label for="precio" class="form-label">Precio</label>
                     <input type="number" step="any" class="form-control ${not empty errores.precio ? 'is-invalid' : ''}"
-                           name="precio" id="precio" value="${producto.precio > 0.0? producto.precio : ''}">
+                           name="precio" id="precio" value="${producto.precio > 0.0 ? producto.precio : ''}">
                     <c:if test="${errores != null && not empty errores.precio}">
                         <div class="text-danger">${errores.precio}</div>
                     </c:if>
@@ -54,7 +58,7 @@
                 <div class="mb-3">
                     <label for="stock" class="form-label">Stock</label>
                     <input type="number" class="form-control ${not empty errores.stock ? 'is-invalid' : ''}"
-                           name="stock" id="stock" value="${producto.stock >=0? producto.stock : ''}">
+                           name="stock" id="stock" value="${producto.stock >= 0 ? producto.stock : ''}">
                     <c:if test="${errores != null && not empty errores.stock}">
                         <div class="text-danger">${errores.stock}</div>
                     </c:if>
@@ -76,7 +80,7 @@
                             class="form-select ${not empty errores.categoria ? 'is-invalid' : ''}">
                         <option value="">--- Seleccionar categoría ---</option>
                         <c:forEach items="${categorias}" var="c">
-                            <option value="${c.id}" ${c.id.equals(producto.categoria.id)? "selected" : ""}>${c.nombre}</option>
+                            <option value="${c.id}" ${c.id.equals(producto.categoria.id) ? "selected" : ""}>${c.nombre}</option>
                         </c:forEach>
                     </select>
                     <c:if test="${errores != null && not empty errores.categoria}">
@@ -96,14 +100,10 @@
                 </div>
 
                 <div class="mt-3">
-                    <input type="submit" class="btn btn-primary" value="${(producto.id == null)? 'Crear' : 'Editar'}">
+                    <input type="submit" class="btn btn-primary" value="${(producto.id == null) ? 'Crear' : 'Editar'}">
                 </div>
                 <input type="hidden" name="id" value="${producto.id}">
             </form>
-        </div>
-        <div class="col-md-6 d-flex flex-column align-items-center">
-                <img id="preview" class="img-fluid" style="max-width: 100%;"
-                     src="${pageContext.request.contextPath}/producto/imagen/${producto.imagen}">
         </div>
     </div>
 </div>
