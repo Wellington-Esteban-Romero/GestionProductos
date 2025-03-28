@@ -7,5 +7,7 @@
     </div>
 </footer>
 <script src="${pageContext.request.contextPath}/js/bootstrap.bundle.min.js"></script>
+<link rel="stylesheet" href=${pageContext.request.contextPath}/css/style.css?v=1.0">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap-icons.css">
 </body>
 </html>
