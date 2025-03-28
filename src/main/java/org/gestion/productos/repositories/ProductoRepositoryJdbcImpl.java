@@ -60,11 +60,6 @@ public class ProductoRepositoryJdbcImpl implements ProductoRepositoryJdbc {
     }
 
     @Override
-    public List<Producto> listar(int pagina, int tamanio_pagina, Long usuario_id) throws SQLException {
-        return List.of();
-    }
-
-    @Override
     public Producto porId(Long id) throws SQLException {
         Producto producto = new Producto();
         try (PreparedStatement stmt = conn.prepareStatement("SELECT p.*, c.nombre as categoria FROM productos as p " +

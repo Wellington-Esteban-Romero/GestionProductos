@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 @Repositorio
-public class PedidoRepositoryJdbcImpl implements PaginacionRepository<Pedido>{
+public class PedidoRepositoryJdbcImpl implements PedidoRepositoryJdbc {
 
     @Inject
     @MysqlConn
