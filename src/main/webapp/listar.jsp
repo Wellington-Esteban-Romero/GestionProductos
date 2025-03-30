@@ -3,42 +3,42 @@
 <%@ page import="java.time.format.DateTimeFormatter" %>
 <jsp:include page="layout/header.jsp"/>
 
-<div class="container-fluid py-3">
-    <h3 class="text-center text-primary">${title}</h3>
+<div class="container mt-5">
+    <h3 class="text-center text-primary mb-4">${title}</h3>
 
     <c:if test="${username.isPresent()}">
-        <div class="bg-light p-3 rounded shadow">
+        <div class="bg-light p-4 rounded shadow-sm">
             <form action="${pageContext.request.contextPath}/productos/buscar" method="post">
-                <div class="row g-2">
-                    <div class="col-12 col-sm-6 col-md-3">
-                        <label for="buscarNombre" class="col-form-label fw-bold">🔎 Producto</label>
+                <div class="row g-3">
+                    <div class="col-md-3">
+                        <label for="buscarNombre" class="form-label fw-bold">🔎 Producto</label>
                         <input type="text" class="form-control border-primary" name="buscarNombre" id="buscarNombre"
                                placeholder="Nombre del producto">
                     </div>
-                    <div class="col-12 col-sm-6 col-md-3">
-                        <label for="tipo" class="col-form-label fw-bold">📂 Categoría</label>
+                    <div class="col-md-3">
+                        <label for="tipo" class="form-label fw-bold">📂 Categoría</label>
                         <input type="text" class="form-control border-primary" name="tipo" id="tipo"
                                placeholder="Nombre categoría">
                     </div>
-                    <div class="col-12 col-sm-6 col-md-3">
-                        <label for="precioMin" class="col-form-label fw-bold">💰 Precio Mínimo</label>
+                    <div class="col-md-3">
+                        <label for="precioMin" class="form-label fw-bold">💰 Precio Mínimo</label>
                         <input type="number" class="form-control border-success" id="precioMin" name="precioMin"
                                placeholder="Mínimo (€)" min="0">
                     </div>
-                    <div class="col-12 col-sm-6 col-md-3">
-                        <label for="precioMax" class="col-form-label fw-bold">💰 Precio Máximo</label>
+                    <div class="col-md-3">
+                        <label for="precioMax" class="form-label fw-bold">💰 Precio Máximo</label>
                         <input type="number" class="form-control border-danger" id="precioMax" name="precioMax"
                                placeholder="Máximo (€)">
                     </div>
-                    <div class="col-12 col-sm-6 col-md-3">
-                        <label for="fecha_inicio" class="col-form-label fw-bold">📅 Fecha Inicio</label>
+                    <div class="col-md-3">
+                        <label for="fecha_inicio" class="form-label fw-bold">📅 Fecha Inicio</label>
                         <input type="date" class="form-control border-info" name="fecha_inicio" id="fecha_inicio">
                     </div>
-                    <div class="col-12 col-sm-6 col-md-3">
-                        <label for="fecha_fin" class="col-form-label fw-bold">📅 Fecha Fin</label>
+                    <div class="col-md-3">
+                        <label for="fecha_fin" class="form-label fw-bold">📅 Fecha Fin</label>
                         <input type="date" class="form-control border-info" name="fecha_fin" id="fecha_fin">
                     </div>
-                    <div class="col-12 mt-3 text-center">
+                    <div class="col-md-3 d-flex align-items-end">
                         <input class="btn btn-success w-100 fw-bold" type="submit" value="🔍 Buscar">
                     </div>
                 </div>
@@ -52,7 +52,7 @@
         </c:when>
         <c:otherwise>
             <div class="table-responsive mt-4">
-                <table class="table table-hover table-striped shadow">
+                <table class="table table-hover table-striped shadow-sm">
                     <thead class="table-dark text-center">
                     <tr>
                         <th>ID</th>
@@ -119,7 +119,7 @@
                 </table>
             </div>
 
-            <!-- Paginación -->
+            <!-- Paginación centrada -->
             <nav class="d-flex justify-content-center mt-4">
                 <ul class="pagination">
                     <c:if test="${pagina > 0}">

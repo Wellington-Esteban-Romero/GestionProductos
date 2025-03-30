@@ -44,7 +44,7 @@
         <c:forEach var="registro" items="${productosPorMes}">
         meses.push("${registro.mes}");
         productosAgregados.push(${registro.cantidad});
-        </c:forEach>;
+        </c:forEach>
 
         var ctx1 = document.getElementById('productosAgregadosChart').getContext('2d');
         new Chart(ctx1, {
@@ -61,12 +61,12 @@
             }
         });
 
-// Datos de productos vendidos por mes
+        // Datos de productos vendidos por mes
         var productosVendidos = [];
 
-        <%--    <c:forEach var="venta" items="${productosVendidosPorMes}">--%>
-        productosVendidos.push(22);
-        <%--    </c:forEach>;--%>
+        <c:forEach var="venta" items="${productosVendidosPorMes}">
+        productosVendidos.push(${venta.cantidad});
+        </c:forEach>
 
         var ctx2 = document.getElementById('productosVendidosChart').getContext('2d');
         new Chart(ctx2, {

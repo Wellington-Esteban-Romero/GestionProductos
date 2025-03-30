@@ -7,6 +7,7 @@ public class Venta {
     private Long pedido_id;
     private Long usuario_id;
     private LocalDate fecha_venta;
+    private int cantidad;
     private double total;
     private String metodo_pago;
     private String estado;
@@ -44,6 +45,14 @@ public class Venta {
 
     public void setFecha_venta(LocalDate fecha_venta) {
         this.fecha_venta = fecha_venta;
+    }
+
+    public int getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(int cantidad) {
+        this.cantidad = cantidad;
     }
 
     public double getTotal() {
