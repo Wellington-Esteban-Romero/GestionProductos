@@ -4,7 +4,7 @@
 <jsp:include page="layout/header.jsp"/>
 
 <div class="flex-grow-1">
-    <h3 class="text-center">${title}</h3>
+    <h3 class="text-center text-primary">${title}</h3>
     <c:choose>
         <c:when test="${empty pedidos}">
             <div class="alert alert-secondary">No existe ningún pedido</div>
@@ -66,23 +66,7 @@
             </c:forEach>
 
             <!-- Paginación -->
-            <nav>
-                <ul class="pagination">
-                    <c:if test="${pagina > 0}">
-                        <li class="page-item">
-                            <a class="page-link" href="?pagina=${pagina - 1}">Anterior</a>
-                        </li>
-                    </c:if>
-                    <li class="page-item disabled">
-                        <span class="page-link">Página ${pagina + 1} de ${totalPaginas}</span>
-                    </li>
-                    <c:if test="${pagina + 1 < totalPaginas}">
-                        <li class="page-item">
-                            <a class="page-link" href="?pagina=${pagina + 1}">Siguiente</a>
-                        </li>
-                    </c:if>
-                </ul>
-            </nav>
+            <jsp:include page="layout/paginacion.jsp"/>
         </c:otherwise>
     </c:choose>
 </div>
