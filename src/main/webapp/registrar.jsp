@@ -29,18 +29,25 @@
                 </c:if>
             </div>
             <div class="mb-3">
-                <label for="telefono" class="form-label">Número de Teléfono</label>
-                <input type="tel" class="form-control" name="telefono" id="telefono" value="${usuario.telefono}"
-                       maxlength="9"
-                       placeholder="Ingrese su número de teléfono">
-                <c:if test="${errores != null && not empty errores.telefono}">
-                    <div class="text-danger">${errores.telefono}</div>
-                </c:if>
+                <div class="flex-grow-1">
+                    <label for="telefono" class="form-label">Número de Teléfono</label>
+                    <div class="input-group">
+                        <button class="btn btn-outline-secondary" type="button" id="btn-prefijo">
+                            <img src="${pageContext.request.contextPath}/icons/es.png" alt="España" width="20"> +34
+                        </button>
+                        <input type="tel" class="form-control" name="telefono" id="telefono" value="${usuario.telefono}"
+                               maxlength="9" placeholder="Ingrese su número de teléfono">
+                    </div>
+                    <c:if test="${errores != null && not empty errores.telefono}">
+                        <div class="text-danger">${errores.telefono}</div>
+                    </c:if>
+                </div>
             </div>
             <div class="mb-3">
                 <label for="direccion" class="form-label">Dirección</label>
                 <textarea class="form-control" name="direccion" id="direccion" rows="2"
-                          placeholder="Ingrese su dirección" maxlength="80" style="resize: none">${usuario.direccion}</textarea>
+                          placeholder="Ingrese su dirección" maxlength="80"
+                          style="resize: none">${usuario.direccion}</textarea>
                 <c:if test="${errores != null && not empty errores.direccion}">
                     <div class="text-danger">${errores.direccion}</div>
                 </c:if>
