@@ -21,9 +21,14 @@ public class ActualizarCarroServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        agregarCantidad(req);
+        eliminarProducto(req);
 
+        resp.sendRedirect(req.getContextPath() + "/carro/ver");
+    }
+
+    private void agregarCantidad(HttpServletRequest req) {
         Enumeration<String> paramNames = req.getParameterNames();
-
         while (paramNames.hasMoreElements()) {
             String paramName = paramNames.nextElement();
             if (paramName.startsWith("cantidad_")) {
@@ -35,14 +40,14 @@ public class ActualizarCarroServlet extends HttpServlet {
                 optionalItem.ifPresent(itemCarro -> carro.actualizarItem(itemCarro, cantidad));
             }
         }
+    }
 
+    private void eliminarProducto(HttpServletRequest req) {
         String[] idsProductos = req.getParameterValues("eliminarProductoCheckbox");
-
         if (idsProductos != null) {
             for (String idsProducto : idsProductos) {
                 carro.eliminarItem(Long.parseLong(idsProducto));
             }
         }
-        resp.sendRedirect(req.getContextPath() + "/carro/ver");
     }
 }
