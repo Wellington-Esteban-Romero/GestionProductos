@@ -146,6 +146,13 @@ public class ProductoRepositoryJdbcImpl implements ProductoRepositoryJdbc {
         return total;
     }
 
+    @Override
+    public void actualizarStock(Long  id, int cantidad) throws SQLException {
+        Producto p = porId(id);
+        p.setStock(p.getStock() - cantidad);
+        guardar(p);
+    }
+
     public List<ReporteMensual> obtenerProductosAgregadosPorMes() throws SQLException {
         List<ReporteMensual> lista = new ArrayList<>();
         String sql = "SELECT DATE_FORMAT(fecha_registro, '%Y-%m') AS mes, COUNT(*) AS cantidad FROM productos GROUP BY mes ORDER BY mes";

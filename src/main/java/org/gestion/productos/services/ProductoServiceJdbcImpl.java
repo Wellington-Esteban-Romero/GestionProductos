@@ -61,6 +61,15 @@ public class ProductoServiceJdbcImpl implements ProductoService {
     }
 
     @Override
+    public void actualizarStock(Long id, int cantidad) {
+        try {
+            productoRepositoryJdbcImpl.actualizarStock(id, cantidad);
+        } catch (SQLException e) {
+            throw new ServiceJdbcException(e.getMessage(), e.getCause());
+        }
+    }
+
+    @Override
     public List<Categoria> listarCategorias() {
         try {
             return repositoryJdbcCategoria.listar();

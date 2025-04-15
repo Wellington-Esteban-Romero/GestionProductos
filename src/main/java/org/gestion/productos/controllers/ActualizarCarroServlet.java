@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.gestion.productos.models.Carro;
 import org.gestion.productos.models.ItemCarro;
+import org.gestion.productos.services.ProductoService;
 
 import java.io.IOException;
 import java.util.Enumeration;
@@ -18,6 +19,9 @@ public class ActualizarCarroServlet extends HttpServlet {
 
     @Inject
     private Carro carro;
+
+    @Inject
+    private ProductoService productoService;
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -33,11 +37,13 @@ public class ActualizarCarroServlet extends HttpServlet {
             String paramName = paramNames.nextElement();
             if (paramName.startsWith("cantidad_")) {
                 Long idProducto = Long.parseLong(paramName.substring(9));
-                Integer cantidad = Integer.valueOf(req.getParameter(paramName));
+                int cantidad = Integer.parseInt(req.getParameter(paramName));
                 Optional<ItemCarro> optionalItem = carro.getItems().stream()
                         .filter(productoItem -> productoItem.getProducto().getId().equals(idProducto))
                         .findAny();
                 optionalItem.ifPresent(itemCarro -> carro.actualizarItem(itemCarro, cantidad));
+
+                productoService.actualizarStock(idProducto, cantidad);
             }
         }
     }

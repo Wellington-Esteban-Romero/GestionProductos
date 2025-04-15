@@ -33,8 +33,12 @@ public class AgregarCarroServlet extends HttpServlet {
         Optional<Producto> producto = productoService.porId(id);
 
         if (producto.isPresent()) {
-            ItemCarro itemCarro = new ItemCarro(1, producto.get());
-            carro.addItem(itemCarro);
+            if  (producto.get().getStock() > 0) {
+                System.out.println("El producto ya esta agregado");
+                productoService.actualizarStock(id, 1);
+                ItemCarro itemCarro = new ItemCarro(1, producto.get());
+                carro.addItem(itemCarro);
+            }
         }
         resp.sendRedirect(req.getContextPath() + "/carro/ver");
     }

@@ -5,6 +5,7 @@ import org.gestion.productos.models.Categoria;
 import org.gestion.productos.models.Producto;
 import org.gestion.productos.models.ReporteMensual;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,6 +14,7 @@ public interface ProductoService {
     Optional<Producto> porId(Long id);
     void guardar(Producto producto);
     void eliminar(Long id);
+    void actualizarStock(Long id, int cantidad);
     List<Categoria> listarCategorias();
     int obtenerTotalProductos();
     List<ReporteMensual> obtenerProductosAgregadosPorMes();

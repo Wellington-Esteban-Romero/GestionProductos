@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface ProductoRepositoryJdbc extends PaginacionRepository<Producto> {
     int obtenerTotalProductos() throws SQLException;
+    void actualizarStock(Long id, int cantidad) throws SQLException;
     List<ReporteMensual> obtenerProductosAgregadosPorMes() throws SQLException;
     List<ReporteMensual> obtenerProductosVendidosPorMes() throws SQLException;
 }
